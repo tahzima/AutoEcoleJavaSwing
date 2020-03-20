@@ -15,8 +15,6 @@ public class AuthentificationController {
 		Users user = new Users();
 		try {
 			Statement state = conexion != null ? conexion.createStatement() : null ;
-
-			JOptionPane.showMessageDialog(null, "-"+state.toString());
 			ResultSet result = state.executeQuery("SELECT * FROM users where login like '"+login+"'");
 			while (result.next()) {
 				if(password.equals(result.getString("password"))){

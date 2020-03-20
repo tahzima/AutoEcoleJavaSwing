@@ -77,12 +77,12 @@ public class Authentification extends JFrame {
 		lblPassword.setBounds(61, 249, 157, 28);
 		panel.add(lblPassword);
 		
-		textField = new JTextField();
+		textField = new JTextField("ilyass");
 		textField.setBounds(61, 187, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		passwordField = new JPasswordField();
+		passwordField = new JPasswordField("123");
 		passwordField.setBounds(61, 288, 275, 28);
 		panel.add(passwordField);
 		
@@ -95,6 +95,11 @@ public class Authentification extends JFrame {
 		panel.add(btnNewButton);
 		
 		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnExit.setBackground(new Color(30, 144, 255));
 		btnExit.setFont(new Font("Oswald", Font.BOLD, 18));
 		btnExit.setBounds(61, 393, 275, 23);
@@ -114,11 +119,10 @@ public class Authentification extends JFrame {
 				if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
 					Users user;
 					user=authentificationController.authentification(login, password);
-					JOptionPane.showMessageDialog(null, ""+user.getLogin());
 					if(user.getId()>0) {
 						List<Users> listUsers = new ArrayList<Users>();
 						listUsers.add(user);
-						Menu menu= new Menu();
+						Menu menu= new Menu(user);
 						menu.setVisible(true);
 						dispose();
 					}
