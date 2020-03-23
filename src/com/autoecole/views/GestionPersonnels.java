@@ -30,7 +30,7 @@ public class GestionPersonnels extends JPanel {
 		
 		JPanel contentPnl = new JPanel();
 		contentPnl.setBackground(Color.decode("#34495e"));
-		contentPnl.setBounds(0, 0, 648, 480);
+		contentPnl.setBounds(0, 0, Menu.WIDTH_SCREEN-160, Menu.HEIGHT_SCREEN);
 		add(contentPnl);
 		contentPnl.setLayout(null);
 		

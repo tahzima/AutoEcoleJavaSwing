@@ -85,12 +85,12 @@ public class Authentification extends JFrame {
 		lblPassword.setBounds(61, 217, 157, 28);
 		panel.add(lblPassword);
 		
-		textField = new RoundJTextField("ilyass");
+		textField = new RoundJTextField("achraf");
 		textField.setBounds(61, 125, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		passwordField = new RoundJPasswordField("123");
+		passwordField = new RoundJPasswordField("123456");
 		passwordField.setBounds(61, 256, 275, 28);
 		panel.add(passwordField);
 		
@@ -126,7 +126,6 @@ public class Authentification extends JFrame {
 				if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
 					Users user;
 					user=authentificationController.authentification(login, password);
-					JOptionPane.showMessageDialog(null, ""+user.getLogin());
 					if(user.getId()>0) {
 						List<Users> listUsers = new ArrayList<Users>();
 						listUsers.add(user);
