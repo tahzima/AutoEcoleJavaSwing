@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
@@ -48,10 +49,10 @@ public class Menu extends JFrame {
 	
 	public void switchPanels (JPanel panel)
 	{
-		contentLpn.removeAll();
-		contentLpn.add(panel);
-		contentLpn.repaint();
-		contentLpn.revalidate();
+		layeredPane.removeAll();
+		layeredPane.add(panel);
+		layeredPane.repaint();
+		layeredPane.revalidate();
 	}
 	
 	public Menu(Users user) {
@@ -182,6 +183,7 @@ public class Menu extends JFrame {
 		
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
+		layeredPane.setLayout(new CardLayout(0, 0));
 		contentPnl.add(layeredPane);
 		deconnecterLbl.addMouseListener(new MouseAdapter() {
 			@Override

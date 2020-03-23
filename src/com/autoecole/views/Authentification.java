@@ -36,11 +36,10 @@ public class Authentification extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
 	
-	
-	
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -85,12 +84,12 @@ public class Authentification extends JFrame {
 		lblPassword.setBounds(61, 217, 157, 28);
 		panel.add(lblPassword);
 		
-		textField = new RoundJTextField("ilyass");
+		textField = new RoundJTextField("younes");
 		textField.setBounds(61, 125, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		passwordField = new RoundJPasswordField("123");
+		passwordField = new RoundJPasswordField("123456");
 		passwordField.setBounds(61, 256, 275, 28);
 		panel.add(passwordField);
 		
