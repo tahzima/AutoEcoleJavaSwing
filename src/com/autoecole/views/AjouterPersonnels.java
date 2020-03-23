@@ -12,6 +12,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+import com.toedter.calendar.JDateChooser;
 
 public class AjouterPersonnels extends JFrame {
 
@@ -21,6 +22,7 @@ public class AjouterPersonnels extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private JTextField textField_5;
 
 	/**
 	 * Create the frame.
@@ -141,6 +143,18 @@ public class AjouterPersonnels extends JFrame {
 		textField_4.setColumns(10);
 		textField_4.setBounds(361, 316, 161, 20);
 		contentPnl.add(textField_4);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(361, 221, 161, 20);
+		contentPnl.add(dateChooser);
+		
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBounds(361, 376, 161, 20);
+		contentPnl.add(dateChooser_1);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(361, 285, 161, 20);
+		contentPnl.add(textField_5);
 	}
-
 }
