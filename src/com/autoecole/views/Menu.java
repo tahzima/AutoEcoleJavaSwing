@@ -48,10 +48,12 @@ public class Menu extends JFrame {
 	
 	public void switchPanels (JPanel panel)
 	{
+		if(contentLpn !=null){
 		contentLpn.removeAll();
 		contentLpn.add(panel);
 		contentLpn.repaint();
 		contentLpn.revalidate();
+		}
 	}
 	
 	public Menu(Users user) {
