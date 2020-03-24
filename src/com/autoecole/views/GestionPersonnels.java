@@ -10,6 +10,8 @@ import java.awt.Image;
 
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GestionPersonnels extends JPanel {
 	private JTextField nomTxt;
@@ -28,7 +30,7 @@ public class GestionPersonnels extends JPanel {
 		
 		JPanel contentPnl = new JPanel();
 		contentPnl.setBackground(Color.decode("#34495e"));
-		contentPnl.setBounds(0, 0, 648, 480);
+		contentPnl.setBounds(0, 0, Menu.WIDTH_SCREEN-160, Menu.HEIGHT_SCREEN);
 		add(contentPnl);
 		contentPnl.setLayout(null);
 		
@@ -110,6 +112,15 @@ public class GestionPersonnels extends JPanel {
 		contentPnl.add(tabbedPane);
 		
 		JLabel modifierLbl = new JLabel("");
+		modifierLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ModifierPersonnels modifierPersonnel = new ModifierPersonnels();
+				modifierPersonnel.setVisible(true);
+				Menu menu = new Menu(null);
+				
+			}
+		});
 		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage();
 		modifierLbl.setIcon(new ImageIcon(iconModifier));
 		modifierLbl.setBounds(23, 429, 51, 40);

@@ -21,83 +21,71 @@ import javax.swing.JLayeredPane;
 
 public class Menu extends JFrame {
 
-	private JPanel contentPane;
-	private JPanel contentPnl;
-	private JPanel menuPnl;
-	private JPanel autoEcoleNomPnl;
+	private JPanel frame;
+	private JPanel bigPanel;
+	private JPanel menuPanel;
+	private JPanel userPnl;
+	private JPanel clientPnl;
+	private JPanel personnelPnl;
+	private JPanel examenPnl;
+	private JPanel voiturePnl;
+	private JLayeredPane layeredPane;
+	private Image image;
+	
+
 	private JLabel autoecoleLbl;
 	private JLabel maestroLbl;
-	private JPanel userPnl;
 	private JLabel userLbl;
 	private JLabel userLogoLbl;
-	private JPanel clientPnl;
 	private JLabel clientLbl;
-	private JPanel personnelPnl;
 	private JLabel personnelLbl;
-	private JPanel examenPnl;
 	private JLabel examenLbl;
-	private JPanel voiturePnl;
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
-	private JLayeredPane contentLpn;
-	private Image image;
-	private JLayeredPane layeredPane;
-	/**
-	 * Create the frame.
-	 */
 	
-	public void switchPanels (JPanel panel)
-	{
-		layeredPane.removeAll();
-		layeredPane.add(panel);
-		layeredPane.repaint();
-		layeredPane.revalidate();
-	}
+	public final static int WIDTH_SCREEN = 1000;
+	public final static int HEIGHT_SCREEN = 800;
 	
 	public Menu(Users user) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 816, 520);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setBounds(100, 100, WIDTH_SCREEN,HEIGHT_SCREEN);
+		frame = new JPanel();
+		frame.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(frame);
+		frame.setLayout(null);
 		
-		contentPnl = new JPanel();
-		contentPnl.setBackground(Color.decode("#34495e"));
-		contentPnl.setBounds(0, 0, 800, 480);
-		contentPane.add(contentPnl);
-		contentPnl.setLayout(null);
+		bigPanel = new JPanel();
+		bigPanel.setBackground(Color.decode("#34495e"));
+		bigPanel.setBounds(0, 0, WIDTH_SCREEN,HEIGHT_SCREEN);
+		frame.add(bigPanel);
+		bigPanel.setLayout(null);
 		
-		menuPnl = new JPanel();
-		menuPnl.setBackground(Color.decode("#7ed6df"));
-		menuPnl.setBounds(0, 0, 150, 480);
-		contentPnl.add(menuPnl);
-		menuPnl.setLayout(null);
-		
-		autoEcoleNomPnl = new JPanel();
-		autoEcoleNomPnl.setBackground(Color.decode("#7ed6df"));
-		autoEcoleNomPnl.setBounds(0, 0, 150, 70);
-		menuPnl.add(autoEcoleNomPnl);
-		autoEcoleNomPnl.setLayout(null);
+		menuPanel = new JPanel();
+		menuPanel.setBackground(Color.decode("#7ed6df"));
+		menuPanel.setBounds(0, 0, 150, HEIGHT_SCREEN);
+		bigPanel.add(menuPanel);
+		menuPanel.setLayout(null);
 		
 		autoecoleLbl = new JLabel("Auto-Ecole");
 		autoecoleLbl.setBounds(0, 0, 150, 35);
 		autoecoleLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		autoecoleLbl.setBackground(Color.decode("#7ed6df"));
 		autoecoleLbl.setFont(new Font("Oswald", Font.BOLD, 18));
-		autoEcoleNomPnl.add(autoecoleLbl);
+		menuPanel.add(autoecoleLbl);
 		
 		maestroLbl = new JLabel("MAESTRO");
 		maestroLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		maestroLbl.setBackground(Color.decode("#7ed6df"));
 		maestroLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		maestroLbl.setBounds(0, 35, 150, 35);
-		autoEcoleNomPnl.add(maestroLbl);
+		menuPanel.add(maestroLbl);
 		
 		userPnl = new JPanel();
 		userPnl.setBackground(Color.decode("#22a6b3"));
 		userPnl.setBounds(0, 80, 150, 88);
-		menuPnl.add(userPnl);
+		menuPanel.add(userPnl);
 		userPnl.setLayout(null);
 		
 		userLbl = new JLabel(""+user.getLogin());
@@ -117,7 +105,7 @@ public class Menu extends JFrame {
 		clientPnl = new JPanel();
 		clientPnl.setBackground(Color.decode("#22a6b3"));
 		clientPnl.setBounds(0, 179, 150, 31);
-		menuPnl.add(clientPnl);
+		menuPanel.add(clientPnl);
 		clientPnl.setLayout(null);
 		
 		clientLbl = new JLabel("Client");
@@ -129,7 +117,7 @@ public class Menu extends JFrame {
 		personnelPnl = new JPanel();
 		personnelPnl.setBackground(Color.decode("#22a6b3"));
 		personnelPnl.setBounds(0, 221, 150, 31);
-		menuPnl.add(personnelPnl);
+		menuPanel.add(personnelPnl);
 		personnelPnl.setLayout(null);
 		
 		personnelLbl = new JLabel("Personnel");
@@ -148,7 +136,7 @@ public class Menu extends JFrame {
 		examenPnl = new JPanel();
 		examenPnl.setBackground(Color.decode("#22a6b3"));
 		examenPnl.setBounds(0, 263, 150, 31);
-		menuPnl.add(examenPnl);
+		menuPanel.add(examenPnl);
 		examenPnl.setLayout(null);
 		
 		examenLbl = new JLabel("Examen");
@@ -160,7 +148,7 @@ public class Menu extends JFrame {
 		voiturePnl = new JPanel();
 		voiturePnl.setBackground(Color.decode("#22a6b3"));
 		voiturePnl.setBounds(0, 305, 150, 31);
-		menuPnl.add(voiturePnl);
+		menuPanel.add(voiturePnl);
 		voiturePnl.setLayout(null);
 		
 		voitureLbl = new JLabel("Voiture");
@@ -172,7 +160,7 @@ public class Menu extends JFrame {
 		deconnecterPnl = new JPanel();
 		deconnecterPnl.setBackground(Color.decode("#22a6b3"));
 		deconnecterPnl.setBounds(0, 438, 150, 31);
-		menuPnl.add(deconnecterPnl);
+		menuPanel.add(deconnecterPnl);
 		deconnecterPnl.setLayout(null);
 		
 		deconnecterLbl = new JLabel("Deconnecter");
@@ -183,8 +171,7 @@ public class Menu extends JFrame {
 		
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
-		layeredPane.setLayout(new CardLayout(0, 0));
-		contentPnl.add(layeredPane);
+		bigPanel.add(layeredPane);
 		deconnecterLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -194,4 +181,16 @@ public class Menu extends JFrame {
 			}
 		});
 	}
+	public void switchPanels (JPanel panel)
+	{
+		if(bigPanel!=null) {
+			bigPanel.removeAll();
+			bigPanel.add(menuPanel);
+			panel.setBounds(160, 0, WIDTH_SCREEN-160, HEIGHT_SCREEN);
+			bigPanel.add(panel);
+			bigPanel.repaint();
+			bigPanel.revalidate();
+		}
+	}
+	
 }
