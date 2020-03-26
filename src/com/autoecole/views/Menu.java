@@ -29,8 +29,6 @@ public class Menu extends JFrame {
 	private JPanel personnelPnl;
 	private JPanel examenPnl;
 	private JPanel voiturePnl;
-	private JLayeredPane layeredPane;
-	private Image image;
 	
 
 	private JLabel autoecoleLbl;
@@ -52,7 +50,7 @@ public class Menu extends JFrame {
 	
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
-	public void switchPanels (JPanel panel)
+	/*public void switchPanels (JPanel panel)
 	{
 		if(layeredPane!=null) {
 			layeredPane.removeAll();
@@ -60,12 +58,12 @@ public class Menu extends JFrame {
 			layeredPane.repaint();
 			layeredPane.revalidate();
 		}
-	}
+	}*/
 	
 	public Menu(Users user) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WIDTH_SCREEN,HEIGHT_SCREEN);
+		setBounds(100, 100, 817,521);
 		frame = new JPanel();
 		frame.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(frame);
