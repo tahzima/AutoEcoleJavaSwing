@@ -3,16 +3,29 @@ package com.autoecole.views;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+
+import com.autoecole.beans.Personnels;
+import com.autoecole.controller.GestionPersonnelsController;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class AjouterPersonnels extends JFrame {
 
@@ -23,6 +36,10 @@ public class AjouterPersonnels extends JFrame {
 	private JTextField posteTxt;
 	private JTextField numeroTelephoneTxt;
 	private JTextField adresseTxt;
+	private Image iconAjouter;
+	private Image iconAnnuler;
+	private Image iconRetour;
+	private JTextField salaireTxt;
 
 	/**
 	 * Create the frame.
@@ -67,106 +84,177 @@ public class AjouterPersonnels extends JFrame {
 		nomLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		nomLbl.setForeground(new Color(143, 188, 143));
 		nomLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		nomLbl.setBounds(63, 159, 154, 20);
+		nomLbl.setBounds(63, 154, 154, 20);
 		contentPnl.add(nomLbl);
 		
 		JLabel prenomLbl = new JLabel("Prenom :");
 		prenomLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		prenomLbl.setForeground(new Color(143, 188, 143));
 		prenomLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		prenomLbl.setBounds(63, 190, 154, 20);
+		prenomLbl.setBounds(63, 185, 154, 20);
 		contentPnl.add(prenomLbl);
 		
 		JLabel dateNaissanceLbl = new JLabel("Date de Naissance :");
 		dateNaissanceLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		dateNaissanceLbl.setForeground(new Color(143, 188, 143));
 		dateNaissanceLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		dateNaissanceLbl.setBounds(63, 221, 154, 20);
+		dateNaissanceLbl.setBounds(63, 216, 154, 20);
 		contentPnl.add(dateNaissanceLbl);
 		
 		JLabel cinLbl = new JLabel("CIN :");
 		cinLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		cinLbl.setForeground(new Color(143, 188, 143));
 		cinLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		cinLbl.setBounds(63, 252, 154, 20);
+		cinLbl.setBounds(63, 247, 154, 20);
 		contentPnl.add(cinLbl);
 		
 		JLabel adresseLbl = new JLabel("Adresse :");
 		adresseLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		adresseLbl.setForeground(new Color(143, 188, 143));
 		adresseLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		adresseLbl.setBounds(63, 283, 154, 20);
+		adresseLbl.setBounds(63, 278, 154, 20);
 		contentPnl.add(adresseLbl);
 		
 		JLabel numeroTeleLbl = new JLabel("Numero de Telephone :");
 		numeroTeleLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		numeroTeleLbl.setForeground(new Color(143, 188, 143));
 		numeroTeleLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		numeroTeleLbl.setBounds(63, 314, 154, 20);
+		numeroTeleLbl.setBounds(63, 309, 154, 20);
 		contentPnl.add(numeroTeleLbl);
 		
 		JLabel posteLbl = new JLabel("Poste :");
 		posteLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		posteLbl.setForeground(new Color(143, 188, 143));
 		posteLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		posteLbl.setBounds(63, 345, 154, 20);
+		posteLbl.setBounds(63, 340, 154, 20);
 		contentPnl.add(posteLbl);
 		
 		JLabel dateEmbLbl = new JLabel("Date D'Emboche :");
 		dateEmbLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		dateEmbLbl.setForeground(new Color(143, 188, 143));
 		dateEmbLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		dateEmbLbl.setBounds(63, 376, 154, 20);
+		dateEmbLbl.setBounds(63, 371, 154, 20);
 		contentPnl.add(dateEmbLbl);
 		
 		nomTxt = new JTextField();
-		nomTxt.setBounds(361, 161, 161, 20);
+		nomTxt.setBounds(361, 156, 161, 20);
 		contentPnl.add(nomTxt);
 		nomTxt.setColumns(10);
 		
 		prenomTxt = new JTextField();
 		prenomTxt.setColumns(10);
-		prenomTxt.setBounds(361, 192, 161, 20);
+		prenomTxt.setBounds(361, 187, 161, 20);
 		contentPnl.add(prenomTxt);
 		
 		cinTxt = new JTextField();
 		cinTxt.setColumns(10);
-		cinTxt.setBounds(361, 254, 161, 20);
+		cinTxt.setBounds(361, 249, 161, 20);
 		contentPnl.add(cinTxt);
 		
 		posteTxt = new JTextField();
 		posteTxt.setColumns(10);
-		posteTxt.setBounds(361, 347, 161, 20);
+		posteTxt.setBounds(361, 342, 161, 20);
 		contentPnl.add(posteTxt);
 		
 		numeroTelephoneTxt = new JTextField();
 		numeroTelephoneTxt.setColumns(10);
-		numeroTelephoneTxt.setBounds(361, 316, 161, 20);
+		numeroTelephoneTxt.setBounds(361, 311, 161, 20);
 		contentPnl.add(numeroTelephoneTxt);
 		
 		JDateChooser dateNaissanceDtc = new JDateChooser();
-		dateNaissanceDtc.setBounds(361, 221, 161, 20);
+		dateNaissanceDtc.setBounds(361, 216, 161, 20);
 		contentPnl.add(dateNaissanceDtc);
 		
 		JDateChooser dateEmbaucheDtc = new JDateChooser();
-		dateEmbaucheDtc.setBounds(361, 376, 161, 20);
+		dateEmbaucheDtc.setBounds(361, 371, 161, 20);
 		contentPnl.add(dateEmbaucheDtc);
 		
 		adresseTxt = new JTextField();
 		adresseTxt.setColumns(10);
-		adresseTxt.setBounds(361, 285, 161, 20);
+		adresseTxt.setBounds(361, 280, 161, 20);
 		contentPnl.add(adresseTxt);
 		
 		JLabel ajouterImageLbl = new JLabel("");
-		ajouterImageLbl.setBounds(143, 438, 46, 14);
+		ajouterImageLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+				boolean result;
+				Personnels personnel = new Personnels();
+				try {
+					if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbaucheDtc.getDateFormatString()!=null && dateNaissanceDtc.getDateFormatString()!=null && !dateEmbaucheDtc.getDateFormatString().isEmpty() && !dateNaissanceDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numeroTelephoneTxt.getText()!=null && !numeroTelephoneTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
+						java.sql.Date dateN = new java.sql.Date(dateNaissanceDtc.getDate().getTime());
+						java.sql.Date dateE = new java.sql.Date(dateEmbaucheDtc.getDate().getTime());
+						personnel.setPrenom(prenomTxt.getText());
+						personnel.setNom(nomTxt.getText());
+						personnel.setCin(cinTxt.getText());
+						personnel.setAdresse(adresseTxt.getText());
+						personnel.setNumTele(numeroTelephoneTxt.getText());
+						personnel.setPoste(posteTxt.getText());
+						personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
+						personnel.setDateEmbauche(dateE);
+						personnel.setDateNaissance(dateN);
+						result=gestionPersonnelController.ajouterPersonnel(personnel);
+						if(result==true) {
+							JOptionPane.showMessageDialog(null, "Bien Ajouter");
+						}else {
+							JOptionPane.showMessageDialog(null, "ERROR");
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "vous devez remplire tous les champes");
+					}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		iconAjouter = new ImageIcon(this.getClass().getResource("/valider.png")).getImage();
+		ajouterImageLbl.setIcon(new ImageIcon(iconAjouter));
+		ajouterImageLbl.setBounds(63, 435, 46, 45);
 		contentPnl.add(ajouterImageLbl);
 		
 		JLabel annulerImagreLbl = new JLabel("");
-		annulerImagreLbl.setBounds(294, 438, 46, 14);
+		annulerImagreLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				nomTxt.setText(null);
+				prenomTxt.setText(null);
+				cinTxt.setText(null);
+				adresseTxt.setText(null);
+				numeroTelephoneTxt.setText(null);
+				dateNaissanceDtc.setDate(null);
+				dateEmbaucheDtc.setDate(null);
+				posteTxt.setText(null);
+				salaireTxt.setText(null);
+			}
+		});
+		iconAnnuler = new ImageIcon(this.getClass().getResource("/annuler.png")).getImage();
+		annulerImagreLbl.setIcon(new ImageIcon(iconAnnuler));
+		annulerImagreLbl.setBounds(275, 435, 46, 45);
 		contentPnl.add(annulerImagreLbl);
 		
 		JLabel retourImageLbl = new JLabel("");
-		retourImageLbl.setBounds(494, 438, 46, 14);
+		retourImageLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		iconRetour = new ImageIcon(this.getClass().getResource("/retour.png")).getImage();
+		retourImageLbl.setIcon(new ImageIcon(iconRetour));
+		retourImageLbl.setBounds(496, 435, 46, 45);
 		contentPnl.add(retourImageLbl);
+		
+		JLabel salaireLbl = new JLabel("Salaire :");
+		salaireLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		salaireLbl.setForeground(new Color(143, 188, 143));
+		salaireLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		salaireLbl.setBounds(63, 402, 154, 20);
+		contentPnl.add(salaireLbl);
+		
+		salaireTxt = new JTextField();
+		salaireTxt.setColumns(10);
+		salaireTxt.setBounds(361, 404, 161, 20);
+		contentPnl.add(salaireTxt);
 	}
 }

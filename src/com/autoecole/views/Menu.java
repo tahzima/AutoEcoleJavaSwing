@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
@@ -39,7 +40,7 @@ public class Menu extends JFrame {
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
-	private JLayeredPane contentLpn;
+	//private JLayeredPane contentLpn;
 	private Image image;
 	private JLayeredPane layeredPane;
 	/**
@@ -48,11 +49,11 @@ public class Menu extends JFrame {
 	
 	public void switchPanels (JPanel panel)
 	{
-		if(contentLpn!=null) {
-			contentLpn.removeAll();
-			contentLpn.add(panel);
-			contentLpn.repaint();
-			contentLpn.revalidate();
+		if(layeredPane!=null) {
+			layeredPane.removeAll();
+			layeredPane.add(panel);
+			layeredPane.repaint();
+			layeredPane.revalidate();
 		}
 	}
 	
@@ -185,6 +186,7 @@ public class Menu extends JFrame {
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
 		contentPnl.add(layeredPane);
+		layeredPane.setLayout(new CardLayout(0, 0));
 		deconnecterLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

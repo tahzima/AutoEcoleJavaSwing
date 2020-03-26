@@ -126,7 +126,6 @@ public class Authentification extends JFrame {
 				if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
 					Users user;
 					user=authentificationController.authentification(login, password);
-					JOptionPane.showMessageDialog(null, ""+user.getLogin());
 					if(user.getId()>0) {
 						List<Users> listUsers = new ArrayList<Users>();
 						listUsers.add(user);

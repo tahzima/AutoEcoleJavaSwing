@@ -3,28 +3,45 @@ package com.autoecole.views;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+
+import com.autoecole.beans.Personnels;
+import com.autoecole.controller.GestionPersonnelsController;
+import com.toedter.calendar.JDateChooser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ModifierPersonnels extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField nomTxt;
+	private JTextField prenomTxt;
+	private JTextField cinTxt;
+	private JTextField posteTxt;
+	private JTextField numTeleTxt;
+	private JTextField adresseTxt;
+	private Image iconAjouter;
+	private Image iconAnnuler;
+	private Image iconRetour;
+	private JTextField salaireTxt;
+	private Personnels personnel;
 
 	/**
 	 * Create the frame.
 	 */
-	public ModifierPersonnels() {
+	public ModifierPersonnels(int idPersonnel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 520);
 		contentPane = new JPanel();
@@ -38,107 +55,221 @@ public class ModifierPersonnels extends JFrame {
 		panel.setBounds(0, 0, 648, 480);
 		contentPane.add(panel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(126, 214, 223));
-		panel_1.setBounds(0, 57, 648, 10);
-		panel.add(panel_1);
+		JPanel separateur1Pnl = new JPanel();
+		separateur1Pnl.setBackground(new Color(126, 214, 223));
+		separateur1Pnl.setBounds(0, 57, 648, 10);
+		panel.add(separateur1Pnl);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(126, 214, 223));
-		panel_2.setBounds(0, 117, 648, 10);
-		panel.add(panel_2);
+		JPanel separateur2Pnl = new JPanel();
+		separateur2Pnl.setBackground(new Color(126, 214, 223));
+		separateur2Pnl.setBounds(0, 117, 648, 10);
+		panel.add(separateur2Pnl);
 		
-		JLabel label = new JLabel("Gestion Personnels");
-		label.setForeground(new Color(143, 188, 143));
-		label.setFont(new Font("Oswald", Font.BOLD | Font.ITALIC, 18));
-		label.setBounds(255, 11, 161, 48);
-		panel.add(label);
+		JLabel gestionPersonnelLbl = new JLabel("Gestion Personnels");
+		gestionPersonnelLbl.setForeground(new Color(143, 188, 143));
+		gestionPersonnelLbl.setFont(new Font("Oswald", Font.BOLD | Font.ITALIC, 18));
+		gestionPersonnelLbl.setBounds(255, 11, 161, 48);
+		panel.add(gestionPersonnelLbl);
 		
-		JLabel label_1 = new JLabel("Modifier Personnel");
-		label_1.setForeground(new Color(143, 188, 143));
-		label_1.setFont(new Font("Oswald", Font.BOLD | Font.ITALIC, 18));
-		label_1.setBounds(255, 78, 161, 28);
-		panel.add(label_1);
+		JLabel modifierPersonnelLbl = new JLabel("Modifier Personnel");
+		modifierPersonnelLbl.setForeground(new Color(143, 188, 143));
+		modifierPersonnelLbl.setFont(new Font("Oswald", Font.BOLD | Font.ITALIC, 18));
+		modifierPersonnelLbl.setBounds(255, 78, 161, 28);
+		panel.add(modifierPersonnelLbl);
 		
-		JLabel label_2 = new JLabel("Nom :");
-		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setForeground(new Color(143, 188, 143));
-		label_2.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_2.setBounds(63, 159, 154, 20);
-		panel.add(label_2);
+		JLabel nomLbl = new JLabel("Nom :");
+		nomLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		nomLbl.setForeground(new Color(143, 188, 143));
+		nomLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		nomLbl.setBounds(63, 138, 154, 20);
+		panel.add(nomLbl);
 		
-		JLabel label_3 = new JLabel("Prenom :");
-		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setForeground(new Color(143, 188, 143));
-		label_3.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_3.setBounds(63, 190, 154, 20);
-		panel.add(label_3);
+		JLabel prenomLbl = new JLabel("Prenom :");
+		prenomLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		prenomLbl.setForeground(new Color(143, 188, 143));
+		prenomLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		prenomLbl.setBounds(63, 169, 154, 20);
+		panel.add(prenomLbl);
 		
-		JLabel label_4 = new JLabel("Date de Naissance :");
-		label_4.setHorizontalAlignment(SwingConstants.CENTER);
-		label_4.setForeground(new Color(143, 188, 143));
-		label_4.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_4.setBounds(63, 221, 154, 20);
-		panel.add(label_4);
+		JLabel dateNaissanceLbl = new JLabel("Date de Naissance :");
+		dateNaissanceLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		dateNaissanceLbl.setForeground(new Color(143, 188, 143));
+		dateNaissanceLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		dateNaissanceLbl.setBounds(63, 200, 154, 20);
+		panel.add(dateNaissanceLbl);
 		
-		JLabel label_5 = new JLabel("CIN :");
-		label_5.setHorizontalAlignment(SwingConstants.CENTER);
-		label_5.setForeground(new Color(143, 188, 143));
-		label_5.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_5.setBounds(63, 252, 154, 20);
-		panel.add(label_5);
+		JLabel cinLbl = new JLabel("CIN :");
+		cinLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		cinLbl.setForeground(new Color(143, 188, 143));
+		cinLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		cinLbl.setBounds(63, 231, 154, 20);
+		panel.add(cinLbl);
 		
-		JLabel label_6 = new JLabel("Adresse :");
-		label_6.setHorizontalAlignment(SwingConstants.CENTER);
-		label_6.setForeground(new Color(143, 188, 143));
-		label_6.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_6.setBounds(63, 283, 154, 20);
-		panel.add(label_6);
+		JLabel adresseLbl = new JLabel("Adresse :");
+		adresseLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		adresseLbl.setForeground(new Color(143, 188, 143));
+		adresseLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		adresseLbl.setBounds(63, 262, 154, 20);
+		panel.add(adresseLbl);
 		
-		JLabel label_7 = new JLabel("Numero de Telephone :");
-		label_7.setHorizontalAlignment(SwingConstants.CENTER);
-		label_7.setForeground(new Color(143, 188, 143));
-		label_7.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_7.setBounds(63, 314, 154, 20);
-		panel.add(label_7);
+		JLabel numTeleLbl = new JLabel("Numero de Telephone :");
+		numTeleLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		numTeleLbl.setForeground(new Color(143, 188, 143));
+		numTeleLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		numTeleLbl.setBounds(63, 293, 154, 20);
+		panel.add(numTeleLbl);
 		
-		JLabel label_8 = new JLabel("Poste :");
-		label_8.setHorizontalAlignment(SwingConstants.CENTER);
-		label_8.setForeground(new Color(143, 188, 143));
-		label_8.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_8.setBounds(63, 345, 154, 20);
-		panel.add(label_8);
+		JLabel posteLbl = new JLabel("Poste :");
+		posteLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		posteLbl.setForeground(new Color(143, 188, 143));
+		posteLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		posteLbl.setBounds(63, 324, 154, 20);
+		panel.add(posteLbl);
 		
-		JLabel label_9 = new JLabel("Date D'Emboche :");
-		label_9.setHorizontalAlignment(SwingConstants.CENTER);
-		label_9.setForeground(new Color(143, 188, 143));
-		label_9.setFont(new Font("Oswald", Font.PLAIN, 13));
-		label_9.setBounds(63, 376, 154, 20);
-		panel.add(label_9);
+		JLabel lblDateDembauche = new JLabel("Date D'Embauche :");
+		lblDateDembauche.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDateDembauche.setForeground(new Color(143, 188, 143));
+		lblDateDembauche.setFont(new Font("Oswald", Font.PLAIN, 13));
+		lblDateDembauche.setBounds(63, 355, 154, 20);
+		panel.add(lblDateDembauche);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(361, 161, 161, 20);
-		panel.add(textField);
+		nomTxt = new JTextField();
+		nomTxt.setColumns(10);
+		nomTxt.setBounds(381, 140, 161, 20);
+		panel.add(nomTxt);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(361, 192, 161, 20);
-		panel.add(textField_1);
+		prenomTxt = new JTextField();
+		prenomTxt.setColumns(10);
+		prenomTxt.setBounds(381, 171, 161, 20);
+		panel.add(prenomTxt);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(361, 254, 161, 20);
-		panel.add(textField_2);
+		cinTxt = new JTextField();
+		cinTxt.setColumns(10);
+		cinTxt.setBounds(381, 233, 161, 20);
+		panel.add(cinTxt);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(361, 347, 161, 20);
-		panel.add(textField_3);
+		posteTxt = new JTextField();
+		posteTxt.setColumns(10);
+		posteTxt.setBounds(381, 326, 161, 20);
+		panel.add(posteTxt);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(361, 316, 161, 20);
-		panel.add(textField_4);
+		numTeleTxt = new JTextField();
+		numTeleTxt.setColumns(10);
+		numTeleTxt.setBounds(381, 295, 161, 20);
+		panel.add(numTeleTxt);
+		
+		JDateChooser dateNaissDtc = new JDateChooser();
+		dateNaissDtc.setBounds(381, 200, 161, 20);
+		panel.add(dateNaissDtc);
+		
+		JDateChooser dateEmbDtc = new JDateChooser();
+		dateEmbDtc.setBounds(381, 355, 161, 20);
+		panel.add(dateEmbDtc);
+		
+		adresseTxt = new JTextField();
+		adresseTxt.setColumns(10);
+		adresseTxt.setBounds(381, 264, 161, 20);
+		panel.add(adresseTxt);
+		
+		JLabel imageRetourLbl = new JLabel("");
+		imageRetourLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		iconRetour = new ImageIcon(this.getClass().getResource("/retour.png")).getImage();
+		imageRetourLbl.setIcon(new ImageIcon(iconRetour));
+		imageRetourLbl.setBounds(496, 424, 46, 45);
+		panel.add(imageRetourLbl);
+		
+		JLabel imageAnnulerLbl = new JLabel("");
+		imageAnnulerLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				nomTxt.setText(null);
+				prenomTxt.setText(null);
+				cinTxt.setText(null);
+				adresseTxt.setText(null);
+				numTeleTxt.setText(null);
+				dateNaissDtc.setDate(null);
+				dateEmbDtc.setDate(null);
+				posteTxt.setText(null);
+				salaireTxt.setText(null);
+			}
+		});
+		iconAnnuler = new ImageIcon(this.getClass().getResource("/annuler.png")).getImage();
+		imageAnnulerLbl.setIcon(new ImageIcon(iconAnnuler));
+		imageAnnulerLbl.setBounds(275, 424, 46, 45);
+		panel.add(imageAnnulerLbl);
+		
+		JLabel imageModifierLbl = new JLabel("");
+		imageModifierLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+				boolean result;
+				Personnels personnel = new Personnels();
+				try {
+					if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbDtc.getDateFormatString()!=null && dateNaissDtc.getDateFormatString()!=null && !dateEmbDtc.getDateFormatString().isEmpty() && !dateNaissDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numTeleTxt.getText()!=null && !numTeleTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
+						java.sql.Date dateN = new java.sql.Date(dateNaissDtc.getDate().getTime());
+						java.sql.Date dateE = new java.sql.Date(dateEmbDtc.getDate().getTime());
+						personnel.setId(idPersonnel);
+						personnel.setPrenom(prenomTxt.getText());
+						personnel.setNom(nomTxt.getText());
+						personnel.setCin(cinTxt.getText());
+						personnel.setAdresse(adresseTxt.getText());
+						personnel.setNumTele(numTeleTxt.getText());
+						personnel.setPoste(posteTxt.getText());
+						personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
+						personnel.setDateEmbauche(dateE);
+						personnel.setDateNaissance(dateN);
+						result=gestionPersonnelController.modifierPersonnel(personnel);
+						if(result==true) {
+							JOptionPane.showMessageDialog(null, "Bien Modifier");
+						}else {
+							JOptionPane.showMessageDialog(null, "ERROR");
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "vous devez remplire tous les champes");
+					}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		iconAjouter = new ImageIcon(this.getClass().getResource("/valider.png")).getImage();
+		imageModifierLbl.setIcon(new ImageIcon(iconAjouter));
+		imageModifierLbl.setBounds(63, 424, 46, 45);
+		panel.add(imageModifierLbl);
+		
+		salaireTxt = new JTextField();
+		salaireTxt.setColumns(10);
+		salaireTxt.setBounds(381, 386, 161, 20);
+		panel.add(salaireTxt);
+		
+		JLabel salaireLbl = new JLabel("Salaire :");
+		salaireLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		salaireLbl.setForeground(new Color(143, 188, 143));
+		salaireLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		salaireLbl.setBounds(63, 386, 154, 20);
+		panel.add(salaireLbl);
+		
+		nomTxt.disable();
+		prenomTxt.disable();
+		cinTxt.disable();
+		GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+		personnel=gestionPersonnelController.getPersonnelById(idPersonnel);
+		nomTxt.setText(personnel.getNom());
+		prenomTxt.setText(personnel.getPrenom());
+		cinTxt.setText(personnel.getCin());
+		adresseTxt.setText(personnel.getAdresse());
+		posteTxt.setText(personnel.getPoste());
+		salaireTxt.setText(personnel.getSalaire().toString());
+		dateEmbDtc.setDate(personnel.getDateEmbauche());
+		dateNaissDtc.setDate(personnel.getDateNaissance());
+		numTeleTxt.setText(personnel.getNumTele());
+		
+		
 	}
 }
