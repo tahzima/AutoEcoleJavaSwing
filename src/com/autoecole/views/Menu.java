@@ -21,6 +21,7 @@ import javax.swing.JLayeredPane;
 
 public class Menu extends JFrame {
 
+	/*COMPONENETS*/
 	private JPanel frame;
 	private JPanel bigPanel;
 	private JPanel menuPanel;
@@ -31,13 +32,11 @@ public class Menu extends JFrame {
 	private JPanel voiturePnl;
 	private JLayeredPane layeredPane;
 	private Image image;
-	
-
 	private JLabel autoecoleLbl;
 	private JLabel maestroLbl;
 	private JLabel userLbl;
 	private JLabel userLogoLbl;
-	private JLabel clientLbl;
+	private JLabel candidatLbl;
 	private JLabel personnelLbl;
 	private JLabel examenLbl;
 	private JLabel voitureLbl;
@@ -47,10 +46,15 @@ public class Menu extends JFrame {
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
 	
+	
+	
+	
+	
 	public Menu(Users user) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WIDTH_SCREEN,HEIGHT_SCREEN);
+		setLocationRelativeTo(null);
+		setBounds(100, 100, 821,513);
 		frame = new JPanel();
 		frame.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(frame);
@@ -108,11 +112,18 @@ public class Menu extends JFrame {
 		menuPanel.add(clientPnl);
 		clientPnl.setLayout(null);
 		
-		clientLbl = new JLabel("Client");
-		clientLbl.setFont(new Font("Oswald", Font.BOLD, 18));
-		clientLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		clientLbl.setBounds(0, 0, 150, 31);
-		clientPnl.add(clientLbl);
+		candidatLbl = new JLabel("Candidat");
+		candidatLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GestionCandidats gestionCandidats = new GestionCandidats();
+				switchPanels(gestionCandidats);
+			}
+		});
+		candidatLbl.setFont(new Font("Oswald", Font.BOLD, 18));
+		candidatLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		candidatLbl.setBounds(0, 0, 150, 31);
+		clientPnl.add(candidatLbl);
 		
 		personnelPnl = new JPanel();
 		personnelPnl.setBackground(Color.decode("#22a6b3"));
@@ -181,8 +192,8 @@ public class Menu extends JFrame {
 			}
 		});
 	}
-	public void switchPanels (JPanel panel)
-	{
+	
+	public void switchPanels (JPanel panel) {
 		if(bigPanel!=null) {
 			bigPanel.removeAll();
 			bigPanel.add(menuPanel);

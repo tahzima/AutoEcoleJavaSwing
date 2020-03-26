@@ -60,6 +60,7 @@ public class Authentification extends JFrame {
 		
 		setTitle("AutoEcole Maestro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 818, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -125,7 +126,6 @@ public class Authentification extends JFrame {
 				if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
 					Users user;
 					user=authentificationController.authentification(login, password);
-					JOptionPane.showMessageDialog(null, ""+user.getLogin());
 					if(user.getId()>0) {
 						List<Users> listUsers = new ArrayList<Users>();
 						listUsers.add(user);
