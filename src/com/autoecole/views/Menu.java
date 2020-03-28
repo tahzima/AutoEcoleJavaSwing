@@ -6,17 +6,22 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
+import com.autoecole.views.personnels.GestionPersonnels;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JLayeredPane;
 
 public class Menu extends JFrame {

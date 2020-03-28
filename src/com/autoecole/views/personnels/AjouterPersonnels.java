@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.personnels;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -41,6 +41,8 @@ public class AjouterPersonnels extends JFrame {
 	private Image iconRetour;
 	private JTextField salaireTxt;
 
+	JDateChooser dateNaissanceDtc ;
+	JDateChooser dateEmbaucheDtc;
 	/**
 	 * Create the frame.
 	 */
@@ -161,11 +163,11 @@ public class AjouterPersonnels extends JFrame {
 		numeroTelephoneTxt.setBounds(361, 311, 161, 20);
 		contentPnl.add(numeroTelephoneTxt);
 		
-		JDateChooser dateNaissanceDtc = new JDateChooser();
+		dateNaissanceDtc = new JDateChooser();
 		dateNaissanceDtc.setBounds(361, 216, 161, 20);
 		contentPnl.add(dateNaissanceDtc);
 		
-		JDateChooser dateEmbaucheDtc = new JDateChooser();
+		dateEmbaucheDtc = new JDateChooser();
 		dateEmbaucheDtc.setBounds(361, 371, 161, 20);
 		contentPnl.add(dateEmbaucheDtc);
 		

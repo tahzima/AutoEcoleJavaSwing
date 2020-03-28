@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.personnels;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -37,11 +37,12 @@ public class ModifierPersonnels extends JFrame {
 	private Image iconRetour;
 	private JTextField salaireTxt;
 	private Personnels personnel;
-
+	JDateChooser dateEmbDtc;
+	JDateChooser dateNaissDtc;
 	/**
 	 * Create the frame.
 	 */
-	public ModifierPersonnels(int idPersonnel) {
+	public ModifierPersonnels(final int idPersonnel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 520);
 		contentPane = new JPanel();
@@ -158,11 +159,11 @@ public class ModifierPersonnels extends JFrame {
 		numTeleTxt.setBounds(381, 295, 161, 20);
 		panel.add(numTeleTxt);
 		
-		JDateChooser dateNaissDtc = new JDateChooser();
+		dateNaissDtc = new JDateChooser();
 		dateNaissDtc.setBounds(381, 200, 161, 20);
 		panel.add(dateNaissDtc);
 		
-		JDateChooser dateEmbDtc = new JDateChooser();
+		dateEmbDtc = new JDateChooser();
 		dateEmbDtc.setBounds(381, 355, 161, 20);
 		panel.add(dateEmbDtc);
 		

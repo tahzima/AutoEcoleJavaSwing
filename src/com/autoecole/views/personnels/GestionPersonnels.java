@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.personnels;
 
 import java.awt.Color;
 
@@ -18,12 +18,15 @@ import com.autoecole.beans.Personnels;
 import com.autoecole.controller.GestionPersonnelsController;
 
 
+import com.autoecole.views.Menu;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
@@ -261,7 +264,7 @@ public class GestionPersonnels extends JPanel {
 						gestionPersonnelController = new GestionPersonnelsController();
 						listPersonnel = gestionPersonnelController.getAllPersonnels();
 						refresh(listPersonnel);
-						JOptionPane.showMessageDialog(null,"Personnel supprimé!"); 
+						JOptionPane.showMessageDialog(null,"Personnel supprimï¿½!"); 
 					}
 					else
 						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
