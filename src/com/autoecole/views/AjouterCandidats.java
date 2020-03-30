@@ -1,29 +1,23 @@
 package com.autoecole.views;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.EventQueue;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Image;
-
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
 import com.autoecole.beans.Candidats;
 import com.autoecole.controller.CandidatController;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class AjouterCandidats extends JFrame {
 
@@ -56,34 +50,13 @@ public class AjouterCandidats extends JFrame {
 	private Image iconAnnuler;
 	private Candidats candidat;
 	private CandidatController candidatCtrl;
-	
-	
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AjouterCandidats frame = new AjouterCandidats();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	
-	
-	
-	
-	
-	
+	private ArrayList<Candidats> listCandidats;
 	
 	
 	/**
 	 * Create the frame.
 	 */
-	public AjouterCandidats() {
+	public AjouterCandidats(GestionCandidats gestionCandidat) {
 		
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 664, 454);
@@ -252,16 +225,14 @@ public class AjouterCandidats extends JFrame {
 					int check = candidatCtrl.ajouterCandidat(candidat);
 					
 					if(check>0) {
-						JOptionPane.showMessageDialog(null,"Opération effectuée!");  
-						repaint();
-						revalidate();
+						candidatCtrl = new CandidatController();
+						listCandidats = candidatCtrl.getCandidats();
+						gestionCandidat.refresh(listCandidats);
+						dispose();						
 					}
 					else
 						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
 				}
-				  
-
-				
 			}
 		});
 		

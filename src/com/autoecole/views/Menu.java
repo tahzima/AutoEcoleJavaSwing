@@ -12,11 +12,17 @@ import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.swing.JLayeredPane;
 
 public class Menu extends JFrame {
@@ -26,7 +32,7 @@ public class Menu extends JFrame {
 	private JPanel bigPanel;
 	private JPanel menuPanel;
 	private JPanel userPnl;
-	private JPanel clientPnl;
+	private JPanel candidatPnl;
 	private JPanel personnelPnl;
 	private JPanel examenPnl;
 	private JPanel voiturePnl;
@@ -43,12 +49,9 @@ public class Menu extends JFrame {
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
 	
+	
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
-	
-	
-	
-	
 	
 	public Menu(Users user) {
 		
@@ -59,6 +62,7 @@ public class Menu extends JFrame {
 		frame.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(frame);
 		frame.setLayout(null);
+	
 		
 		bigPanel = new JPanel();
 		bigPanel.setBackground(Color.decode("#34495e"));
@@ -106,11 +110,11 @@ public class Menu extends JFrame {
 		userLogoLbl.setBounds(0, 0, 150, 59);
 		userPnl.add(userLogoLbl);
 		
-		clientPnl = new JPanel();
-		clientPnl.setBackground(Color.decode("#22a6b3"));
-		clientPnl.setBounds(0, 179, 150, 31);
-		menuPanel.add(clientPnl);
-		clientPnl.setLayout(null);
+		candidatPnl = new JPanel();
+		candidatPnl.setBackground(Color.decode("#22a6b3"));
+		candidatPnl.setBounds(0, 179, 150, 31);
+		menuPanel.add(candidatPnl);
+		candidatPnl.setLayout(null);
 		
 		candidatLbl = new JLabel("Candidat");
 		candidatLbl.addMouseListener(new MouseAdapter() {
@@ -123,7 +127,7 @@ public class Menu extends JFrame {
 		candidatLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		candidatLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		candidatLbl.setBounds(0, 0, 150, 31);
-		clientPnl.add(candidatLbl);
+		candidatPnl.add(candidatLbl);
 		
 		personnelPnl = new JPanel();
 		personnelPnl.setBackground(Color.decode("#22a6b3"));

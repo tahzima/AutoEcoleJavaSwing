@@ -24,6 +24,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class ModifierCandidats extends JFrame {
 
@@ -56,12 +57,12 @@ public class ModifierCandidats extends JFrame {
 	private Image iconAnnuler;
 	private Candidats candidat;
 	private CandidatController candidatCtrl;
-	
+	private ArrayList<Candidats> listCandidats;
 	
 	/**
 	 * Create the frame.
 	 */
-	public ModifierCandidats(Candidats candidatArg) {
+	public ModifierCandidats(Candidats candidatArg, GestionCandidats gestionCandidat) {
 		
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 664, 454);
@@ -233,14 +234,14 @@ public class ModifierCandidats extends JFrame {
 					int check = candidatCtrl.modifierCandidat(candidat);
 					
 					if(check>0) {
-						JOptionPane.showMessageDialog(null,"Opération effectuée!");  
-						repaint();
-						revalidate();
+						candidatCtrl = new CandidatController();
+						listCandidats = candidatCtrl.getCandidats();
+						gestionCandidat.refresh(listCandidats);
+						dispose();						
 					}
 					else
 						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
 				}
-				
 			}
 		});
 		

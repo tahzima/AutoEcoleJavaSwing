@@ -67,7 +67,7 @@ public class GestionCandidats extends JPanel {
 	private Candidats candidat;
 	
 	/*LOAD JTABLE*/
-	private void refresh(ArrayList<Candidats> list) {
+	public void refresh(ArrayList<Candidats> list) {
 		
 		int k = list.size();
 		rows = new Object[k][7];
@@ -84,17 +84,15 @@ public class GestionCandidats extends JPanel {
 
 		}
 		DefaultTableModel model  = new DefaultTableModel(rows,columns);
-		candidatsTable.setModel(model);
-		
+		candidatsTable.setModel(model);	
 	}
-	
-	
 	
 
 	/**
 	 * Create the panel.
 	 */
 	public GestionCandidats() {
+		
 		setBackground(Color.decode("#34495e"));
 		setBounds(0, 0, 661, 488);
 		setLayout(null);
@@ -328,7 +326,7 @@ public class GestionCandidats extends JPanel {
 					candidat.setAdresse((String)rows[rowIndex][5]);
 					candidat.setId((int)rows[rowIndex][6]);
 					
-					ModifierCandidats modifierCandidat = new ModifierCandidats(candidat);
+					ModifierCandidats modifierCandidat = new ModifierCandidats(candidat,GestionCandidats.this);
 					modifierCandidat.setVisible(true);	
 				}
 			}
@@ -339,7 +337,7 @@ public class GestionCandidats extends JPanel {
 		ajouterLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AjouterCandidats ajouterCandidat = new AjouterCandidats();
+				AjouterCandidats ajouterCandidat = new AjouterCandidats(GestionCandidats.this);
 				ajouterCandidat.setVisible(true);
 			}
 		});
@@ -355,17 +353,21 @@ public class GestionCandidats extends JPanel {
 					JOptionPane.showMessageDialog(null,"Vous devez selectionner un candidat!");
 				else
 				{
-					idCandidat = (int)rows[rowIndex][6];
-					check = candidatCtrl.supprimerCandidat(idCandidat);
+					int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce candidat?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					
-					if(check>0) {
-						candidatCtrl = new CandidatController();
-						listTempCandidats = candidatCtrl.getCandidats();
-						refresh(listTempCandidats);
-						JOptionPane.showMessageDialog(null,"Candidat supprimé!"); 
+					if(confirm == JOptionPane.YES_OPTION){
+						idCandidat = (int)rows[rowIndex][6];
+						check = candidatCtrl.supprimerCandidat(idCandidat);
+						
+						if(check>0) {
+							candidatCtrl = new CandidatController();
+							listTempCandidats = candidatCtrl.getCandidats();
+							refresh(listTempCandidats);
+						}
+						else
+							JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+						
 					}
-					else
-						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
 				}
 				
 			}
