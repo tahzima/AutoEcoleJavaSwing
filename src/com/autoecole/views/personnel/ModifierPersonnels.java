@@ -1,11 +1,4 @@
-<<<<<<< HEAD:src/com/autoecole/views/personnel/ModifierPersonnels.java
 package com.autoecole.views.personnel;
-=======
-package com.autoecole.views.personnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/ModifierPersonnels.java
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -31,6 +24,10 @@ import java.util.List;
 
 public class ModifierPersonnels extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 527366260669373850L;
 	private JPanel contentPane;
 	private JTextField nomTxt;
 	private JTextField prenomTxt;
@@ -48,11 +45,7 @@ public class ModifierPersonnels extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-<<<<<<< HEAD:src/com/autoecole/views/personnel/ModifierPersonnels.java
-	public ModifierPersonnels(int idPersonnel,GestionPersonnels gestionPersonnel) {
-=======
-	public ModifierPersonnels(final int idPersonnel) {
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/ModifierPersonnels.java
+	public ModifierPersonnels(final int idPersonnel,final GestionPersonnels gestionPersonnel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 520);
 		contentPane = new JPanel();
@@ -284,7 +277,5 @@ public class ModifierPersonnels extends JFrame {
 		dateEmbDtc.setDate(personnel.getDateEmbauche());
 		dateNaissDtc.setDate(personnel.getDateNaissance());
 		numTeleTxt.setText(personnel.getNumTele());
-		
-		
 	}
 }

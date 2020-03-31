@@ -1,16 +1,8 @@
-<<<<<<< HEAD:src/com/autoecole/views/personnel/AjouterPersonnels.java
 package com.autoecole.views.personnel;
-=======
-package com.autoecole.views.personnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/AjouterPersonnels.java
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -20,24 +12,22 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JTextField;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import com.autoecole.beans.Personnels;
-import com.autoecole.beans.Users;
 import com.autoecole.controller.GestionPersonnelsController;
-import com.sun.xml.internal.ws.assembler.jaxws.MustUnderstandTubeFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AjouterPersonnels extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7200054830571301232L;
 	private JPanel contentPane;
 	private JTextField nomTxt;
 	private JTextField prenomTxt;
@@ -55,7 +45,7 @@ public class AjouterPersonnels extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AjouterPersonnels(GestionPersonnels gestionPersonnel) {
+	public AjouterPersonnels(final GestionPersonnels gestionPersonnel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 664, 519);
 		contentPane = new JPanel();

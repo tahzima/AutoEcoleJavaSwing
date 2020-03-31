@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/com/autoecole/views/personnel/GestionPersonnels.java
 package com.autoecole.views.personnel;
-=======
-package com.autoecole.views.personnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/GestionPersonnels.java
 
 import java.awt.Color;
 
@@ -13,7 +9,6 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Panel;
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -21,10 +16,7 @@ import javax.swing.table.TableModel;
 
 import com.autoecole.beans.Personnels;
 import com.autoecole.beans.SearchPersonnel;
-import com.autoecole.beans.Users;
 import com.autoecole.controller.GestionPersonnelsController;
-import com.autoecole.views.Menu;
-
 import com.autoecole.views.Menu;
 
 import java.awt.event.MouseAdapter;
@@ -36,10 +28,12 @@ import javax.swing.JTable;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class GestionPersonnels extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4534266448138707264L;
 	private JTextField nomTxt;
 	private JTextField prenomTxt;
 	private JTextField cinTxt;

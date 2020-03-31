@@ -14,6 +14,8 @@ import com.autoecole.beans.Users;
 import com.autoecole.controller.AuthentificationController;
 
 
+import com.autoecole.views.Menu;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -24,6 +26,7 @@ import java.awt.Graphics;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
