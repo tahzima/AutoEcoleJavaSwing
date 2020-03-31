@@ -14,7 +14,7 @@ import com.autoecole.beans.Personnels;
 import com.autoecole.beans.SearchPersonnel;
 import com.autoecole.service.Database;
 
-public class GestionPersonnelsController {
+public class PersonnelsController {
 	
 	//Recuperer tous les personnels
 	
@@ -48,7 +48,7 @@ public class GestionPersonnelsController {
 	
 	//recuperer personnel par ID
 	
-	public Personnels getPersonnelById(int idP){
+	public Personnels findById(int idP){
 		Connection conexion = Database.getInstance().getConexion();
 		Personnels personnel = new Personnels();
 		try {
@@ -106,7 +106,7 @@ public class GestionPersonnelsController {
 	
 	//Rechercher personnel by nom , prenom et cin
 	
-	public List<Personnels> search(SearchPersonnel searchPersonnel){
+	public List<Personnels> search(SearchPersonnel params){
 		Connection conexion = Database.getInstance().getConexion();
 		Personnels personnel;
 		List<Personnels> listPersonnel = new ArrayList<Personnels>();
@@ -115,19 +115,19 @@ public class GestionPersonnelsController {
 			String sql;
 			String where="";
 			
-			if(!searchPersonnel.getCin().isEmpty())
+			if(!params.getCin().isEmpty())
 			{
-				where += "and cin = '"+searchPersonnel.getCin()+"'";
+				where += "and cin = '"+params.getCin()+"'";
 			}
 			
-			if(!searchPersonnel.getNom().isEmpty())
+			if(!params.getNom().isEmpty())
 			{
-				where += " and nom like '%"+searchPersonnel.getNom()+"%'";
+				where += " and nom like '%"+params.getNom()+"%'";
 			}
 			
-			if(!searchPersonnel.getPrenom().isEmpty())
+			if(!params.getPrenom().isEmpty())
 			{
-				where += " and prenom like '%"+searchPersonnel.getPrenom()+"%'";
+				where += " and prenom like '%"+params.getPrenom()+"%'";
 			}
 			
 			sql = "select * from personnels where 1=1  "+where;
@@ -150,7 +150,7 @@ public class GestionPersonnelsController {
 			state.close();
 			resultPersonnel.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		} 
 		return listPersonnel;
 	}
