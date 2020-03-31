@@ -1,6 +1,7 @@
 package com.autoecole.views.candidats;
 
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
@@ -9,13 +10,16 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+
 import com.autoecole.beans.Candidats;
 import com.autoecole.beans.SearchCandidat;
 import com.autoecole.controller.CandidatController;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
@@ -24,12 +28,14 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JSeparator;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseListener;
 
-public class GestionCandidats extends JPanel {
+public class GestionCandidats extends JPanel implements DocumentListener,MouseListener {
 	
 	/*COMPONENTS*/
 	private JLabel prenomLbl;
@@ -58,7 +64,7 @@ public class GestionCandidats extends JPanel {
 	private Image iconSupprimer;
 	private Image iconActualiser;
 	private DefaultTableModel candidatsTableModel;
-	private String[] columns = {"Nom","Prénom","CIN","Date de naissance","Téléphone","Adresse"};
+	private String[] columns = {"Nom","Prï¿½nom","CIN","Date de naissance","Tï¿½lï¿½phone","Adresse"};
 	private Object[][] rows;
 	private ArrayList<Candidats> listCandidats;
 	private ArrayList<Candidats> listTempCandidats;
@@ -121,7 +127,7 @@ public class GestionCandidats extends JPanel {
 		}
 		candidatsTableModel = new DefaultTableModel(rows,columns);
 
-		//Création du JTable
+		//Crï¿½ation du JTable
 		candidatsTable = new JTable(candidatsTableModel);
 		scroll = new JScrollPane(candidatsTable);
 		scroll.setBounds(10, 219, 641,199);
@@ -223,66 +229,9 @@ public class GestionCandidats extends JPanel {
 		
 		/*ACTION LISTENERS*/
 		
-		//Nom text changed
-		nomTxt.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				cinTxt.setEditable(false);
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				if(nomTxt.getText().isEmpty() && prenomTxt.getText().isEmpty()) {
-					cinTxt.setEditable(true);
-				}
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {}
-			
-		});
-		
-		
-		//Prénom text changed
-		prenomTxt.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				cinTxt.setEditable(false);
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				if(nomTxt.getText().isEmpty() && prenomTxt.getText().isEmpty()) {
-					cinTxt.setEditable(true);
-				}
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {}
-			
-		});
-		
-		
-		//Cin text changed
-		cinTxt.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				nomTxt.setEditable(false);
-				prenomTxt.setEditable(false);
-			}
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				if(cinTxt.getText().isEmpty())
-				{
-					nomTxt.setEditable(true);
-					prenomTxt.setEditable(true);
-				}
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {}
-		});
+		nomTxt.getDocument().addDocumentListener(this);		
+		prenomTxt.getDocument().addDocumentListener(this);
+		cinTxt.getDocument().addDocumentListener(this);
 		
 		
 		//Recherche clicked
@@ -297,7 +246,6 @@ public class GestionCandidats extends JPanel {
 				
 				List<Candidats> listTempCandidats = candidatCtrl.search(params);
 				refresh(listTempCandidats);
-				
 			}
 		});
 		
@@ -380,15 +328,78 @@ public class GestionCandidats extends JPanel {
 				listTempCandidats = candidatCtrl.getAll();
 				refresh(listTempCandidats);
 			}
-		});
+		});	
+	}
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		if(e.getDocument()==nomTxt.getDocument() || e.getDocument()==prenomTxt.getDocument()){
+			cinTxt.setEditable(false);
+		}
+		if(e.getDocument()==cinTxt.getDocument()){
+				nomTxt.setEditable(false);
+				prenomTxt.setEditable(false);
+		}
+
+	}
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		if(e.getDocument()==nomTxt.getDocument()|| e.getDocument()==prenomTxt.getDocument()){
+			if(nomTxt.getText().isEmpty() && prenomTxt.getText().isEmpty()) {
+				cinTxt.setEditable(true);
+			}
+		}
+		if(e.getDocument()==cinTxt.getDocument()){
+			if(cinTxt.getText().isEmpty())
+			{
+				nomTxt.setEditable(true);
+				prenomTxt.setEditable(true);
+			}
+		}
+	}
+
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getComponent() == actualiserLbl){
+			
+		}
 		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		
-		
-		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }
+
+
