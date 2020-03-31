@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.personnel;
 
 import java.awt.Color;
 
@@ -9,14 +9,17 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Panel;
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.autoecole.beans.Personnels;
+import com.autoecole.beans.SearchPersonnel;
+import com.autoecole.beans.Users;
 import com.autoecole.controller.GestionPersonnelsController;
-
+import com.autoecole.views.Menu;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,10 +45,11 @@ public class GestionPersonnels extends JPanel {
 	private String [] colonnesPersonnel={"Nom","Prenom","Cin","Date Naissance","Numero Telephone","Adresse","Poste","Date d'Embauche","Salaire"};
 	private Object [][]dataPersonnel;
 	private int dataSizePersonnel;
-	private List<Personnels> listPersonnel;
+	public List<Personnels> listPersonnel;
 	private JScrollPane scrollPane;
 	private int idPersonnel;
 	private int rowIndex;
+	private JPanel contentPnl;
 
 	
 	
@@ -54,7 +58,7 @@ public class GestionPersonnels extends JPanel {
 	
 	
 	
-	private void refresh(List<Personnels> list) {
+	public void refresh(List<Personnels> list) {
 		
 		int k = list.size();
 		dataPersonnel = new Object[k][10];
@@ -87,7 +91,7 @@ public class GestionPersonnels extends JPanel {
 	public GestionPersonnels() {
 		setLayout(null);
 		
-		JPanel contentPnl = new JPanel();
+		contentPnl = new JPanel();
 		contentPnl.setBackground(Color.decode("#34495e"));
 		contentPnl.setBounds(0, 0, Menu.WIDTH_SCREEN-160, Menu.HEIGHT_SCREEN);
 		add(contentPnl);
@@ -175,37 +179,14 @@ public class GestionPersonnels extends JPanel {
 		photoRechercheLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Personnels personnel = new Personnels();
+				listPersonnel.clear();
 				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-				if(nomTxt.getText()!=null && prenomTxt.getText()!=null) {
-
-					personnel=gestionPersonnelController.getPersonnelsByNomPrenomCin(nomTxt.getText(), prenomTxt.getText(), cinTxt.getText());
-					if(personnel!=null) {
-						listPersonnel.clear();
-						listPersonnel.add(personnel);
-						dataSizePersonnel=listPersonnel.size();
-						dataPersonnel=new Object[dataSizePersonnel][10];
-						for(int k=0;k<dataSizePersonnel;k++)
-						{
-							dataPersonnel[k][0]=listPersonnel.get(k).getNom();
-							dataPersonnel[k][1]=listPersonnel.get(k).getPrenom();
-							dataPersonnel[k][2]=listPersonnel.get(k).getCin();
-							dataPersonnel[k][3]=listPersonnel.get(k).getDateNaissance();
-							dataPersonnel[k][4]=listPersonnel.get(k).getNumTele();
-							dataPersonnel[k][5]=listPersonnel.get(k).getAdresse();
-							dataPersonnel[k][6]=listPersonnel.get(k).getPoste();
-							dataPersonnel[k][7]=listPersonnel.get(k).getDateEmbauche();
-							dataPersonnel[k][8]=listPersonnel.get(k).getSalaire();
-							idPersonnel=listPersonnel.get(k).getId();
-							dataPersonnel[k][9]=idPersonnel;
-						}
-						tablemodelPersonnel = new DefaultTableModel(dataPersonnel,colonnesPersonnel);
-						table= new JTable(tablemodelPersonnel);
-						scrollPane.setViewportView(table);
-					}else {
-						JOptionPane.showMessageDialog(null, "personnel introuvable");
-					}
-				}
+				SearchPersonnel searchPersonnel = new SearchPersonnel();
+				searchPersonnel.setCin(cinTxt.getText());
+				searchPersonnel.setNom(nomTxt.getText());
+				searchPersonnel.setPrenom(prenomTxt.getText());
+				listPersonnel=gestionPersonnelController.search(searchPersonnel);
+				refresh(listPersonnel);
 			}
 		});
 		
@@ -220,7 +201,7 @@ public class GestionPersonnels extends JPanel {
 		ajouterLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AjouterPersonnels ajouterPersonnel = new AjouterPersonnels();
+				AjouterPersonnels ajouterPersonnel = new AjouterPersonnels(GestionPersonnels.this);
 				ajouterPersonnel.setVisible(true);
 			}
 		});
@@ -233,7 +214,7 @@ public class GestionPersonnels extends JPanel {
 		modifierLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel);
+				ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
 				modifierPersonnels.setVisible(true);
 			}
 		});
@@ -255,11 +236,11 @@ public class GestionPersonnels extends JPanel {
 				{
 					id = (int)dataPersonnel[rowIndex][9];
 					GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-					check = gestionPersonnelController.supprimerPersonnels(id);
+					check = gestionPersonnelController.delete(id);
 					
 					if(check) {
 						gestionPersonnelController = new GestionPersonnelsController();
-						listPersonnel = gestionPersonnelController.getAllPersonnels();
+						listPersonnel = gestionPersonnelController.getAll();
 						refresh(listPersonnel);
 						JOptionPane.showMessageDialog(null,"Personnel supprimé!"); 
 					}
@@ -278,7 +259,7 @@ public class GestionPersonnels extends JPanel {
 		contentPnl.add(scrollPane);
 		
 		GestionPersonnelsController gestionPersonnelsController = new GestionPersonnelsController();
-		listPersonnel=gestionPersonnelsController.getAllPersonnels();
+		listPersonnel=gestionPersonnelsController.getAll();
 		dataSizePersonnel=listPersonnel.size();
 		dataPersonnel=new Object[dataSizePersonnel][10];
 		for(int k=0;k<dataSizePersonnel;k++)

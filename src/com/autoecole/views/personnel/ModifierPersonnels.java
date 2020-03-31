@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.personnel;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -22,6 +22,8 @@ import com.autoecole.controller.GestionPersonnelsController;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModifierPersonnels extends JFrame {
 
@@ -41,7 +43,7 @@ public class ModifierPersonnels extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ModifierPersonnels(int idPersonnel) {
+	public ModifierPersonnels(int idPersonnel,GestionPersonnels gestionPersonnel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 520);
 		contentPane = new JPanel();
@@ -210,6 +212,7 @@ public class ModifierPersonnels extends JFrame {
 				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
 				boolean result;
 				Personnels personnel = new Personnels();
+				List<Personnels> listPersonnel = new ArrayList<Personnels>();
 				try {
 					if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbDtc.getDateFormatString()!=null && dateNaissDtc.getDateFormatString()!=null && !dateEmbDtc.getDateFormatString().isEmpty() && !dateNaissDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numTeleTxt.getText()!=null && !numTeleTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
 						java.sql.Date dateN = new java.sql.Date(dateNaissDtc.getDate().getTime());
@@ -224,9 +227,12 @@ public class ModifierPersonnels extends JFrame {
 						personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
 						personnel.setDateEmbauche(dateE);
 						personnel.setDateNaissance(dateN);
-						result=gestionPersonnelController.modifierPersonnel(personnel);
+						result=gestionPersonnelController.update(personnel);
 						if(result==true) {
+							listPersonnel=gestionPersonnelController.getAll();
+							gestionPersonnel.refresh(listPersonnel);
 							JOptionPane.showMessageDialog(null, "Bien Modifier");
+							dispose();
 						}else {
 							JOptionPane.showMessageDialog(null, "ERROR");
 						}

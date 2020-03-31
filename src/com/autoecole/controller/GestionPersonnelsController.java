@@ -11,13 +11,14 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.autoecole.beans.Personnels;
+import com.autoecole.beans.SearchPersonnel;
 import com.autoecole.service.Database;
 
 public class GestionPersonnelsController {
 	
 	//Recuperer tous les personnels
 	
-	public List<Personnels> getAllPersonnels(){
+	public List<Personnels> getAll(){
 		Connection conexion = Database.getInstance().getConexion();
 		List<Personnels> listPersonnel = new ArrayList<Personnels>();
 		try {
@@ -49,7 +50,6 @@ public class GestionPersonnelsController {
 	
 	public Personnels getPersonnelById(int idP){
 		Connection conexion = Database.getInstance().getConexion();
-		List<Personnels> listPersonnel = new ArrayList<Personnels>();
 		Personnels personnel = new Personnels();
 		try {
 			Statement state = conexion != null ? conexion.createStatement() : null;
@@ -76,7 +76,7 @@ public class GestionPersonnelsController {
 	
 	//Modifier personnel 
 	
-	public boolean modifierPersonnel(Personnels personnels) {
+	public boolean update(Personnels personnels) {
 		
 		Connection conexion = Database.getInstance().getConexion();
 		boolean resultaQuery = false;
@@ -106,45 +106,58 @@ public class GestionPersonnelsController {
 	
 	//Rechercher personnel by nom , prenom et cin
 	
-	public Personnels getPersonnelsByNomPrenomCin(String nom, String prenom, String cin){
+	public List<Personnels> search(SearchPersonnel searchPersonnel){
 		Connection conexion = Database.getInstance().getConexion();
-		Personnels personnel = new Personnels();
+		Personnels personnel;
+		List<Personnels> listPersonnel = new ArrayList<Personnels>();
 		try {
 			Statement state = conexion != null ? conexion.createStatement() : null;
-			String  req;
-			if(!cin.isEmpty()) {
-				req="select * from personnels where cin like '"+cin+"'";
-			}else {
-				if(!prenom.isEmpty() && !nom.isEmpty()) {
-					req="select * from personnels where prenom like '"+prenom+"' and nom like '"+nom+"'";
-				}else {
-					req="select * from personnels where prenom like '"+prenom+"' or nom like '"+nom+"'";
+			String sql;
+			String where="";
+			
+			if(!searchPersonnel.getCin().isEmpty())
+			{
+				where += "and cin = '"+searchPersonnel.getCin()+"'";
+			}
+			
+			if(!searchPersonnel.getNom().isEmpty())
+			{
+				where += " and nom like '%"+searchPersonnel.getNom()+"%'";
+			}
+			
+			if(!searchPersonnel.getPrenom().isEmpty())
+			{
+				where += " and prenom like '%"+searchPersonnel.getPrenom()+"%'";
+			}
+			
+			sql = "select * from personnels where 1=1  "+where;
+			
+			ResultSet resultPersonnel = state.executeQuery(sql);
+				while (resultPersonnel.next()) {
+					personnel = new Personnels();
+					personnel.setId(resultPersonnel.getInt("id"));
+					personnel.setNom(resultPersonnel.getString("nom"));
+					personnel.setPrenom(resultPersonnel.getString("prenom"));
+					personnel.setCin(resultPersonnel.getString("cin"));
+					personnel.setDateNaissance(resultPersonnel.getDate("dateNaissance"));
+					personnel.setNumTele(resultPersonnel.getString("numTel"));
+					personnel.setAdresse(resultPersonnel.getString("adresse"));
+					personnel.setPoste(resultPersonnel.getString("poste"));
+					personnel.setDateEmbauche(resultPersonnel.getDate("dateEmbauche"));
+					personnel.setSalaire(resultPersonnel.getFloat("salaire"));
+					listPersonnel.add(personnel);
 				}
-			}
-			ResultSet resultPersonnel = state.executeQuery(req);
-			while (resultPersonnel.next()) {
-				personnel.setId(resultPersonnel.getInt("id"));
-				personnel.setNom(resultPersonnel.getString("nom"));
-				personnel.setPrenom(resultPersonnel.getString("prenom"));
-				personnel.setCin(resultPersonnel.getString("cin"));
-				personnel.setDateNaissance(resultPersonnel.getDate("dateNaissance"));
-				personnel.setNumTele(resultPersonnel.getString("numTel"));
-				personnel.setAdresse(resultPersonnel.getString("adresse"));
-				personnel.setPoste(resultPersonnel.getString("poste"));
-				personnel.setDateEmbauche(resultPersonnel.getDate("dateEmbauche"));
-				personnel.setSalaire(resultPersonnel.getFloat("salaire"));
-			}
 			state.close();
 			resultPersonnel.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		return personnel;
+		return listPersonnel;
 	}
 	
 	//ajouter personnel
 	
-	public boolean ajouterPersonnel(Personnels personnels) {
+	public boolean add(Personnels personnels) {
 		Connection conexion = Database.getInstance().getConexion();
 		boolean resultat = false;
 		try {
@@ -174,7 +187,7 @@ public class GestionPersonnelsController {
 	
 	//supprimer personnel
 	
-	public boolean supprimerPersonnels(int id) {
+	public boolean delete(int id) {
 		Connection conexion = Database.getInstance().getConexion();
 		boolean etat = false;
 		try {

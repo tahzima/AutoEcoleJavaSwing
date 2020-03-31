@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.personnel;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -19,13 +20,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import com.autoecole.beans.Personnels;
+import com.autoecole.beans.Users;
 import com.autoecole.controller.GestionPersonnelsController;
+import com.sun.xml.internal.ws.assembler.jaxws.MustUnderstandTubeFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AjouterPersonnels extends JFrame {
 
@@ -44,7 +49,7 @@ public class AjouterPersonnels extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AjouterPersonnels() {
+	public AjouterPersonnels(GestionPersonnels gestionPersonnel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 664, 519);
 		contentPane = new JPanel();
@@ -181,6 +186,7 @@ public class AjouterPersonnels extends JFrame {
 				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
 				boolean result;
 				Personnels personnel = new Personnels();
+				List<Personnels> listPersonnel = new ArrayList<Personnels>();
 				try {
 					if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbaucheDtc.getDateFormatString()!=null && dateNaissanceDtc.getDateFormatString()!=null && !dateEmbaucheDtc.getDateFormatString().isEmpty() && !dateNaissanceDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numeroTelephoneTxt.getText()!=null && !numeroTelephoneTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
 						java.sql.Date dateN = new java.sql.Date(dateNaissanceDtc.getDate().getTime());
@@ -194,9 +200,12 @@ public class AjouterPersonnels extends JFrame {
 						personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
 						personnel.setDateEmbauche(dateE);
 						personnel.setDateNaissance(dateN);
-						result=gestionPersonnelController.ajouterPersonnel(personnel);
+						result=gestionPersonnelController.add(personnel);
 						if(result==true) {
+							listPersonnel=gestionPersonnelController.getAll();
+							gestionPersonnel.refresh(listPersonnel);
 							JOptionPane.showMessageDialog(null, "Bien Ajouter");
+							dispose();
 						}else {
 							JOptionPane.showMessageDialog(null, "ERROR");
 						}
