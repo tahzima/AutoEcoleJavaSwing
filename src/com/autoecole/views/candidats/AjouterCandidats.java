@@ -56,7 +56,7 @@ public class AjouterCandidats extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AjouterCandidats(GestionCandidats gestionCandidat) {
+	public AjouterCandidats(final GestionCandidats gestionCandidat) {
 		
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 664, 454);
@@ -66,7 +66,7 @@ public class AjouterCandidats extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		/*Création des composants*/
+		/*Crï¿½ation des composants*/
 		contentPnl = new JPanel();
 		contentPnl.setLayout(null);
 		contentPnl.setBackground(new Color(52, 73, 94));

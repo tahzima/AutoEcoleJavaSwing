@@ -62,7 +62,7 @@ public class ModifierCandidats extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ModifierCandidats(Candidats candidatArg, GestionCandidats gestionCandidat) {
+	public ModifierCandidats(final Candidats candidatArg,final  GestionCandidats gestionCandidat) {
 		
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 664, 454);
@@ -72,7 +72,7 @@ public class ModifierCandidats extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		/*Création des composants*/
+		/*Crï¿½ation des composants*/
 		contentPnl = new JPanel();
 		contentPnl.setLayout(null);
 		contentPnl.setBackground(new Color(52, 73, 94));
