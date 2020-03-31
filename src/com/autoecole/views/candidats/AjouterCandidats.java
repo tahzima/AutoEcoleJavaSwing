@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.candidats;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -222,11 +222,11 @@ public class AjouterCandidats extends JFrame {
 					candidat.setAdresse(adresse);
 	
 					
-					int check = candidatCtrl.ajouterCandidat(candidat);
+					int check = candidatCtrl.add(candidat);
 					
 					if(check>0) {
 						candidatCtrl = new CandidatController();
-						listCandidats = candidatCtrl.getCandidats();
+						listCandidats = candidatCtrl.getAll();
 						gestionCandidat.refresh(listCandidats);
 						dispose();						
 					}

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import com.autoecole.beans.Candidats;
+import com.autoecole.beans.SearchCandidat;
 import com.autoecole.beans.Users;
 import com.autoecole.service.Database;
 
@@ -20,10 +21,9 @@ public class CandidatController {
 	private Statement state;
 	private PreparedStatement prepState;
 	private ResultSet result;
-	private int checkResult;
 	
 	//Get All Candidats
-	public ArrayList<Candidats> getCandidats () {
+	public ArrayList<Candidats> getAll () {
 		
 		ArrayList<Candidats> list = new ArrayList<Candidats>();
 		connexion = Database.getInstance().getConexion();
@@ -56,10 +56,10 @@ public class CandidatController {
 	
 	
 	//Get Candidats by id
-	public Candidats getCandidatById (int id) {
+	public Candidats findById (int id) {
 		
 		connexion = Database.getInstance().getConexion();
-		Candidats candidat = null;
+		Candidats candidat = new Candidats();
 		try {
 			state = connexion != null ? connexion.createStatement() : null ;
 			result = state.executeQuery("SELECT * FROM candidats where id="+id);
@@ -83,26 +83,33 @@ public class CandidatController {
 	
 	
 	//Recherche candidat
-	public ArrayList<Candidats> rechercheCandidat(String nom,String prenom,String cin){
+	public ArrayList<Candidats> search(SearchCandidat params){
 
 		ArrayList<Candidats> list = new ArrayList<Candidats>();
 		connexion = Database.getInstance().getConexion();
 		Candidats candidat;
 		try {
+			
 			state = connexion != null ? connexion.createStatement() : null ;
 			String sql;
+			String where="";
 			
-			if(!cin.isEmpty())
+			if(!params.getCin().isEmpty())
 			{
-				sql = "select * from candidats where cin = '"+cin+"'";
-			}
-			else {
-				if(!nom.isEmpty() && !prenom.isEmpty())
-					sql = "select * from candidats where nom = '"+nom+"' AND prenom = '"+prenom+"'";
-				else
-					sql = "select * from candidats where nom = '"+nom+"' OR prenom = '"+prenom+"'";
+				where += "and cin = '"+params.getCin()+"'";
 			}
 			
+			if(!params.getNom().isEmpty())
+			{
+				where += " and nom like '%"+params.getNom()+"%'";
+			}
+			
+			if(!params.getPrenom().isEmpty())
+			{
+				where += " and prenom like '%"+params.getPrenom()+"%'";
+			}
+			
+			sql = "select * from candidats where 1=1  "+where;
 			
 			ResultSet result = state.executeQuery(sql);
 			while (result.next()) {
@@ -132,9 +139,10 @@ public class CandidatController {
 	
 	
 	//Ajouter Candidat
-	public int ajouterCandidat (Candidats candidat) {
+	public int add (Candidats candidat) {
 			
 		connexion = Database.getInstance().getConexion();
+		int checkResult = 0;
 		try {			
 			
 			prepState = connexion.prepareStatement("insert into candidats (nom,prenom,cin,dateNaissance,numTel,adresse) values (?,?,?,?,?,?)");
@@ -158,9 +166,10 @@ public class CandidatController {
 	}
 	
 	//Modifier Candidat
-	public int modifierCandidat (Candidats candidat) {
+	public int edit (Candidats candidat) {
 		
 		connexion = Database.getInstance().getConexion();
+		int checkResult = 0;
 		try {
 			prepState = connexion.prepareStatement("update candidats set nom=?,prenom=?,cin=?,dateNaissance=?,numTel=?,adresse=? where id=?");
 			prepState.setString(1,candidat.getNom());
@@ -184,9 +193,10 @@ public class CandidatController {
 	
 	
 	//Supprimer Candidat
-		public int supprimerCandidat (int id) {
+		public int delete (int id) {
 			
 			connexion = Database.getInstance().getConexion();
+			int checkResult = 0;
 			try {
 				state = connexion != null ? connexion.createStatement() : null ;
 				

@@ -1,4 +1,4 @@
-package com.autoecole.views;
+package com.autoecole.views.candidats;
 
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -14,11 +14,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import com.autoecole.beans.Candidats;
+import com.autoecole.beans.SearchCandidat;
 import com.autoecole.controller.CandidatController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JSeparator;
@@ -66,8 +68,9 @@ public class GestionCandidats extends JPanel {
 	private int check;
 	private Candidats candidat;
 	
+	
 	/*LOAD JTABLE*/
-	public void refresh(ArrayList<Candidats> list) {
+	public void refresh(List<Candidats> list) {
 		
 		int k = list.size();
 		rows = new Object[k][7];
@@ -101,7 +104,7 @@ public class GestionCandidats extends JPanel {
 		/*JTABLE*/
 		//REMPLISSAGE DU TABLE MODEL
 		candidatCtrl = new CandidatController();
-		listCandidats = candidatCtrl.getCandidats();
+		listCandidats = candidatCtrl.getAll();
 		int k = listCandidats.size();
 		rows = new Object[k][7];
 
@@ -286,19 +289,22 @@ public class GestionCandidats extends JPanel {
 		rechercheLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String nom = nomTxt.getText().toString();
-				String prenom = prenomTxt.getText().toString();
-				String cin = cinTxt.getText().toString();
+				SearchCandidat params = new SearchCandidat();
+
+				params.setNom(nomTxt.getText().toString());
+				params.setPrenom(prenomTxt.getText().toString());
+				params.setCin(cinTxt.getText().toString());
 				
-				if(nom.isEmpty() && prenom.isEmpty() && cin.isEmpty()) {
+				List<Candidats> listTempCandidats = candidatCtrl.search(params);
+				refresh(listTempCandidats);
+				
+				/*if(nom.isEmpty() && prenom.isEmpty() && cin.isEmpty()) {
 					JOptionPane.showMessageDialog(null,"Au moins un champ doit être rempli!"); 
 				}
 				else {
-					listTempCandidats = new ArrayList<Candidats>();
-					listTempCandidats = candidatCtrl.rechercheCandidat(nom, prenom, cin);
-					refresh(listTempCandidats);
+					
 				}
-				
+				*/
 				
 			}
 		});
@@ -357,11 +363,11 @@ public class GestionCandidats extends JPanel {
 					
 					if(confirm == JOptionPane.YES_OPTION){
 						idCandidat = (int)rows[rowIndex][6];
-						check = candidatCtrl.supprimerCandidat(idCandidat);
+						check = candidatCtrl.delete(idCandidat);
 						
 						if(check>0) {
 							candidatCtrl = new CandidatController();
-							listTempCandidats = candidatCtrl.getCandidats();
+							listTempCandidats = candidatCtrl.getAll();
 							refresh(listTempCandidats);
 						}
 						else
@@ -379,7 +385,7 @@ public class GestionCandidats extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				candidatCtrl = new CandidatController();
-				listTempCandidats = candidatCtrl.getCandidats();
+				listTempCandidats = candidatCtrl.getAll();
 				refresh(listTempCandidats);
 			}
 		});

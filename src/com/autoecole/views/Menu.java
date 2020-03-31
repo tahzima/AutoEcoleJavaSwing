@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
+import com.autoecole.views.candidats.GestionCandidats;
 
 import java.awt.CardLayout;
 import java.awt.Color;
