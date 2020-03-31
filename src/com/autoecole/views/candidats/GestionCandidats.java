@@ -298,14 +298,6 @@ public class GestionCandidats extends JPanel {
 				List<Candidats> listTempCandidats = candidatCtrl.search(params);
 				refresh(listTempCandidats);
 				
-				/*if(nom.isEmpty() && prenom.isEmpty() && cin.isEmpty()) {
-					JOptionPane.showMessageDialog(null,"Au moins un champ doit être rempli!"); 
-				}
-				else {
-					
-				}
-				*/
-				
 			}
 		});
 		
