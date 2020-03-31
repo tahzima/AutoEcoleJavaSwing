@@ -16,10 +16,11 @@ import com.autoecole.controller.CandidatController;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class AjouterCandidats extends JFrame {
+public class AjouterCandidats extends JFrame implements MouseListener{
 
 	/*COMPONENTS*/
 	private JPanel contentPane;
@@ -44,19 +45,21 @@ public class AjouterCandidats extends JFrame {
 	private JLabel cinLbl;
 	private JDateChooser dateNaissanceDtc;
 	
-	
 	/*VARIABLES*/
 	private Image iconAjouter;
 	private Image iconAnnuler;
 	private Candidats candidat;
 	private CandidatController candidatCtrl;
 	private ArrayList<Candidats> listCandidats;
+	private GestionCandidats gestionCandid;
 	
-	
+
 	/**
 	 * Create the frame.
 	 */
 	public AjouterCandidats(final GestionCandidats gestionCandidat) {
+		
+		gestionCandid = gestionCandidat;
 		
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 664, 454);
@@ -64,7 +67,6 @@ public class AjouterCandidats extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
 		
 		/*Cr�ation des composants*/
 		contentPnl = new JPanel();
@@ -182,8 +184,6 @@ public class AjouterCandidats extends JFrame {
 		retourImageLbl.setBounds(494, 438, 46, 14);
 		contentPnl.add(retourImageLbl);
 		
-		
-		
 		nomTxt.setText("zouhri");
 		prenomTxt.setText("oussama");
 		cinTxt.setText("hh223344");
@@ -192,69 +192,66 @@ public class AjouterCandidats extends JFrame {
 		
 		
 		/*ACTION LISTENERS*/
-		
+		ajouterImageLbl.addMouseListener(this);
+		annulerImagreLbl.addMouseListener(this);		
+	}
+
+
+	//BUTTONS
+	@Override
+	public void mouseClicked(MouseEvent e) {
 		//Ajouter Clicked
-		ajouterImageLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		if(e.getComponent() == ajouterImageLbl) {
+			String nom = nomTxt.getText();
+			String prenom = prenomTxt.getText();
+			String cin = cinTxt.getText();
+			String numTel = numeroTelephoneTxt.getText();
+			String adresse = adresseTxt.getText();
+			
+			
+			if(nom.isEmpty() || prenom.isEmpty() || cin.isEmpty() || numTel.isEmpty() || adresse.isEmpty() || dateNaissanceDtc.getDate() == null)
+				JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires!");  
+			else
+			{
+				candidatCtrl = new CandidatController(); 
+				candidat = new Candidats();
+						
+				Date dateNaissance = new Date(dateNaissanceDtc.getDate().getTime());
 				
-				String nom = nomTxt.getText();
-				String prenom = prenomTxt.getText();
-				String cin = cinTxt.getText();
-				String numTel = numeroTelephoneTxt.getText();
-				String adresse = adresseTxt.getText();
+				candidat.setNom(nom);
+				candidat.setPrenom(prenom);
+				candidat.setCin(cin);
+				candidat.setDateNaissance(dateNaissance);
+				candidat.setNumTel(numTel);
+				candidat.setAdresse(adresse);
+
 				
+				int check = candidatCtrl.add(candidat);
 				
-				if(nom.isEmpty() || prenom.isEmpty() || cin.isEmpty() || numTel.isEmpty() || adresse.isEmpty() || dateNaissanceDtc.getDate() == null)
-					JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires!");  
-				else
-				{
-					candidatCtrl = new CandidatController(); 
-					candidat = new Candidats();
-							
-					Date dateNaissance = new Date(dateNaissanceDtc.getDate().getTime());
-					
-					candidat.setNom(nom);
-					candidat.setPrenom(prenom);
-					candidat.setCin(cin);
-					candidat.setDateNaissance(dateNaissance);
-					candidat.setNumTel(numTel);
-					candidat.setAdresse(adresse);
-	
-					
-					int check = candidatCtrl.add(candidat);
-					
-					if(check>0) {
-						candidatCtrl = new CandidatController();
-						listCandidats = candidatCtrl.getAll();
-						gestionCandidat.refresh(listCandidats);
-						dispose();						
-					}
-					else
-						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
+				if(check>0) {
+					candidatCtrl = new CandidatController();
+					listCandidats = candidatCtrl.getAll();
+					gestionCandid.refresh(listCandidats);
+					dispose();						
 				}
+				else
+					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
 			}
-		});
-		
-		
-		
-		//Annuler clicked
-		annulerImagreLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-		});
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		}
+		//Annuler Clicked
+		else if(e.getComponent() == annulerImagreLbl)
+			dispose();
 		
 	}
+
+	
+	/*NOT USED*/
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }

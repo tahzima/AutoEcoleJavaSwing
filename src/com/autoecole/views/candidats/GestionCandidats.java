@@ -127,7 +127,7 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 		}
 		candidatsTableModel = new DefaultTableModel(rows,columns);
 
-		//Crï¿½ation du JTable
+		//Création du JTable
 		candidatsTable = new JTable(candidatsTableModel);
 		scroll = new JScrollPane(candidatsTable);
 		scroll.setBounds(10, 219, 641,199);
@@ -228,108 +228,21 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 		add(actualiserLbl);
 		
 		/*ACTION LISTENERS*/
-		
 		nomTxt.getDocument().addDocumentListener(this);		
 		prenomTxt.getDocument().addDocumentListener(this);
 		cinTxt.getDocument().addDocumentListener(this);
+		rechercheLbl.addMouseListener(this);
+		modifierLbl.addMouseListener(this);
+		ajouterLbl.addMouseListener(this);
+		supprimerLbl.addMouseListener(this);
+		actualiserLbl.addMouseListener(this);	
 		
-		
-		//Recherche clicked
-		rechercheLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				SearchCandidat params = new SearchCandidat();
-
-				params.setNom(nomTxt.getText().toString());
-				params.setPrenom(prenomTxt.getText().toString());
-				params.setCin(cinTxt.getText().toString());
-				
-				List<Candidats> listTempCandidats = candidatCtrl.search(params);
-				refresh(listTempCandidats);
-			}
-		});
-		
-		
-		//Modifier clicked
-		modifierLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				
-				rowIndex = candidatsTable.getSelectedRow();
-				
-				if(rowIndex == -1)
-					JOptionPane.showMessageDialog(null,"Vous devez selectionner un candidat!");
-				else
-				{
-					candidat = new Candidats();
-					
-					candidat.setNom((String)rows[rowIndex][0]);
-					candidat.setPrenom((String)rows[rowIndex][1]);
-					candidat.setCin((String)rows[rowIndex][2]);
-					candidat.setDateNaissance((Date)rows[rowIndex][3]);
-					candidat.setNumTel((String)rows[rowIndex][4]);
-					candidat.setAdresse((String)rows[rowIndex][5]);
-					candidat.setId((int)rows[rowIndex][6]);
-					
-					ModifierCandidats modifierCandidat = new ModifierCandidats(candidat,GestionCandidats.this);
-					modifierCandidat.setVisible(true);	
-				}
-			}
-		});
-		
-		
-		//Ajouter clicked
-		ajouterLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				AjouterCandidats ajouterCandidat = new AjouterCandidats(GestionCandidats.this);
-				ajouterCandidat.setVisible(true);
-			}
-		});
-		
-		
-		//Supprimer clicked
-		supprimerLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				rowIndex = candidatsTable.getSelectedRow();
-				
-				if(rowIndex == -1)
-					JOptionPane.showMessageDialog(null,"Vous devez selectionner un candidat!");
-				else
-				{
-					int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce candidat?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-					
-					if(confirm == JOptionPane.YES_OPTION){
-						idCandidat = (int)rows[rowIndex][6];
-						check = candidatCtrl.delete(idCandidat);
-						
-						if(check>0) {
-							candidatCtrl = new CandidatController();
-							listTempCandidats = candidatCtrl.getAll();
-							refresh(listTempCandidats);
-						}
-						else
-							JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
-						
-					}
-				}
-				
-			}
-		});
-		
-		
-		//Actualiser clicked
-		actualiserLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				candidatCtrl = new CandidatController();
-				listTempCandidats = candidatCtrl.getAll();
-				refresh(listTempCandidats);
-			}
-		});	
 	}
+	
+	
+	
+	/*Search TextFields Edited*/
+	
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		if(e.getDocument()==nomTxt.getDocument() || e.getDocument()==prenomTxt.getDocument()){
@@ -341,6 +254,7 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 		}
 
 	}
+	
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 		if(e.getDocument()==nomTxt.getDocument()|| e.getDocument()==prenomTxt.getDocument()){
@@ -357,49 +271,92 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 		}
 	}
 
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	/*Buttons Clicked*/
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getComponent() == actualiserLbl){
+		//Ajouter clicked
+		if(e.getComponent() == ajouterLbl) {
+			AjouterCandidats ajouterCandidat = new AjouterCandidats(GestionCandidats.this);
+			ajouterCandidat.setVisible(true);
+		}
+		//Modifier clicked
+		else if(e.getComponent() == modifierLbl) {
+			rowIndex = candidatsTable.getSelectedRow();
 			
+			if(rowIndex == -1)
+				JOptionPane.showMessageDialog(null,"Vous devez selectionner un candidat!");
+			else{
+				candidat = new Candidats();
+				candidat.setNom((String)rows[rowIndex][0]);
+				candidat.setPrenom((String)rows[rowIndex][1]);
+				candidat.setCin((String)rows[rowIndex][2]);
+				candidat.setDateNaissance((Date)rows[rowIndex][3]);
+				candidat.setNumTel((String)rows[rowIndex][4]);
+				candidat.setAdresse((String)rows[rowIndex][5]);
+				candidat.setId((int)rows[rowIndex][6]);
+				
+				ModifierCandidats modifierCandidat = new ModifierCandidats(candidat,GestionCandidats.this);
+				modifierCandidat.setVisible(true);	
+			}
+		}
+		//Supprimer clicked
+		else if(e.getComponent() == supprimerLbl) {
+			rowIndex = candidatsTable.getSelectedRow();
+			
+			if(rowIndex == -1)
+				JOptionPane.showMessageDialog(null,"Vous devez selectionner un candidat!");
+			else
+			{
+				int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce candidat?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				
+				if(confirm == JOptionPane.YES_OPTION){
+					idCandidat = (int)rows[rowIndex][6];
+					check = candidatCtrl.delete(idCandidat);
+					
+					if(check>0) {
+						candidatCtrl = new CandidatController();
+						listTempCandidats = candidatCtrl.getAll();
+						refresh(listTempCandidats);
+					}
+					else
+						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+					
+				}
+			}
+		}
+		//Recherche clicked
+		else if(e.getComponent() == rechercheLbl) {
+			SearchCandidat params = new SearchCandidat();
+
+			params.setNom(nomTxt.getText().toString());
+			params.setPrenom(prenomTxt.getText().toString());
+			params.setCin(cinTxt.getText().toString());
+			
+			List<Candidats> listTempCandidats = candidatCtrl.search(params);
+			refresh(listTempCandidats);
+		}
+		//Actualiser clicked
+		else if(e.getComponent() == actualiserLbl) {
+			candidatCtrl = new CandidatController();
+			listTempCandidats = candidatCtrl.getAll();
+			refresh(listTempCandidats);
 		}
 		
 	}
 
-
+	
+	/*NOT USED*/
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void changedUpdate(DocumentEvent e) {}
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void mousePressed(MouseEvent e) {}
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void mouseReleased(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }
 
 

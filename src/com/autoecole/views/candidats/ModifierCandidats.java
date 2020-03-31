@@ -23,10 +23,11 @@ import com.autoecole.controller.CandidatController;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class ModifierCandidats extends JFrame {
+public class ModifierCandidats extends JFrame implements MouseListener{
 
 	/*COMPONENTS*/
 	private JPanel contentPane;
@@ -56,13 +57,17 @@ public class ModifierCandidats extends JFrame {
 	private Image iconAjouter;
 	private Image iconAnnuler;
 	private Candidats candidat;
+	private Candidats candidatParams;
 	private CandidatController candidatCtrl;
 	private ArrayList<Candidats> listCandidats;
+	private GestionCandidats gestionCandid;
 	
 	/**
 	 * Create the frame.
 	 */
 	public ModifierCandidats(final Candidats candidatArg,final  GestionCandidats gestionCandidat) {
+		
+		
 		
 		setLocationRelativeTo(null);
 		setBounds(100, 100, 664, 454);
@@ -201,66 +206,72 @@ public class ModifierCandidats extends JFrame {
 		prenomTxt.setEditable(false);
 		cinTxt.setEditable(false);
 		
+		
 		/*Action Listeners*/
-		
-		modifierImageLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String nom = nomTxt.getText();
-				String prenom = prenomTxt.getText();
-				String cin = cinTxt.getText();
-				String numTel = numeroTelephoneTxt.getText();
-				String adresse = adresseTxt.getText();
-				
-				
-				if(nom.isEmpty() || prenom.isEmpty() || cin.isEmpty() || numTel.isEmpty() || adresse.isEmpty() || dateNaissanceDtc.getDate() == null)
-					JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires!");  
-				else
-				{
-					candidatCtrl = new CandidatController(); 
-					candidat = new Candidats();
-							
-					Date dateNaissance = new Date(dateNaissanceDtc.getDate().getTime());
-					
-					candidat.setId(candidatArg.getId());
-					candidat.setNom(nom);
-					candidat.setPrenom(prenom);
-					candidat.setCin(cin);
-					candidat.setDateNaissance(dateNaissance);
-					candidat.setNumTel(numTel);
-					candidat.setAdresse(adresse);
-	
-					
-					int check = candidatCtrl.edit(candidat);
-					
-					if(check>0) {
-						candidatCtrl = new CandidatController();
-						listCandidats = candidatCtrl.getAll();
-						gestionCandidat.refresh(listCandidats);
-						dispose();						
-					}
-					else
-						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
-				}
-			}
-		});
-		
-		
-		//Annuler clicked
-		annulerImagreLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-		});
+		modifierImageLbl.addMouseListener(this);
+		annulerImagreLbl.addMouseListener(this);
 		
 		
 		
 		
 		
-		
-		
-		
+		gestionCandid = gestionCandidat;
+		candidatParams = candidatArg;
 		
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//Modifier Clicked
+		if(e.getComponent() == modifierImageLbl) {
+			String nom = nomTxt.getText();
+			String prenom = prenomTxt.getText();
+			String cin = cinTxt.getText();
+			String numTel = numeroTelephoneTxt.getText();
+			String adresse = adresseTxt.getText();
+			
+			
+			if(nom.isEmpty() || prenom.isEmpty() || cin.isEmpty() || numTel.isEmpty() || adresse.isEmpty() || dateNaissanceDtc.getDate() == null)
+				JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires!");  
+			else{
+				candidatCtrl = new CandidatController(); 
+				candidat = new Candidats();
+						
+				Date dateNaissance = new Date(dateNaissanceDtc.getDate().getTime());
+				
+				candidat.setId(candidatParams.getId());
+				candidat.setNom(nom);
+				candidat.setPrenom(prenom);
+				candidat.setCin(cin);
+				candidat.setDateNaissance(dateNaissance);
+				candidat.setNumTel(numTel);
+				candidat.setAdresse(adresse);
+
+				
+				int check = candidatCtrl.edit(candidat);
+				
+				if(check>0) {
+					candidatCtrl = new CandidatController();
+					listCandidats = candidatCtrl.getAll();
+					gestionCandid.refresh(listCandidats);
+					dispose();						
+				}
+				else
+					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
+			}
+		}
+		//Annuler Clicked
+		else if(e.getComponent() == annulerImagreLbl)
+			dispose();
+	}
+
+	/*NOT USED*/
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }
