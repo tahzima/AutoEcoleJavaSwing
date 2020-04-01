@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/com/autoecole/views/personnel/ModifierPersonnels.java
-package com.autoecole.views.personnel;
-=======
 package com.autoecole.views.personnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/ModifierPersonnels.java
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -23,13 +19,15 @@ import javax.swing.JTextField;
 
 import com.autoecole.beans.Personnels;
 import com.autoecole.controller.GestionPersonnelsController;
+import com.sun.istack.internal.FinalArrayList;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModifierPersonnels extends JFrame {
+public class ModifierPersonnels extends JFrame implements MouseListener{
 
 	private JPanel contentPane;
 	private JTextField nomTxt;
@@ -45,14 +43,17 @@ public class ModifierPersonnels extends JFrame {
 	private Personnels personnel;
 	JDateChooser dateEmbDtc;
 	JDateChooser dateNaissDtc;
+	private JLabel imageRetourLbl;
+	private JLabel imageAnnulerLbl;
+	private JLabel imageModifierLbl;
+	private int idPersonnel;
+	private GestionPersonnels gestionPersonnel;
 	/**
 	 * Create the frame.
 	 */
-<<<<<<< HEAD:src/com/autoecole/views/personnel/ModifierPersonnels.java
-	public ModifierPersonnels(int idPersonnel,GestionPersonnels gestionPersonnel) {
-=======
-	public ModifierPersonnels(final int idPersonnel) {
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/ModifierPersonnels.java
+	public ModifierPersonnels(final int idPersonnel, final GestionPersonnels gestionPersonnel) {
+		this.idPersonnel=idPersonnel;
+		this.gestionPersonnel=gestionPersonnel;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 520);
 		contentPane = new JPanel();
@@ -182,77 +183,22 @@ public class ModifierPersonnels extends JFrame {
 		adresseTxt.setBounds(381, 264, 161, 20);
 		panel.add(adresseTxt);
 		
-		JLabel imageRetourLbl = new JLabel("");
-		imageRetourLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-		});
+		imageRetourLbl = new JLabel("");
+		imageRetourLbl.addMouseListener(this);
 		iconRetour = new ImageIcon(this.getClass().getResource("/retour.png")).getImage();
 		imageRetourLbl.setIcon(new ImageIcon(iconRetour));
 		imageRetourLbl.setBounds(496, 424, 46, 45);
 		panel.add(imageRetourLbl);
 		
-		JLabel imageAnnulerLbl = new JLabel("");
-		imageAnnulerLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				nomTxt.setText(null);
-				prenomTxt.setText(null);
-				cinTxt.setText(null);
-				adresseTxt.setText(null);
-				numTeleTxt.setText(null);
-				dateNaissDtc.setDate(null);
-				dateEmbDtc.setDate(null);
-				posteTxt.setText(null);
-				salaireTxt.setText(null);
-			}
-		});
+		imageAnnulerLbl = new JLabel("");
+		imageAnnulerLbl.addMouseListener(this);
 		iconAnnuler = new ImageIcon(this.getClass().getResource("/annuler.png")).getImage();
 		imageAnnulerLbl.setIcon(new ImageIcon(iconAnnuler));
 		imageAnnulerLbl.setBounds(275, 424, 46, 45);
 		panel.add(imageAnnulerLbl);
 		
-		JLabel imageModifierLbl = new JLabel("");
-		imageModifierLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-				boolean result;
-				Personnels personnel = new Personnels();
-				List<Personnels> listPersonnel = new ArrayList<Personnels>();
-				try {
-					if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbDtc.getDateFormatString()!=null && dateNaissDtc.getDateFormatString()!=null && !dateEmbDtc.getDateFormatString().isEmpty() && !dateNaissDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numTeleTxt.getText()!=null && !numTeleTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
-						java.sql.Date dateN = new java.sql.Date(dateNaissDtc.getDate().getTime());
-						java.sql.Date dateE = new java.sql.Date(dateEmbDtc.getDate().getTime());
-						personnel.setId(idPersonnel);
-						personnel.setPrenom(prenomTxt.getText());
-						personnel.setNom(nomTxt.getText());
-						personnel.setCin(cinTxt.getText());
-						personnel.setAdresse(adresseTxt.getText());
-						personnel.setNumTele(numTeleTxt.getText());
-						personnel.setPoste(posteTxt.getText());
-						personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
-						personnel.setDateEmbauche(dateE);
-						personnel.setDateNaissance(dateN);
-						result=gestionPersonnelController.update(personnel);
-						if(result==true) {
-							listPersonnel=gestionPersonnelController.getAll();
-							gestionPersonnel.refresh(listPersonnel);
-							JOptionPane.showMessageDialog(null, "Bien Modifier");
-							dispose();
-						}else {
-							JOptionPane.showMessageDialog(null, "ERROR");
-						}
-					}else {
-						JOptionPane.showMessageDialog(null, "vous devez remplire tous les champes");
-					}
-				}catch(Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+		imageModifierLbl = new JLabel("");
+		imageModifierLbl.addMouseListener(this);
 		iconAjouter = new ImageIcon(this.getClass().getResource("/valider.png")).getImage();
 		imageModifierLbl.setIcon(new ImageIcon(iconAjouter));
 		imageModifierLbl.setBounds(63, 424, 46, 45);
@@ -285,6 +231,78 @@ public class ModifierPersonnels extends JFrame {
 		dateNaissDtc.setDate(personnel.getDateNaissance());
 		numTeleTxt.setText(personnel.getNumTele());
 		
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getComponent()==imageRetourLbl) {
+			dispose();
+		}
+		if(imageAnnulerLbl==e.getComponent()) {
+			nomTxt.setText(null);
+			prenomTxt.setText(null);
+			cinTxt.setText(null);
+			adresseTxt.setText(null);
+			numTeleTxt.setText(null);
+			dateNaissDtc.setDate(null);
+			dateEmbDtc.setDate(null);
+			posteTxt.setText(null);
+			salaireTxt.setText(null);
+		}
+		if(e.getComponent()==imageModifierLbl) {
+			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			boolean result;
+			Personnels personnel = new Personnels();
+			List<Personnels> listPersonnel = new ArrayList<Personnels>();
+			try {
+				if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbDtc.getDateFormatString()!=null && dateNaissDtc.getDateFormatString()!=null && !dateEmbDtc.getDateFormatString().isEmpty() && !dateNaissDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numTeleTxt.getText()!=null && !numTeleTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
+					java.sql.Date dateN = new java.sql.Date(dateNaissDtc.getDate().getTime());
+					java.sql.Date dateE = new java.sql.Date(dateEmbDtc.getDate().getTime());
+					personnel.setId(idPersonnel);
+					personnel.setPrenom(prenomTxt.getText());
+					personnel.setNom(nomTxt.getText());
+					personnel.setCin(cinTxt.getText());
+					personnel.setAdresse(adresseTxt.getText());
+					personnel.setNumTele(numTeleTxt.getText());
+					personnel.setPoste(posteTxt.getText());
+					personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
+					personnel.setDateEmbauche(dateE);
+					personnel.setDateNaissance(dateN);
+					result=gestionPersonnelController.update(personnel);
+					if(result==true) {
+						listPersonnel=gestionPersonnelController.getAll();
+						gestionPersonnel.refresh(listPersonnel);
+						JOptionPane.showMessageDialog(null, "Bien Modifier");
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "ERROR");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "vous devez remplire tous les champes");
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

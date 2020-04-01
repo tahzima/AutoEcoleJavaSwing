@@ -6,12 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
-<<<<<<< HEAD
-import com.autoecole.views.personnel.GestionPersonnels;
-import com.autoecole.views.vehicule.GestionVehicules;
-=======
 import com.autoecole.views.personnels.GestionPersonnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3
+import com.autoecole.views.vehicule.GestionVehicules;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -26,10 +22,11 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JLayeredPane;
 
-public class Menu extends JFrame {
+public class Menu extends JFrame  implements MouseListener {
 
 	private JPanel frame;
 	private JPanel bigPanel;
@@ -222,6 +219,31 @@ public class Menu extends JFrame {
 			bigPanel.repaint();
 			bigPanel.revalidate();
 		}
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

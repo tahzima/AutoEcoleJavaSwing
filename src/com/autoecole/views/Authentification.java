@@ -24,17 +24,19 @@ import java.awt.Graphics;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionEvent;
 
-public class Authentification extends JFrame {
+public class Authentification extends JFrame implements MouseListener{
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private JButton connecterBtn;
+	private JButton exitBtn;
 	
 	
 	
@@ -94,23 +96,19 @@ public class Authentification extends JFrame {
 		passwordField.setBounds(61, 256, 275, 28);
 		panel.add(passwordField);
 		
-		JButton btnNewButton = new RoundJButton("Se connecter");		
-		btnNewButton.setBackground(Color.decode("#22a6b3"));
-		btnNewButton.setFont(new Font("Orbitron", Font.PLAIN, 18));
-		btnNewButton.setBounds(61, 337, 180, 28);
-		panel.add(btnNewButton);
+		connecterBtn = new RoundJButton("Se connecter");		
+		connecterBtn.addMouseListener(this);
+		connecterBtn.setBackground(Color.decode("#22a6b3"));
+		connecterBtn.setFont(new Font("Orbitron", Font.PLAIN, 18));
+		connecterBtn.setBounds(61, 337, 180, 28);
+		panel.add(connecterBtn);
 		
-		//JButton btnExit = new JButton("Exit");
-		JButton btnExit = new RoundJButton("Quitter");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnExit.setBackground(Color.decode("#22a6b3"));
-		btnExit.setFont(new Font("Orbitron", Font.PLAIN, 18));
-		btnExit.setBounds(61, 393, 180, 28);
-		panel.add(btnExit);
+		exitBtn = new RoundJButton("Quitter");
+		exitBtn.addMouseListener(this);
+		exitBtn.setBackground(Color.decode("#22a6b3"));
+		exitBtn.setFont(new Font("Orbitron", Font.PLAIN, 18));
+		exitBtn.setBounds(61, 393, 180, 28);
+		panel.add(exitBtn);
 		
 		JLabel lblNewLabel = new JLabel("");
 		Image image =  new ImageIcon(this.getClass().getResource("/image.jpg")).getImage();
@@ -118,31 +116,58 @@ public class Authentification extends JFrame {
 		lblNewLabel.setBounds(0, 0, 400, 480);
 		contentPane.add(lblNewLabel);
 		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String login = textField.getText();
-				String password = passwordField.getText();
-				AuthentificationController authentificationController = new AuthentificationController();
-				if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
-					Users user;
-					user=authentificationController.authentification(login, password);
-					if(user.getId()>0) {
-						List<Users> listUsers = new ArrayList<Users>();
-						listUsers.add(user);
-						Menu menu= new Menu(user);
-						menu.setVisible(true);
-						dispose();
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Erreur d'authentification");
-					}
-				}else {
-					JOptionPane.showMessageDialog(null, "Remplire les deux champs");
-				}
-
-			}
-		});
 		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getComponent()==connecterBtn) {
+			String login = textField.getText();
+			String password = passwordField.getText();
+			AuthentificationController authentificationController = new AuthentificationController();
+			if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
+				Users user;
+				user=authentificationController.authentification(login, password);
+				if(user.getId()>0) {
+					List<Users> listUsers = new ArrayList<Users>();
+					listUsers.add(user);
+					Menu menu= new Menu(user);
+					menu.setVisible(true);
+					dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Erreur d'authentification");
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Remplire les deux champs");
+			}
+		}
+		if(e.getComponent()==exitBtn) {
+			dispose();
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

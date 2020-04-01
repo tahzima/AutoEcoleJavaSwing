@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/com/autoecole/views/personnel/GestionPersonnels.java
-package com.autoecole.views.personnel;
-=======
 package com.autoecole.views.personnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/GestionPersonnels.java
 
 import java.awt.Color;
 
@@ -29,6 +25,7 @@ import com.autoecole.views.Menu;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -39,7 +36,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class GestionPersonnels extends JPanel {
+public class GestionPersonnels extends JPanel implements MouseListener{
 	private JTextField nomTxt;
 	private JTextField prenomTxt;
 	private JTextField cinTxt;
@@ -57,8 +54,9 @@ public class GestionPersonnels extends JPanel {
 	private int idPersonnel;
 	private int rowIndex;
 	private JPanel contentPnl;
-
-	
+	private JLabel photoRechercheLbl;
+	private JLabel supprimerLbl;
+	private JLabel modifierLbl;
 	
 	
 	
@@ -178,25 +176,12 @@ public class GestionPersonnels extends JPanel {
 		cinLbl.setBounds(409, 120, 35, 20);
 		contentPnl.add(cinLbl);
 		
-		JLabel photoRechercheLbl = new JLabel("");
+		photoRechercheLbl = new JLabel("");
 		iconRecherche =  new ImageIcon(this.getClass().getResource("/searche.png")).getImage();
 		photoRechercheLbl.setIcon(new ImageIcon(iconRecherche));
 		photoRechercheLbl.setBounds(602, 114, 36, 40);
 		contentPnl.add(photoRechercheLbl);
-		photoRechercheLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				listPersonnel.clear();
-				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-				SearchPersonnel searchPersonnel = new SearchPersonnel();
-				searchPersonnel.setCin(cinTxt.getText());
-				searchPersonnel.setNom(nomTxt.getText());
-				searchPersonnel.setPrenom(prenomTxt.getText());
-				listPersonnel=gestionPersonnelController.search(searchPersonnel);
-				refresh(listPersonnel);
-			}
-		});
-		
+		photoRechercheLbl.addMouseListener(this);
 		
 		JLabel listPersonnelsLbl = new JLabel("Liste des personnels :");
 		listPersonnelsLbl.setForeground(new Color(143, 188, 143));
@@ -217,45 +202,15 @@ public class GestionPersonnels extends JPanel {
 		ajouterLbl.setBounds(587, 174, 51, 40);
 		contentPnl.add(ajouterLbl);
 		
-		JLabel modifierLbl = new JLabel("");
-		modifierLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
-				modifierPersonnels.setVisible(true);
-			}
-		});
+		modifierLbl = new JLabel("");
+		modifierLbl.addMouseListener(this);
 		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage();
 		modifierLbl.setIcon(new ImageIcon(iconModifier));
 		modifierLbl.setBounds(23, 429, 51, 40);
 		contentPnl.add(modifierLbl);
 		
-		JLabel supprimerLbl = new JLabel("");
-		supprimerLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				rowIndex = table.getSelectedRow();
-				int id;
-				boolean check;
-				if(rowIndex == -1)
-					JOptionPane.showMessageDialog(null,"Vous devez selectionner un Personnel!");
-				else
-				{
-					id = (int)dataPersonnel[rowIndex][9];
-					GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-					check = gestionPersonnelController.delete(id);
-					
-					if(check) {
-						gestionPersonnelController = new GestionPersonnelsController();
-						listPersonnel = gestionPersonnelController.getAll();
-						refresh(listPersonnel);
-						JOptionPane.showMessageDialog(null,"Personnel supprim�!"); 
-					}
-					else
-						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
-				}
-			}
-		});
+		supprimerLbl = new JLabel("");
+		supprimerLbl.addMouseListener(this);
 		iconSupprimer =  new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
 		supprimerLbl.setIcon(new ImageIcon(iconSupprimer));
 		supprimerLbl.setBounds(84, 429, 51, 40);
@@ -287,5 +242,84 @@ public class GestionPersonnels extends JPanel {
 		table= new JTable(tablemodelPersonnel);
 		scrollPane.setViewportView(table);
 
+	}
+
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getComponent()==photoRechercheLbl) {
+			listPersonnel.clear();
+			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			SearchPersonnel searchPersonnel = new SearchPersonnel();
+			searchPersonnel.setCin(cinTxt.getText());
+			searchPersonnel.setNom(nomTxt.getText());
+			searchPersonnel.setPrenom(prenomTxt.getText());
+			listPersonnel=gestionPersonnelController.search(searchPersonnel);
+			refresh(listPersonnel);
+		}
+		if(e.getComponent()==supprimerLbl) {
+			rowIndex = table.getSelectedRow();
+			int id;
+			boolean check;
+			if(rowIndex == -1)
+				JOptionPane.showMessageDialog(null,"Vous devez selectionner un Personnel!");
+			else
+			{
+				id = (int)dataPersonnel[rowIndex][9];
+				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+				check = gestionPersonnelController.delete(id);
+				
+				if(check) {
+					gestionPersonnelController = new GestionPersonnelsController();
+					listPersonnel = gestionPersonnelController.getAll();
+					refresh(listPersonnel);
+					JOptionPane.showMessageDialog(null,"Personnel supprim�!"); 
+				}
+				else
+					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+			}
+		}
+		if(modifierLbl==e.getComponent()) {
+			ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
+			modifierPersonnels.setVisible(true);
+		}
+	}
+
+
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

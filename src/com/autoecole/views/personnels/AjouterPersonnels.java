@@ -1,16 +1,8 @@
-<<<<<<< HEAD:src/com/autoecole/views/personnel/AjouterPersonnels.java
-package com.autoecole.views.personnel;
-=======
 package com.autoecole.views.personnels;
->>>>>>> 5ba55c633d496331a850b1046df772b00065ded3:src/com/autoecole/views/personnels/AjouterPersonnels.java
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -20,23 +12,18 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JTextField;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import com.autoecole.beans.Personnels;
-import com.autoecole.beans.Users;
 import com.autoecole.controller.GestionPersonnelsController;
-import com.sun.xml.internal.ws.assembler.jaxws.MustUnderstandTubeFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AjouterPersonnels extends JFrame {
+public class AjouterPersonnels extends JFrame implements MouseListener {
 
 	private JPanel contentPane;
 	private JTextField nomTxt;
@@ -49,13 +36,17 @@ public class AjouterPersonnels extends JFrame {
 	private Image iconAnnuler;
 	private Image iconRetour;
 	private JTextField salaireTxt;
-
+	private JLabel ajouterImageLbl;
 	JDateChooser dateNaissanceDtc ;
 	JDateChooser dateEmbaucheDtc;
+	private GestionPersonnels gestionPersonnel;
+	private JLabel annulerImagreLbl;
+	private JLabel retourImageLbl;
 	/**
 	 * Create the frame.
 	 */
-	public AjouterPersonnels(GestionPersonnels gestionPersonnel) {
+	public AjouterPersonnels(final GestionPersonnels gestionPersonnel) {
+		this.gestionPersonnel=gestionPersonnel;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 664, 519);
 		contentPane = new JPanel();
@@ -185,76 +176,22 @@ public class AjouterPersonnels extends JFrame {
 		adresseTxt.setBounds(361, 280, 161, 20);
 		contentPnl.add(adresseTxt);
 		
-		JLabel ajouterImageLbl = new JLabel("");
-		ajouterImageLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-				boolean result;
-				Personnels personnel = new Personnels();
-				List<Personnels> listPersonnel = new ArrayList<Personnels>();
-				try {
-					if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbaucheDtc.getDateFormatString()!=null && dateNaissanceDtc.getDateFormatString()!=null && !dateEmbaucheDtc.getDateFormatString().isEmpty() && !dateNaissanceDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numeroTelephoneTxt.getText()!=null && !numeroTelephoneTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
-						java.sql.Date dateN = new java.sql.Date(dateNaissanceDtc.getDate().getTime());
-						java.sql.Date dateE = new java.sql.Date(dateEmbaucheDtc.getDate().getTime());
-						personnel.setPrenom(prenomTxt.getText());
-						personnel.setNom(nomTxt.getText());
-						personnel.setCin(cinTxt.getText());
-						personnel.setAdresse(adresseTxt.getText());
-						personnel.setNumTele(numeroTelephoneTxt.getText());
-						personnel.setPoste(posteTxt.getText());
-						personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
-						personnel.setDateEmbauche(dateE);
-						personnel.setDateNaissance(dateN);
-						result=gestionPersonnelController.add(personnel);
-						if(result==true) {
-							listPersonnel=gestionPersonnelController.getAll();
-							gestionPersonnel.refresh(listPersonnel);
-							JOptionPane.showMessageDialog(null, "Bien Ajouter");
-							dispose();
-						}else {
-							JOptionPane.showMessageDialog(null, "ERROR");
-						}
-					}else {
-						JOptionPane.showMessageDialog(null, "vous devez remplire tous les champes");
-					}
-				}catch(Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+		ajouterImageLbl = new JLabel("");
+		ajouterImageLbl.addMouseListener(this);
 		iconAjouter = new ImageIcon(this.getClass().getResource("/valider.png")).getImage();
 		ajouterImageLbl.setIcon(new ImageIcon(iconAjouter));
 		ajouterImageLbl.setBounds(63, 435, 46, 45);
 		contentPnl.add(ajouterImageLbl);
 		
-		JLabel annulerImagreLbl = new JLabel("");
-		annulerImagreLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				nomTxt.setText(null);
-				prenomTxt.setText(null);
-				cinTxt.setText(null);
-				adresseTxt.setText(null);
-				numeroTelephoneTxt.setText(null);
-				dateNaissanceDtc.setDate(null);
-				dateEmbaucheDtc.setDate(null);
-				posteTxt.setText(null);
-				salaireTxt.setText(null);
-			}
-		});
+		annulerImagreLbl = new JLabel("");
+		annulerImagreLbl.addMouseListener(this);
 		iconAnnuler = new ImageIcon(this.getClass().getResource("/annuler.png")).getImage();
 		annulerImagreLbl.setIcon(new ImageIcon(iconAnnuler));
 		annulerImagreLbl.setBounds(275, 435, 46, 45);
 		contentPnl.add(annulerImagreLbl);
 		
-		JLabel retourImageLbl = new JLabel("");
-		retourImageLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-		});
+		retourImageLbl = new JLabel("");
+		retourImageLbl.addMouseListener(this);
 		iconRetour = new ImageIcon(this.getClass().getResource("/retour.png")).getImage();
 		retourImageLbl.setIcon(new ImageIcon(iconRetour));
 		retourImageLbl.setBounds(496, 435, 46, 45);
@@ -271,5 +208,76 @@ public class AjouterPersonnels extends JFrame {
 		salaireTxt.setColumns(10);
 		salaireTxt.setBounds(361, 404, 161, 20);
 		contentPnl.add(salaireTxt);
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getComponent()==ajouterImageLbl) {
+			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			boolean result;
+			Personnels personnel = new Personnels();
+			List<Personnels> listPersonnel = new ArrayList<Personnels>();
+			try {
+				if(salaireTxt.getText()!=null && !salaireTxt.getText().isEmpty() && dateEmbaucheDtc.getDateFormatString()!=null && dateNaissanceDtc.getDateFormatString()!=null && !dateEmbaucheDtc.getDateFormatString().isEmpty() && !dateNaissanceDtc.getDateFormatString().isEmpty() && nomTxt.getText()!=null && prenomTxt.getText()!=null && posteTxt.getText()!=null && numeroTelephoneTxt.getText()!=null && !numeroTelephoneTxt.getText().isEmpty() && adresseTxt.getText()!=null && cinTxt.getText()!=null) {
+					java.sql.Date dateN = new java.sql.Date(dateNaissanceDtc.getDate().getTime());
+					java.sql.Date dateE = new java.sql.Date(dateEmbaucheDtc.getDate().getTime());
+					personnel.setPrenom(prenomTxt.getText());
+					personnel.setNom(nomTxt.getText());
+					personnel.setCin(cinTxt.getText());
+					personnel.setAdresse(adresseTxt.getText());
+					personnel.setNumTele(numeroTelephoneTxt.getText());
+					personnel.setPoste(posteTxt.getText());
+					personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
+					personnel.setDateEmbauche(dateE);
+					personnel.setDateNaissance(dateN);
+					result=gestionPersonnelController.add(personnel);
+					if(result==true) {
+						listPersonnel=gestionPersonnelController.getAll();
+						gestionPersonnel.refresh(listPersonnel);
+						JOptionPane.showMessageDialog(null, "Bien Ajouter");
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "ERROR");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "vous devez remplire tous les champes");
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		if(e.getComponent()==annulerImagreLbl) {
+			nomTxt.setText(null);
+			prenomTxt.setText(null);
+			cinTxt.setText(null);
+			adresseTxt.setText(null);
+			numeroTelephoneTxt.setText(null);
+			dateNaissanceDtc.setDate(null);
+			dateEmbaucheDtc.setDate(null);
+			posteTxt.setText(null);
+			salaireTxt.setText(null);
+		}
+		if(retourImageLbl==e.getComponent()) {
+			dispose();
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

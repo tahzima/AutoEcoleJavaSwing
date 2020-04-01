@@ -39,6 +39,7 @@ public class GestionVehicules extends JPanel {
 	private List<Vehicules> listVehicule;
 	private int idVehicule;
 	private JTable table;
+	private JScrollPane scrollPan;
 	
 	/**
 	 * Create the panel.
@@ -108,9 +109,9 @@ public class GestionVehicules extends JPanel {
 		lblMatricule.setBounds(408, 122, 61, 20);
 		panel.add(lblMatricule);
 		
-		JScrollPane scroll = new JScrollPane();
-		scroll.setBounds(10, 225, 628, 184);
-		panel.add(scroll);
+		scrollPan = new JScrollPane();
+		scrollPan.setBounds(10, 225, 628, 184);
+		panel.add(scrollPan);
 		
 		JLabel rechercheImageLbl = new JLabel("");
 		rechercheImageLbl.addMouseListener(new MouseAdapter() {
@@ -142,7 +143,7 @@ public class GestionVehicules extends JPanel {
 						}
 						tablemodelVehicule = new DefaultTableModel(dataVehicule,colonnesVehicule);
 						table= new JTable(tablemodelVehicule);
-						scroll.setViewportView(table);
+						scrollPan.setViewportView(table);
 					}else {
 						JOptionPane.showMessageDialog(null, "personnel introuvable");
 					}
@@ -181,7 +182,7 @@ public class GestionVehicules extends JPanel {
 		panel.add(supprimerImageLbl);
 		
 		table = new JTable();
-		scroll.setViewportView(table);
+		scrollPan.setViewportView(table);
 
 		GestionVehiculeController gestionVehiculeController = new GestionVehiculeController();
 		listVehicule=gestionVehiculeController.getAllVehicules();
@@ -204,6 +205,6 @@ public class GestionVehicules extends JPanel {
 		}
 		tablemodelVehicule = new DefaultTableModel(dataVehicule,colonnesVehicule);
 		table= new JTable(tablemodelVehicule);
-		scroll.setViewportView(table);
+		scrollPan.setViewportView(table);
 	}
 }
