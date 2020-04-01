@@ -6,13 +6,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
+<<<<<<< HEAD
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.vehicule.GestionVehicules;
+=======
+import com.autoecole.views.personnel.GestionPersonnels;
+>>>>>>> 8dd0a559b3669a082564cf25479f8d194863e482
 
 import java.awt.CardLayout;
 import java.awt.Color;
 
-import javax.swing.JTextArea;
 import javax.swing.JLabel;
 
 import java.awt.Font;
@@ -175,8 +178,8 @@ public class Menu extends JFrame  implements MouseListener {
 		voitureLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				GestionVehicules gestionVehicule = new GestionVehicules();
-				switchPanels(gestionVehicule);
+			//	GestionVehicules gestionVehicule = new GestionVehicules();
+			//	switchPanels(gestionVehicule);
 			}
 		});
 		voitureLbl.setHorizontalAlignment(SwingConstants.CENTER);
