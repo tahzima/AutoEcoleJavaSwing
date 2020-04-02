@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
 import com.autoecole.beans.Personnels;
-import com.autoecole.controller.GestionPersonnelsController;
+import com.autoecole.controller.PersonnelsController;
 import com.sun.istack.internal.FinalArrayList;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
@@ -219,8 +219,8 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 		nomTxt.disable();
 		prenomTxt.disable();
 		cinTxt.disable();
-		GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-		personnel=gestionPersonnelController.getPersonnelById(idPersonnel);
+		PersonnelsController personnelController = new PersonnelsController();
+		personnel=personnelController.findById(idPersonnel);
 		nomTxt.setText(personnel.getNom());
 		prenomTxt.setText(personnel.getPrenom());
 		cinTxt.setText(personnel.getCin());
@@ -250,7 +250,7 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 			salaireTxt.setText(null);
 		}
 		if(e.getComponent()==imageModifierLbl) {
-			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			PersonnelsController personnelController = new PersonnelsController();
 			boolean result;
 			Personnels personnel = new Personnels();
 			List<Personnels> listPersonnel = new ArrayList<Personnels>();
@@ -268,9 +268,9 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 					personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
 					personnel.setDateEmbauche(dateE);
 					personnel.setDateNaissance(dateN);
-					result=gestionPersonnelController.update(personnel);
+					result=personnelController.update(personnel);
 					if(result==true) {
-						listPersonnel=gestionPersonnelController.getAll();
+						listPersonnel=personnelController.getAll();
 						gestionPersonnel.refresh(listPersonnel);
 						JOptionPane.showMessageDialog(null, "Bien Modifier");
 						dispose();

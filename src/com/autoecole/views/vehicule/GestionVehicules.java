@@ -18,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.autoecole.beans.Vehicules;
-import com.autoecole.controller.GestionVehiculeController;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -114,7 +113,7 @@ public class GestionVehicules extends JPanel {
 		panel.add(scrollPan);
 		
 		JLabel rechercheImageLbl = new JLabel("");
-		rechercheImageLbl.addMouseListener(new MouseAdapter() {
+		/*rechercheImageLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Vehicules vehicule = new Vehicules();
@@ -151,7 +150,7 @@ public class GestionVehicules extends JPanel {
 					JOptionPane.showMessageDialog(null, "vous devez remplire les champs");
 				}
 			}
-		});
+		});*/
 		iconRechercher =  new ImageIcon(this.getClass().getResource("/searche.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		rechercheImageLbl.setIcon(new ImageIcon(iconRechercher));
 		rechercheImageLbl.setBounds(602, 114, 36, 40);
@@ -184,8 +183,8 @@ public class GestionVehicules extends JPanel {
 		table = new JTable();
 		scrollPan.setViewportView(table);
 
-		GestionVehiculeController gestionVehiculeController = new GestionVehiculeController();
-		listVehicule=gestionVehiculeController.getAllVehicules();
+		//GestionVehiculeController gestionVehiculeController = new GestionVehiculeController();
+		//listVehicule=gestionVehiculeController.getAllVehicules();
 		dataSizeVehicule=listVehicule.size();
 		dataVehicule=new Object[dataSizeVehicule][11];
 		for(int k=0;k<dataSizeVehicule;k++)
