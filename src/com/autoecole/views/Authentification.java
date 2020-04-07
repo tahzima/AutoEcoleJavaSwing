@@ -25,14 +25,9 @@ import java.awt.Graphics;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JButton;
-<<<<<<< HEAD
+import javax.swing.JButton
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-=======
-
-import java.awt.event.ActionListener;
->>>>>>> 8dd0a559b3669a082564cf25479f8d194863e482
+import java.awt.event.MouseListener;import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +40,10 @@ public class Authentification extends JFrame implements MouseListener{
 	private JButton connecterBtn;
 	private JButton exitBtn;
 	
-	
-	
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -70,6 +64,7 @@ public class Authentification extends JFrame implements MouseListener{
 		
 		setTitle("AutoEcole Maestro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 818, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,7 +89,11 @@ public class Authentification extends JFrame implements MouseListener{
 		lblPassword.setBounds(61, 217, 157, 28);
 		panel.add(lblPassword);
 		
+<<<<<<< .mine
 		textField = new RoundJTextField("ilyass");
+=======
+		textField = new RoundJTextField("younes");
+>>>>>>> .theirs
 		textField.setBounds(61, 125, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
