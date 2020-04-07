@@ -8,16 +8,21 @@ import javax.swing.border.EmptyBorder;
 import com.autoecole.beans.Users;
 import com.autoecole.views.candidats.GestionCandidats;
 
+import com.autoecole.views.personnels.GestionPersonnels;
+import com.autoecole.views.vehicule.GestionVehicules;
+
 import java.awt.CardLayout;
 import java.awt.Color;
-import javax.swing.JTextArea;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -27,8 +32,7 @@ import java.io.InputStream;
 
 import javax.swing.JLayeredPane;
 
-public class Menu extends JFrame implements MouseListener {
-
+public class Menu extends JFrame implements MouseListener{
 	/*COMPONENETS*/
 	private JPanel frame;
 	private JPanel bigPanel;
@@ -49,11 +53,26 @@ public class Menu extends JFrame implements MouseListener {
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
+	//private JLayeredPane contentLpn;
+	private Image image;
+	private JLayeredPane layeredPane;
+	/**
+	 * Create the frame.
+	 */
 	
 	/*VARIABLES*/
 	private Image image;
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
+	/*public void switchPanels (JPanel panel)
+	{
+		if(layeredPane!=null) {
+			layeredPane.removeAll();
+			layeredPane.add(panel);
+			layeredPane.repaint();
+			layeredPane.revalidate();
+		}
+	}*/
 	
 	public Menu(Users user) {
 		
@@ -157,6 +176,13 @@ public class Menu extends JFrame implements MouseListener {
 		menuPanel.add(voiturePnl);
 		
 		voitureLbl = new JLabel("Voiture");
+		voitureLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			//	GestionVehicules gestionVehicule = new GestionVehicules();
+			//	switchPanels(gestionVehicule);
+			}
+		});
 		voitureLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		voitureLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		voitureLbl.setBounds(0, 0, 150, 31);
@@ -178,6 +204,15 @@ public class Menu extends JFrame implements MouseListener {
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
 		bigPanel.add(layeredPane);
+		layeredPane.setLayout(new CardLayout(0, 0));
+		deconnecterLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Authentification authentification = new Authentification();
+				authentification.setVisible(true);
+				dispose();
+			}
+		});
 	}
 	
 	
@@ -192,7 +227,31 @@ public class Menu extends JFrame implements MouseListener {
 			bigPanel.revalidate();
 		}
 	}
-
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/*ActionListener*/
 	@Override
