@@ -4,7 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -15,8 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.autoecole.beans.Personnels;
-import com.autoecole.controller.GestionPersonnelsController;
+import com.autoecole.controller.PersonnelsController;
 import com.toedter.calendar.JDateChooser;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -212,7 +215,7 @@ public class AjouterPersonnels extends JFrame implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getComponent()==ajouterImageLbl) {
-			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			PersonnelsController gestionPersonnelController = new PersonnelsController();
 			boolean result;
 			Personnels personnel = new Personnels();
 			List<Personnels> listPersonnel = new ArrayList<Personnels>();

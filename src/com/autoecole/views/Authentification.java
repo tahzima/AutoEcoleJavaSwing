@@ -25,7 +25,7 @@ import java.awt.Graphics;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JButton
+import javax.swing.JButton;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
@@ -89,16 +89,12 @@ public class Authentification extends JFrame implements MouseListener{
 		lblPassword.setBounds(61, 217, 157, 28);
 		panel.add(lblPassword);
 		
-<<<<<<< .mine
-		textField = new RoundJTextField("ilyass");
-=======
-		textField = new RoundJTextField("younes");
->>>>>>> .theirs
+		textField = new RoundJTextField("user");
 		textField.setBounds(61, 125, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		passwordField = new RoundJPasswordField("123");
+		passwordField = new RoundJPasswordField("123456");
 		passwordField.setBounds(61, 256, 275, 28);
 		panel.add(passwordField);
 		

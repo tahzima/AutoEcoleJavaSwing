@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
 import com.autoecole.beans.Personnels;
-import com.autoecole.controller.GestionPersonnelsController;
+import com.autoecole.controller.PersonnelsController;
 import com.sun.istack.internal.FinalArrayList;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseAdapter;
@@ -219,8 +219,8 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 		nomTxt.disable();
 		prenomTxt.disable();
 		cinTxt.disable();
-		GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
-		personnel=gestionPersonnelController.getPersonnelById(idPersonnel);
+		PersonnelsController gestionPersonnelController = new PersonnelsController();
+		personnel=gestionPersonnelController.findById(idPersonnel);
 		nomTxt.setText(personnel.getNom());
 		prenomTxt.setText(personnel.getPrenom());
 		cinTxt.setText(personnel.getCin());
@@ -250,7 +250,7 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 			salaireTxt.setText(null);
 		}
 		if(e.getComponent()==imageModifierLbl) {
-			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			PersonnelsController gestionPersonnelController = new PersonnelsController();
 			boolean result;
 			Personnels personnel = new Personnels();
 			List<Personnels> listPersonnel = new ArrayList<Personnels>();

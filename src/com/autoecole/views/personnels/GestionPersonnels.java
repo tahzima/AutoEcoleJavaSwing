@@ -18,7 +18,7 @@ import javax.swing.table.TableModel;
 import com.autoecole.beans.Personnels;
 import com.autoecole.beans.SearchPersonnel;
 import com.autoecole.beans.Users;
-import com.autoecole.controller.GestionPersonnelsController;
+import com.autoecole.controller.PersonnelsController;
 import com.autoecole.views.Menu;
 
 import com.autoecole.views.Menu;
@@ -220,8 +220,8 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		scrollPane.setBounds(10, 234, 628, 184);
 		contentPnl.add(scrollPane);
 		
-		GestionPersonnelsController gestionPersonnelsController = new GestionPersonnelsController();
-		listPersonnel=gestionPersonnelsController.getAll();
+		PersonnelsController PersonnelsController = new PersonnelsController();
+		listPersonnel=PersonnelsController.getAll();
 		dataSizePersonnel=listPersonnel.size();
 		dataPersonnel=new Object[dataSizePersonnel][10];
 		for(int k=0;k<dataSizePersonnel;k++)
@@ -251,7 +251,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if(e.getComponent()==photoRechercheLbl) {
 			listPersonnel.clear();
-			GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+			PersonnelsController gestionPersonnelController = new PersonnelsController();
 			SearchPersonnel searchPersonnel = new SearchPersonnel();
 			searchPersonnel.setCin(cinTxt.getText());
 			searchPersonnel.setNom(nomTxt.getText());
@@ -268,11 +268,11 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 			else
 			{
 				id = (int)dataPersonnel[rowIndex][9];
-				GestionPersonnelsController gestionPersonnelController = new GestionPersonnelsController();
+				PersonnelsController gestionPersonnelController = new PersonnelsController();
 				check = gestionPersonnelController.delete(id);
 				
 				if(check) {
-					gestionPersonnelController = new GestionPersonnelsController();
+					gestionPersonnelController = new PersonnelsController();
 					listPersonnel = gestionPersonnelController.getAll();
 					refresh(listPersonnel);
 					JOptionPane.showMessageDialog(null,"Personnel supprim�!"); 

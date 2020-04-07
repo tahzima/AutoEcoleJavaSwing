@@ -127,7 +127,7 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 		}
 		candidatsTableModel = new DefaultTableModel(rows,columns);
 
-		//Création du JTable
+		//Crï¿½ation du JTable
 		candidatsTable = new JTable(candidatsTableModel);
 		scroll = new JScrollPane(candidatsTable);
 		scroll.setBounds(10, 219, 641,199);
