@@ -220,6 +220,7 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 		prenomTxt.disable();
 		cinTxt.disable();
 		PersonnelsController personnelController = new PersonnelsController();
+		personnel= new Personnels();
 		personnel=personnelController.findById(idPersonnel);
 		nomTxt.setText(personnel.getNom());
 		prenomTxt.setText(personnel.getPrenom());

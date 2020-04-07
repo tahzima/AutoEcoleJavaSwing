@@ -60,9 +60,6 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 	
 	
 	
-	
-	
-	
 	public void refresh(List<Personnels> list) {
 		
 		int k = list.size();
@@ -98,7 +95,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		
 		contentPnl = new JPanel();
 		contentPnl.setBackground(Color.decode("#34495e"));
-		contentPnl.setBounds(0, 0, Menu.WIDTH_SCREEN-160, Menu.HEIGHT_SCREEN);
+		contentPnl.setBounds(0, 0, 650, 492);
 		add(contentPnl);
 		contentPnl.setLayout(null);
 		
@@ -275,15 +272,20 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 					personnelController = new PersonnelsController();
 					listPersonnel = personnelController.getAll();
 					refresh(listPersonnel);
-					JOptionPane.showMessageDialog(null,"Personnel supprim�!"); 
+					JOptionPane.showMessageDialog(null,"Personnel supprimier!"); 
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
 			}
 		}
 		if(modifierLbl==e.getComponent()) {
-			ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
-			modifierPersonnels.setVisible(true);
+			if(table.getSelectedRow()>=0) {
+				idPersonnel=listPersonnel.get(table.getSelectedRow()).getId();
+				ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
+				modifierPersonnels.setVisible(true);
+			}
+			else
+				JOptionPane.showMessageDialog(null,"Vous devez selectionnez un personnel!");
 		}
 	}
 

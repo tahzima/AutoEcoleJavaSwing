@@ -47,7 +47,6 @@ public class Menu extends JFrame  implements MouseListener {
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
-	//private JLayeredPane contentLpn;
 	private Image image;
 	private JLayeredPane layeredPane;
 	/**
@@ -56,15 +55,6 @@ public class Menu extends JFrame  implements MouseListener {
 	
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
-	/*public void switchPanels (JPanel panel)
-	{
-		if(layeredPane!=null) {
-			layeredPane.removeAll();
-			layeredPane.add(panel);
-			layeredPane.repaint();
-			layeredPane.revalidate();
-		}
-	}*/
 	
 	public Menu(Users user) {
 		
@@ -174,8 +164,8 @@ public class Menu extends JFrame  implements MouseListener {
 		voitureLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			//	GestionVehicules gestionVehicule = new GestionVehicules();
-			//	switchPanels(gestionVehicule);
+				GestionVehicules gestionVehicule = new GestionVehicules();
+				switchPanels(gestionVehicule);
 			}
 		});
 		voitureLbl.setHorizontalAlignment(SwingConstants.CENTER);

@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -17,13 +19,20 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import com.autoecole.beans.Personnels;
+import com.autoecole.beans.SearcheVehicule;
 import com.autoecole.beans.Vehicules;
+import com.autoecole.controller.PersonnelsController;
+import com.autoecole.controller.VehiculeController;
+import com.autoecole.views.personnels.GestionPersonnels;
+import com.autoecole.views.personnels.ModifierPersonnels;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class GestionVehicules extends JPanel {
+public class GestionVehicules extends JPanel implements MouseListener{
 	private JTextField typeTxt;
 	private JTextField marqueTxt;
 	private JTextField matriculeTxt;
@@ -39,13 +48,44 @@ public class GestionVehicules extends JPanel {
 	private int idVehicule;
 	private JTable table;
 	private JScrollPane scrollPan;
+	private JLabel rechercheImageLbl;
+	private JLabel modifierImageLbl;
+	private JLabel supprimerImageLbl;
+	private JLabel ajouterImageLbl;;
+	private int rowIndex;
 	
+	
+	public void refresh(List<Vehicules> list) {
+		
+		int k = list.size();
+		dataVehicule = new Object[k][11];
+		dataSizeVehicule=list.size();
+		dataVehicule=new Object[dataSizeVehicule][11];
+		
+		for(k=0;k<dataSizeVehicule;k++)
+		{
+			dataVehicule[k][0]=list.get(k).getType();
+			dataVehicule[k][1]=list.get(k).getMarque();
+			dataVehicule[k][2]=list.get(k).getModele();
+			dataVehicule[k][3]=list.get(k).getNbPlace();
+			dataVehicule[k][4]=list.get(k).getTypeCarburant();
+			dataVehicule[k][5]=list.get(k).getMatricule();
+			dataVehicule[k][6]=list.get(k).getPuissanceFiscale();
+			dataVehicule[k][7]=list.get(k).getAssurance();
+			dataVehicule[k][8]=list.get(k).getDateLimiteAssurance();
+			dataVehicule[k][9]=list.get(k).getKmVidange();
+			idVehicule=list.get(k).getId();
+			dataVehicule[k][10]=idVehicule;
+		}
+		tablemodelVehicule = new DefaultTableModel(dataVehicule,colonnesVehicule);
+		table= new JTable(tablemodelVehicule);
+		scrollPan.setViewportView(table);
+	}
 	/**
 	 * Create the panel.
 	 */
 	public GestionVehicules() {
 		setLayout(null);
-		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(52, 73, 94));
@@ -62,7 +102,7 @@ public class GestionVehicules extends JPanel {
 		separateurPnl2.setBounds(0, 153, 648, 10);
 		panel.add(separateurPnl2);
 		
-		JLabel gestionVoiture = new JLabel("Gestion Voitures");
+		JLabel gestionVoiture = new JLabel("Gestion Vehicules");
 		gestionVoiture.setHorizontalAlignment(SwingConstants.CENTER);
 		gestionVoiture.setForeground(new Color(143, 188, 143));
 		gestionVoiture.setFont(new Font("Oswald", Font.BOLD | Font.ITALIC, 18));
@@ -82,6 +122,13 @@ public class GestionVehicules extends JPanel {
 		panel.add(rechercheLbl);
 		
 		typeTxt = new JTextField();
+		typeTxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				marqueTxt.setEnabled(true);
+				matriculeTxt.setEnabled(false);
+			}
+		});
 		typeTxt.setColumns(10);
 		typeTxt.setBounds(77, 124, 86, 20);
 		panel.add(typeTxt);
@@ -90,16 +137,32 @@ public class GestionVehicules extends JPanel {
 		marqueLbl.setForeground(new Color(143, 188, 143));
 		marqueLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
 		marqueLbl.setBounds(213, 122, 50, 20);
+		
 		panel.add(marqueLbl);
+		
 		
 		marqueTxt = new JTextField();
 		marqueTxt.setColumns(10);
 		marqueTxt.setBounds(273, 124, 86, 20);
+		marqueTxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				typeTxt.setEditable(true);
+				matriculeTxt.setEditable(false);
+			}
+		});
 		panel.add(marqueTxt);
 		
 		matriculeTxt = new JTextField();
 		matriculeTxt.setColumns(10);
 		matriculeTxt.setBounds(480, 124, 86, 20);
+		matriculeTxt.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				marqueTxt.setEnabled(false);
+				typeTxt.setEnabled(false);
+			}
+		});
 		panel.add(matriculeTxt);
 		
 		JLabel lblMatricule = new JLabel("Matricule :");
@@ -112,46 +175,9 @@ public class GestionVehicules extends JPanel {
 		scrollPan.setBounds(10, 225, 628, 184);
 		panel.add(scrollPan);
 		
-		JLabel rechercheImageLbl = new JLabel("");
-		/*rechercheImageLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Vehicules vehicule = new Vehicules();
-				GestionVehiculeController gestionVehiculeController = new GestionVehiculeController();
-				if((!typeTxt.getText().isEmpty()) && !marqueTxt.getText().isEmpty() && !matriculeTxt.getText().isEmpty()) {
-					vehicule=gestionVehiculeController.getPersonnelsByTypeMarqueMatricule(typeTxt.getText(), marqueTxt.getText(), matriculeTxt.getText());
-					if(vehicule!=null) {
-						listVehicule.clear();
-						listVehicule.add(vehicule);
-						dataSizeVehicule=listVehicule.size();
-						dataVehicule=new Object[dataSizeVehicule][11];
-						for(int k=0;k<dataSizeVehicule;k++)
-						{
-							dataVehicule[k][0]=listVehicule.get(k).getType();
-							dataVehicule[k][1]=listVehicule.get(k).getMarque();
-							dataVehicule[k][2]=listVehicule.get(k).getModele();
-							dataVehicule[k][3]=listVehicule.get(k).getNbPlace();
-							dataVehicule[k][4]=listVehicule.get(k).getTypeCarburant();
-							dataVehicule[k][5]=listVehicule.get(k).getMatricule();
-							dataVehicule[k][6]=listVehicule.get(k).getPuissanceFiscale();
-							dataVehicule[k][7]=listVehicule.get(k).getAssurance();
-							dataVehicule[k][8]=listVehicule.get(k).getDateLimiteAssurance();
-							dataVehicule[k][9]=listVehicule.get(k).getKmVidange();
-							idVehicule=listVehicule.get(k).getId();
-							dataVehicule[k][10]=idVehicule;
-						}
-						tablemodelVehicule = new DefaultTableModel(dataVehicule,colonnesVehicule);
-						table= new JTable(tablemodelVehicule);
-						scrollPan.setViewportView(table);
-					}else {
-						JOptionPane.showMessageDialog(null, "personnel introuvable");
-					}
-				}else {
-					JOptionPane.showMessageDialog(null, "vous devez remplire les champs");
-				}
-			}
-		});*/
-		iconRechercher =  new ImageIcon(this.getClass().getResource("/searche.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		rechercheImageLbl = new JLabel("");
+		rechercheImageLbl.addMouseListener(this);
+		iconRechercher =  new ImageIcon(this.getClass().getResource("/searche.png")).getImage();
 		rechercheImageLbl.setIcon(new ImageIcon(iconRechercher));
 		rechercheImageLbl.setBounds(602, 114, 36, 40);
 		panel.add(rechercheImageLbl);
@@ -162,20 +188,24 @@ public class GestionVehicules extends JPanel {
 		listVoitureLbl.setBounds(23, 183, 125, 31);
 		panel.add(listVoitureLbl);
 		
-		JLabel ajouterImageLbl = new JLabel("");
+		ajouterImageLbl = new JLabel("");
+		ajouterImageLbl.addMouseListener(this);
 		iconAjouter =  new ImageIcon(this.getClass().getResource("/ajouter.png")).getImage();
 		ajouterImageLbl.setIcon(new ImageIcon(iconAjouter));
 		ajouterImageLbl.setBounds(587, 174, 51, 40);
 		panel.add(ajouterImageLbl);
 		
-		JLabel modifierImageLbl = new JLabel("");
+		modifierImageLbl = new JLabel("");
+		modifierImageLbl.addMouseListener(this);
 		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage();
 		modifierImageLbl.setIcon(new ImageIcon(iconModifier));
 		modifierImageLbl.setBounds(23, 429, 51, 40);
 		panel.add(modifierImageLbl);
 		
-		JLabel supprimerImageLbl = new JLabel("");
+		supprimerImageLbl = new JLabel("");
 		iconSupprimer =  new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
+		supprimerImageLbl.addMouseListener(this);
+		
 		supprimerImageLbl.setIcon(new ImageIcon(iconSupprimer));
 		supprimerImageLbl.setBounds(84, 429, 51, 40);
 		panel.add(supprimerImageLbl);
@@ -183,27 +213,84 @@ public class GestionVehicules extends JPanel {
 		table = new JTable();
 		scrollPan.setViewportView(table);
 
-		//GestionVehiculeController gestionVehiculeController = new GestionVehiculeController();
-		//listVehicule=gestionVehiculeController.getAllVehicules();
-		dataSizeVehicule=listVehicule.size();
-		dataVehicule=new Object[dataSizeVehicule][11];
-		for(int k=0;k<dataSizeVehicule;k++)
-		{
-			dataVehicule[k][0]=listVehicule.get(k).getType();
-			dataVehicule[k][1]=listVehicule.get(k).getMarque();
-			dataVehicule[k][2]=listVehicule.get(k).getModele();
-			dataVehicule[k][3]=listVehicule.get(k).getNbPlace();
-			dataVehicule[k][4]=listVehicule.get(k).getTypeCarburant();
-			dataVehicule[k][5]=listVehicule.get(k).getMatricule();
-			dataVehicule[k][6]=listVehicule.get(k).getPuissanceFiscale();
-			dataVehicule[k][7]=listVehicule.get(k).getAssurance();
-			dataVehicule[k][8]=listVehicule.get(k).getDateLimiteAssurance();
-			dataVehicule[k][9]=listVehicule.get(k).getKmVidange();
-			idVehicule=listVehicule.get(k).getId();
-			dataVehicule[k][10]=idVehicule;
+		VehiculeController vehiculeController = new VehiculeController();
+		listVehicule=vehiculeController.getAll();
+		refresh(listVehicule);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(rechercheImageLbl==e.getComponent()) {
+			VehiculeController vehiculeController = new VehiculeController();
+			SearcheVehicule params = new SearcheVehicule();
+			params.setType(typeTxt.getText());
+			params.setMarque(marqueTxt.getText());
+			params.setMatricule(matriculeTxt.getText());
+			if((!typeTxt.getText().isEmpty()) || !marqueTxt.getText().isEmpty() || !matriculeTxt.getText().isEmpty()) {
+				listVehicule.clear();
+				listVehicule=vehiculeController.search(params);;
+				refresh(listVehicule);
+			}else {
+				JOptionPane.showMessageDialog(null, "vehicule introuvable");
+			}
 		}
-		tablemodelVehicule = new DefaultTableModel(dataVehicule,colonnesVehicule);
-		table= new JTable(tablemodelVehicule);
-		scrollPan.setViewportView(table);
+		if(supprimerImageLbl==e.getComponent()) {
+			rowIndex = table.getSelectedRow();
+			int id;
+			boolean check;
+			if(rowIndex == -1)
+				JOptionPane.showMessageDialog(null,"Vous devez selectionner un vehicule!");
+			else
+			{
+				id = listVehicule.get(rowIndex).getId();
+				VehiculeController vehiculeController = new VehiculeController();
+				check = vehiculeController.delete(id);
+				if(check==true) {
+					vehiculeController = new VehiculeController();
+					listVehicule.clear();
+					listVehicule = vehiculeController.getAll();
+					refresh(listVehicule);
+					JOptionPane.showMessageDialog(null,"Vehicule supprimier!"); 
+				}
+				else
+					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+			}
+		}
+		if(modifierImageLbl==e.getComponent()) {
+			if(table.getSelectedRow()>=0) {
+				idVehicule=listVehicule.get(table.getSelectedRow()).getId();
+				ModifierVehicule modifierVehicule = new ModifierVehicule(idVehicule,GestionVehicules.this);
+				modifierVehicule.setVisible(true);
+			}
+			else
+				JOptionPane.showMessageDialog(null,"Vous devez selectionnez un Vehicule!");
+		}
+		if(ajouterImageLbl==e.getComponent()) {
+			AjouterVehicule ajouterVehicule = new AjouterVehicule(GestionVehicules.this);
+			ajouterVehicule.setVisible(true);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
