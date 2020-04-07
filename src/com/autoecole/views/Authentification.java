@@ -14,6 +14,8 @@ import com.autoecole.beans.Users;
 import com.autoecole.controller.AuthentificationController;
 
 
+import com.autoecole.views.Menu;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -24,6 +26,7 @@ import java.awt.Graphics;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class Authentification extends JFrame {
 		
 		setTitle("AutoEcole Maestro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 818, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -125,7 +129,6 @@ public class Authentification extends JFrame {
 				if((login!=null && password!=null) && (!login.isEmpty()) && (!password.isEmpty())) {
 					Users user;
 					user=authentificationController.authentification(login, password);
-					JOptionPane.showMessageDialog(null, ""+user.getLogin());
 					if(user.getId()>0) {
 						List<Users> listUsers = new ArrayList<Users>();
 						listUsers.add(user);

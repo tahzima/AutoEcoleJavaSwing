@@ -1,6 +1,6 @@
 package com.autoecole.beans;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Candidats {
 
@@ -54,6 +54,7 @@ public class Candidats {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
+	
 	
 	
 	
