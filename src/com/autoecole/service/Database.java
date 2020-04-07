@@ -5,13 +5,15 @@ import java.sql.DriverManager;
 
 public class Database {
 	private static Database instance = new Database();
-	public static Database getInstance() {
-		return instance;
-	}
 	private java.lang.String url = "jdbc:mysql://localhost:3306/autoecole?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC";
 	private java.lang.String user = "root";
 	private java.lang.String passwd = "";
 	private Connection conexion;
+	
+	public static Database getInstance() {
+		return instance;
+	}
+	
 	private Database() {
 		if (conexion == null) {
 			try {
@@ -22,6 +24,7 @@ public class Database {
 			}
 		}
 	}
+	
 	public Connection getConexion() {
 		return conexion;
 	}

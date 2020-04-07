@@ -12,15 +12,17 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+import com.toedter.calendar.JDateChooser;
 
 public class AjouterPersonnels extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField nomTxt;
+	private JTextField prenomTxt;
+	private JTextField cinTxt;
+	private JTextField posteTxt;
+	private JTextField numeroTelephoneTxt;
+	private JTextField adresseTxt;
 
 	/**
 	 * Create the frame.
@@ -96,12 +98,12 @@ public class AjouterPersonnels extends JFrame {
 		adresseLbl.setBounds(63, 283, 154, 20);
 		contentPnl.add(adresseLbl);
 		
-		JLabel nnumeroTeleLbl = new JLabel("Numero de Telephone :");
-		nnumeroTeleLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		nnumeroTeleLbl.setForeground(new Color(143, 188, 143));
-		nnumeroTeleLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		nnumeroTeleLbl.setBounds(63, 314, 154, 20);
-		contentPnl.add(nnumeroTeleLbl);
+		JLabel numeroTeleLbl = new JLabel("Numero de Telephone :");
+		numeroTeleLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		numeroTeleLbl.setForeground(new Color(143, 188, 143));
+		numeroTeleLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		numeroTeleLbl.setBounds(63, 314, 154, 20);
+		contentPnl.add(numeroTeleLbl);
 		
 		JLabel posteLbl = new JLabel("Poste :");
 		posteLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -117,30 +119,54 @@ public class AjouterPersonnels extends JFrame {
 		dateEmbLbl.setBounds(63, 376, 154, 20);
 		contentPnl.add(dateEmbLbl);
 		
-		textField = new JTextField();
-		textField.setBounds(361, 161, 161, 20);
-		contentPnl.add(textField);
-		textField.setColumns(10);
+		nomTxt = new JTextField();
+		nomTxt.setBounds(361, 161, 161, 20);
+		contentPnl.add(nomTxt);
+		nomTxt.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(361, 192, 161, 20);
-		contentPnl.add(textField_1);
+		prenomTxt = new JTextField();
+		prenomTxt.setColumns(10);
+		prenomTxt.setBounds(361, 192, 161, 20);
+		contentPnl.add(prenomTxt);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(361, 254, 161, 20);
-		contentPnl.add(textField_2);
+		cinTxt = new JTextField();
+		cinTxt.setColumns(10);
+		cinTxt.setBounds(361, 254, 161, 20);
+		contentPnl.add(cinTxt);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(361, 347, 161, 20);
-		contentPnl.add(textField_3);
+		posteTxt = new JTextField();
+		posteTxt.setColumns(10);
+		posteTxt.setBounds(361, 347, 161, 20);
+		contentPnl.add(posteTxt);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(361, 316, 161, 20);
-		contentPnl.add(textField_4);
+		numeroTelephoneTxt = new JTextField();
+		numeroTelephoneTxt.setColumns(10);
+		numeroTelephoneTxt.setBounds(361, 316, 161, 20);
+		contentPnl.add(numeroTelephoneTxt);
+		
+		JDateChooser dateNaissanceDtc = new JDateChooser();
+		dateNaissanceDtc.setBounds(361, 221, 161, 20);
+		contentPnl.add(dateNaissanceDtc);
+		
+		JDateChooser dateEmbaucheDtc = new JDateChooser();
+		dateEmbaucheDtc.setBounds(361, 376, 161, 20);
+		contentPnl.add(dateEmbaucheDtc);
+		
+		adresseTxt = new JTextField();
+		adresseTxt.setColumns(10);
+		adresseTxt.setBounds(361, 285, 161, 20);
+		contentPnl.add(adresseTxt);
+		
+		JLabel ajouterImageLbl = new JLabel("");
+		ajouterImageLbl.setBounds(143, 438, 46, 14);
+		contentPnl.add(ajouterImageLbl);
+		
+		JLabel annulerImagreLbl = new JLabel("");
+		annulerImagreLbl.setBounds(294, 438, 46, 14);
+		contentPnl.add(annulerImagreLbl);
+		
+		JLabel retourImageLbl = new JLabel("");
+		retourImageLbl.setBounds(494, 438, 46, 14);
+		contentPnl.add(retourImageLbl);
 	}
-
 }
