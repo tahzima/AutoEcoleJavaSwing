@@ -7,9 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
 import com.autoecole.views.candidats.GestionCandidats;
-
 import com.autoecole.views.personnels.GestionPersonnels;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 
@@ -50,6 +48,8 @@ public class Menu extends JFrame implements MouseListener{
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
+	private Image image;
+	private JLayeredPane layeredPane;
 	/**
 	 * Create the frame.
 	 */
@@ -58,15 +58,6 @@ public class Menu extends JFrame implements MouseListener{
 	private Image image;
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
-	/*public void switchPanels (JPanel panel)
-	{
-		if(layeredPane!=null) {
-			layeredPane.removeAll();
-			layeredPane.add(panel);
-			layeredPane.repaint();
-			layeredPane.revalidate();
-		}
-	}*/
 	
 	public Menu(Users user) {
 		
