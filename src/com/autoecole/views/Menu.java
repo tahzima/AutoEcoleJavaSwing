@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
 import com.autoecole.views.candidats.GestionCandidats;
-
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
 
@@ -52,6 +51,8 @@ public class Menu extends JFrame implements MouseListener{
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
+	private Image image;
+	private JLayeredPane layeredPane;
 	/**
 	 * Create the frame.
 	 */
