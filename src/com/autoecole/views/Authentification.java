@@ -27,9 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +40,10 @@ public class Authentification extends JFrame implements MouseListener{
 	private JButton connecterBtn;
 	private JButton exitBtn;
 	
-	
-	
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -67,6 +64,7 @@ public class Authentification extends JFrame implements MouseListener{
 		
 		setTitle("AutoEcole Maestro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 818, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,12 +89,12 @@ public class Authentification extends JFrame implements MouseListener{
 		lblPassword.setBounds(61, 217, 157, 28);
 		panel.add(lblPassword);
 		
-		textField = new RoundJTextField("ilyass");
+		textField = new RoundJTextField("user");
 		textField.setBounds(61, 125, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		passwordField = new RoundJPasswordField("123");
+		passwordField = new RoundJPasswordField("123456");
 		passwordField.setBounds(61, 256, 275, 28);
 		panel.add(passwordField);
 		

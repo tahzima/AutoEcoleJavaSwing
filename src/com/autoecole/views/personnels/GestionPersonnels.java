@@ -60,6 +60,9 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 	
 	
 	
+	
+	
+	
 	public void refresh(List<Personnels> list) {
 		
 		int k = list.size();
@@ -95,7 +98,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		
 		contentPnl = new JPanel();
 		contentPnl.setBackground(Color.decode("#34495e"));
-		contentPnl.setBounds(0, 0, 650, 492);
+		contentPnl.setBounds(0, 0, Menu.WIDTH_SCREEN-160, Menu.HEIGHT_SCREEN);
 		add(contentPnl);
 		contentPnl.setLayout(null);
 		
@@ -217,8 +220,8 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		scrollPane.setBounds(10, 234, 628, 184);
 		contentPnl.add(scrollPane);
 		
-		PersonnelsController personnelController = new PersonnelsController();
-		listPersonnel=personnelController.getAll();
+		PersonnelsController PersonnelsController = new PersonnelsController();
+		listPersonnel=PersonnelsController.getAll();
 		dataSizePersonnel=listPersonnel.size();
 		dataPersonnel=new Object[dataSizePersonnel][10];
 		for(int k=0;k<dataSizePersonnel;k++)
@@ -248,12 +251,12 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if(e.getComponent()==photoRechercheLbl) {
 			listPersonnel.clear();
-			PersonnelsController personnelController = new PersonnelsController();
+			PersonnelsController gestionPersonnelController = new PersonnelsController();
 			SearchPersonnel searchPersonnel = new SearchPersonnel();
 			searchPersonnel.setCin(cinTxt.getText());
 			searchPersonnel.setNom(nomTxt.getText());
 			searchPersonnel.setPrenom(prenomTxt.getText());
-			listPersonnel=personnelController.search(searchPersonnel);
+			listPersonnel=gestionPersonnelController.search(searchPersonnel);
 			refresh(listPersonnel);
 		}
 		if(e.getComponent()==supprimerLbl) {
@@ -265,27 +268,22 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 			else
 			{
 				id = (int)dataPersonnel[rowIndex][9];
-				PersonnelsController personnelController = new PersonnelsController();
-				check = personnelController.delete(id);
+				PersonnelsController gestionPersonnelController = new PersonnelsController();
+				check = gestionPersonnelController.delete(id);
 				
 				if(check) {
-					personnelController = new PersonnelsController();
-					listPersonnel = personnelController.getAll();
+					gestionPersonnelController = new PersonnelsController();
+					listPersonnel = gestionPersonnelController.getAll();
 					refresh(listPersonnel);
-					JOptionPane.showMessageDialog(null,"Personnel supprimier!"); 
+					JOptionPane.showMessageDialog(null,"Personnel supprim�!"); 
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
 			}
 		}
 		if(modifierLbl==e.getComponent()) {
-			if(table.getSelectedRow()>=0) {
-				idPersonnel=listPersonnel.get(table.getSelectedRow()).getId();
-				ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
-				modifierPersonnels.setVisible(true);
-			}
-			else
-				JOptionPane.showMessageDialog(null,"Vous devez selectionnez un personnel!");
+			ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
+			modifierPersonnels.setVisible(true);
 		}
 	}
 

@@ -6,9 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
+import com.autoecole.views.candidats.GestionCandidats;
 import com.autoecole.views.personnels.GestionPersonnels;
-import com.autoecole.views.vehicule.GestionVehicules;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 
@@ -19,29 +18,31 @@ import java.awt.Image;
 
 import javax.swing.SwingConstants;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLayeredPane;
 
-public class Menu extends JFrame  implements MouseListener {
-
+public class Menu extends JFrame implements MouseListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/*COMPONENETS*/
 	private JPanel frame;
 	private JPanel bigPanel;
 	private JPanel menuPanel;
 	private JPanel userPnl;
-	private JPanel clientPnl;
+	private JPanel candidatPnl;
 	private JPanel personnelPnl;
 	private JPanel examenPnl;
 	private JPanel voiturePnl;
-	
-
+	private JLayeredPane layeredPane;
 	private JLabel autoecoleLbl;
 	private JLabel maestroLbl;
 	private JLabel userLbl;
 	private JLabel userLogoLbl;
-	private JLabel clientLbl;
+	private JLabel candidatLbl;
 	private JLabel personnelLbl;
 	private JLabel examenLbl;
 	private JLabel voitureLbl;
@@ -53,23 +54,27 @@ public class Menu extends JFrame  implements MouseListener {
 	 * Create the frame.
 	 */
 	
+	/*VARIABLES*/
+	private Image image;
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
 	
 	public Menu(Users user) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 817,521);
+		setLocationRelativeTo(null);
+		setBounds(100, 100, 821,513);
 		frame = new JPanel();
 		frame.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(frame);
 		frame.setLayout(null);
+		setContentPane(frame);
 		
 		bigPanel = new JPanel();
 		bigPanel.setBackground(Color.decode("#34495e"));
 		bigPanel.setBounds(0, 0, WIDTH_SCREEN,HEIGHT_SCREEN);
-		frame.add(bigPanel);
 		bigPanel.setLayout(null);
+		frame.add(bigPanel);
+		
 		
 		menuPanel = new JPanel();
 		menuPanel.setBackground(Color.decode("#7ed6df"));
@@ -94,8 +99,8 @@ public class Menu extends JFrame  implements MouseListener {
 		userPnl = new JPanel();
 		userPnl.setBackground(Color.decode("#22a6b3"));
 		userPnl.setBounds(0, 80, 150, 88);
-		menuPanel.add(userPnl);
 		userPnl.setLayout(null);
+		menuPanel.add(userPnl);
 		
 		userLbl = new JLabel(""+user.getLogin());
 		userLbl.setBounds(0, 51, 150, 37);
@@ -111,42 +116,37 @@ public class Menu extends JFrame  implements MouseListener {
 		userLogoLbl.setBounds(0, 0, 150, 59);
 		userPnl.add(userLogoLbl);
 		
-		clientPnl = new JPanel();
-		clientPnl.setBackground(Color.decode("#22a6b3"));
-		clientPnl.setBounds(0, 179, 150, 31);
-		menuPanel.add(clientPnl);
-		clientPnl.setLayout(null);
+		candidatPnl = new JPanel();
+		candidatPnl.setBackground(Color.decode("#22a6b3"));
+		candidatPnl.setBounds(0, 179, 150, 31);
+		menuPanel.add(candidatPnl);
+		candidatPnl.setLayout(null);
 		
-		clientLbl = new JLabel("Client");
-		clientLbl.setFont(new Font("Oswald", Font.BOLD, 18));
-		clientLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		clientLbl.setBounds(0, 0, 150, 31);
-		clientPnl.add(clientLbl);
+		candidatLbl = new JLabel("Candidat");
+		candidatLbl.addMouseListener(this);
+		candidatLbl.setFont(new Font("Oswald", Font.BOLD, 18));
+		candidatLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		candidatLbl.setBounds(0, 0, 150, 31);
+		candidatPnl.add(candidatLbl);
 		
 		personnelPnl = new JPanel();
 		personnelPnl.setBackground(Color.decode("#22a6b3"));
 		personnelPnl.setBounds(0, 221, 150, 31);
-		menuPanel.add(personnelPnl);
 		personnelPnl.setLayout(null);
+		menuPanel.add(personnelPnl);
 		
 		personnelLbl = new JLabel("Personnel");
 		personnelLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		personnelLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		personnelLbl.setBounds(0, 0, 150, 31);
+		personnelLbl.addMouseListener(this);
 		personnelPnl.add(personnelLbl);
-		personnelLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GestionPersonnels gestionPersonnels = new GestionPersonnels();
-				switchPanels(gestionPersonnels);
-			}
-		});
 		
 		examenPnl = new JPanel();
 		examenPnl.setBackground(Color.decode("#22a6b3"));
 		examenPnl.setBounds(0, 263, 150, 31);
-		menuPanel.add(examenPnl);
 		examenPnl.setLayout(null);
+		menuPanel.add(examenPnl);
 		
 		examenLbl = new JLabel("Examen");
 		examenLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -157,17 +157,11 @@ public class Menu extends JFrame  implements MouseListener {
 		voiturePnl = new JPanel();
 		voiturePnl.setBackground(Color.decode("#22a6b3"));
 		voiturePnl.setBounds(0, 305, 150, 31);
-		menuPanel.add(voiturePnl);
 		voiturePnl.setLayout(null);
+		menuPanel.add(voiturePnl);
 		
 		voitureLbl = new JLabel("Voiture");
-		voitureLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GestionVehicules gestionVehicule = new GestionVehicules();
-				switchPanels(gestionVehicule);
-			}
-		});
+		voitureLbl.addMouseListener(this);
 		voitureLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		voitureLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		voitureLbl.setBounds(0, 0, 150, 31);
@@ -176,30 +170,26 @@ public class Menu extends JFrame  implements MouseListener {
 		deconnecterPnl = new JPanel();
 		deconnecterPnl.setBackground(Color.decode("#22a6b3"));
 		deconnecterPnl.setBounds(0, 438, 150, 31);
-		menuPanel.add(deconnecterPnl);
 		deconnecterPnl.setLayout(null);
+		menuPanel.add(deconnecterPnl);
 		
 		deconnecterLbl = new JLabel("Deconnecter");
 		deconnecterLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		deconnecterLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		deconnecterLbl.setBounds(0, 0, 150, 31);
+		deconnecterLbl.addMouseListener(this);
 		deconnecterPnl.add(deconnecterLbl);
 		
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
 		bigPanel.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
-		deconnecterLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Authentification authentification = new Authentification();
-				authentification.setVisible(true);
-				dispose();
-			}
-		});
+		deconnecterLbl.addMouseListener(this);
 	}
-	public void switchPanels (JPanel panel)
-	{
+	
+	
+	/*Navigation Menu*/
+	public void switchPanels (JPanel panel) {
 		if(bigPanel!=null) {
 			bigPanel.removeAll();
 			bigPanel.add(menuPanel);
@@ -209,30 +199,53 @@ public class Menu extends JFrame  implements MouseListener {
 			bigPanel.revalidate();
 		}
 	}
+	
+	/*ActionListener*/
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		//Candidat Menu Item
+		if(e.getComponent() == candidatLbl) {
+			GestionCandidats gestionCandidats = new GestionCandidats();
+			switchPanels(gestionCandidats);
+		}
+		//Personnel Menu Item
+		else if(e.getComponent() == personnelLbl) {
+			GestionPersonnels gestionPersonnels = new GestionPersonnels();
+			switchPanels(gestionPersonnels);
+		}
+		//Deconnexion Menu Item
+		else if(e.getComponent() == deconnecterLbl) {
+			Authentification authentification = new Authentification();
+			authentification.setVisible(true);
+			dispose();
+		}
 	}
+
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
+	}	
 }

@@ -4,7 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -17,6 +19,7 @@ import javax.swing.SwingConstants;
 import com.autoecole.beans.Personnels;
 import com.autoecole.controller.PersonnelsController;
 import com.toedter.calendar.JDateChooser;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -212,7 +215,7 @@ public class AjouterPersonnels extends JFrame implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getComponent()==ajouterImageLbl) {
-			PersonnelsController personnelController = new PersonnelsController();
+			PersonnelsController gestionPersonnelController = new PersonnelsController();
 			boolean result;
 			Personnels personnel = new Personnels();
 			List<Personnels> listPersonnel = new ArrayList<Personnels>();
@@ -229,9 +232,9 @@ public class AjouterPersonnels extends JFrame implements MouseListener {
 					personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
 					personnel.setDateEmbauche(dateE);
 					personnel.setDateNaissance(dateN);
-					result=personnelController.add(personnel);
+					result=gestionPersonnelController.add(personnel);
 					if(result==true) {
-						listPersonnel=personnelController.getAll();
+						listPersonnel=gestionPersonnelController.getAll();
 						gestionPersonnel.refresh(listPersonnel);
 						JOptionPane.showMessageDialog(null, "Bien Ajouter");
 						dispose();

@@ -219,9 +219,8 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 		nomTxt.disable();
 		prenomTxt.disable();
 		cinTxt.disable();
-		PersonnelsController personnelController = new PersonnelsController();
-		personnel= new Personnels();
-		personnel=personnelController.findById(idPersonnel);
+		PersonnelsController gestionPersonnelController = new PersonnelsController();
+		personnel=gestionPersonnelController.findById(idPersonnel);
 		nomTxt.setText(personnel.getNom());
 		prenomTxt.setText(personnel.getPrenom());
 		cinTxt.setText(personnel.getCin());
@@ -251,7 +250,7 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 			salaireTxt.setText(null);
 		}
 		if(e.getComponent()==imageModifierLbl) {
-			PersonnelsController personnelController = new PersonnelsController();
+			PersonnelsController gestionPersonnelController = new PersonnelsController();
 			boolean result;
 			Personnels personnel = new Personnels();
 			List<Personnels> listPersonnel = new ArrayList<Personnels>();
@@ -269,9 +268,9 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 					personnel.setSalaire(Float.valueOf(salaireTxt.getText()));
 					personnel.setDateEmbauche(dateE);
 					personnel.setDateNaissance(dateN);
-					result=personnelController.update(personnel);
+					result=gestionPersonnelController.update(personnel);
 					if(result==true) {
-						listPersonnel=personnelController.getAll();
+						listPersonnel=gestionPersonnelController.getAll();
 						gestionPersonnel.refresh(listPersonnel);
 						JOptionPane.showMessageDialog(null, "Bien Modifier");
 						dispose();
