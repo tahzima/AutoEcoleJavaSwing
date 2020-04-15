@@ -275,7 +275,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 					gestionPersonnelController = new PersonnelsController();
 					listPersonnel = gestionPersonnelController.getAll();
 					refresh(listPersonnel);
-					JOptionPane.showMessageDialog(null,"Personnel supprim�!"); 
+					JOptionPane.showMessageDialog(null,"Personnel supprimer!"); 
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
