@@ -337,6 +337,7 @@ public class ResultatsExamens extends JFrame implements MouseListener,DocumentLi
 		if(decisionFinale.equals(decisionReussi) || decisionFinale.equals(decisionEchoue)) {
 			noteTheoriqueTxt.setEditable(false);
 			UIManager.put("ComboBox.disabledBackground", Color.green);
+			UIManager.put("ComboBox.disabledForeground", Color.black);
 			decisionPratiqueComboBox.setEnabled(false);
 		}
 		else if(!originalExamen.getDecisionTheorique().equals(Examens.Decision.REUSSI.toString()))
