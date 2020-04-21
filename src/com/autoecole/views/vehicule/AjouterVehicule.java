@@ -234,6 +234,7 @@ public class AjouterVehicule extends JFrame implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
 		if(ajouterLbl==e.getComponent()) {
 			VehiculeController vehiculeController = new VehiculeController();
 			boolean result;

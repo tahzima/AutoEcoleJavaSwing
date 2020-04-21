@@ -18,10 +18,15 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import com.autoecole.beans.Personnels;
 import com.autoecole.beans.Seances;
 import com.autoecole.beans.SearchSeance;
+import com.autoecole.beans.Vehicules;
 import com.autoecole.controller.PersonnelsController;
 import com.autoecole.controller.SeanceController;
+import com.autoecole.controller.VehiculeController;
+import com.autoecole.views.vehicule.GestionVehicules;
+import com.autoecole.views.vehicule.ModifierVehicule;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -56,18 +61,27 @@ public class GestionSeances extends JPanel implements MouseListener {
 	
 	public void refresh(List<Seances> list) {
 		
-		int k = list.size();
-		dataSeance = new Object[k][5];
+		dataSeance = new Object[list.size()][5];
+		VehiculeController vehiculeController = new VehiculeController();
+		PersonnelsController personnelontroller = new PersonnelsController();
+		Vehicules vehicule;
+		Personnels personnel;
 		
-		for(int i=0;i<k;i++) {
+		for(int i=0;i<list.size();i++) {
 			
+			vehicule = new Vehicules();
+			personnel = new Personnels();
+			vehicule=vehiculeController.findById(list.get(i).getId_Vehicules());
+			personnel=personnelontroller.findById(list.get(i).getId_Personnels());
 			dataSeance[i][0]=list.get(i).getDate();
 			dataSeance[i][1]=list.get(i).getTypeSeance();
-			dataSeance[i][2]=list.get(i).getId_Vehicules();
-			dataSeance[i][3]=list.get(i).getId_Personnels();
+			dataSeance[i][2]=vehicule.getMarque();
+			dataSeance[i][3]=personnel.getNom();
+			idSeance=list.get(i).getId();
 			dataSeance[i][4]=idSeance;
 
 		}
+		
 		DefaultTableModel model  = new DefaultTableModel(dataSeance,colonnesSeance);
 		table.setModel(model);
 		
@@ -138,7 +152,7 @@ public class GestionSeances extends JPanel implements MouseListener {
 		
 		imageAjouterLbl = new JLabel("");
 		imageAjouterLbl.addMouseListener(this);
-		iconAjouter =  new ImageIcon(this.getClass().getResource("/ajouter.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		iconAjouter =  new ImageIcon(this.getClass().getResource("/ajouter.png")).getImage();
 		imageAjouterLbl.setIcon(new ImageIcon(iconAjouter));
 		imageAjouterLbl.setBounds(587, 174, 51, 40);
 		panel.add(imageAjouterLbl);
@@ -171,10 +185,16 @@ public class GestionSeances extends JPanel implements MouseListener {
 		dataSeance=new Object[dataSizeSeance][5];
 		for(int k=0;k<dataSizeSeance;k++)
 		{
+			Vehicules vehicule = new Vehicules();
+			Personnels personnel = new Personnels();
+			VehiculeController vehiculeController = new VehiculeController();
+			PersonnelsController personnelontroller = new PersonnelsController();
+			vehicule=vehiculeController.findById(listSeance.get(k).getId_Vehicules());
+			personnel=personnelontroller.findById(listSeance.get(k).getId_Personnels());
 			dataSeance[k][0]=listSeance.get(k).getDate();
 			dataSeance[k][1]=listSeance.get(k).getTypeSeance();
-			dataSeance[k][2]=listSeance.get(k).getId_Personnels();
-			dataSeance[k][3]=listSeance.get(k).getId_Vehicules();
+			dataSeance[k][2]=vehicule.getMarque();
+			dataSeance[k][3]=personnel.getNom();
 			idSeance=listSeance.get(k).getId();
 			dataSeance[k][4]=idSeance;
 		}
@@ -215,6 +235,7 @@ public class GestionSeances extends JPanel implements MouseListener {
 				
 				if(check>0) {
 					seanceController = new SeanceController();
+					listSeance.clear();
 					listSeance = seanceController.getAll();
 					refresh(listSeance);
 					JOptionPane.showMessageDialog(null,"Seance supprimer!"); 
@@ -224,12 +245,17 @@ public class GestionSeances extends JPanel implements MouseListener {
 			}
 		}
 		if(e.getComponent()==imageAjouterLbl) {
-			AjouterSeances ajouterSeance = new AjouterSeances();
+			AjouterSeances ajouterSeance = new AjouterSeances(GestionSeances.this);
 			ajouterSeance.setVisible(true);
 		}
 		if(e.getComponent()==imageModifierLbl) {
-			ModifierSeances modifierSeance = new ModifierSeances();
-			modifierSeance.setVisible(true);
+			if(table.getSelectedRow()>=0) {
+				idSeance=listSeance.get(table.getSelectedRow()).getId();
+				ModifierSeances modifierSeance = new ModifierSeances(idSeance,GestionSeances.this);
+				modifierSeance.setVisible(true);
+			}
+			else
+				JOptionPane.showMessageDialog(null,"Vous devez selectionnez une Seance!");
 		}
 	}
 

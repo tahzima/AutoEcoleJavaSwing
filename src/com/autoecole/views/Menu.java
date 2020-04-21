@@ -9,6 +9,7 @@ import com.autoecole.beans.Users;
 import com.autoecole.views.candidats.GestionCandidats;
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
+import com.autoecole.views.vehicule.GestionVehicules;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -52,13 +53,11 @@ public class Menu extends JFrame implements MouseListener{
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
 	private Image image;
-	private JLayeredPane layeredPane;
 	/**
 	 * Create the frame.
 	 */
 	
 	/*VARIABLES*/
-	private Image image;
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
 	private JPanel seancePnl;
@@ -154,6 +153,7 @@ public class Menu extends JFrame implements MouseListener{
 		menuPanel.add(examenPnl);
 		
 		examenLbl = new JLabel("Examen");
+		examenLbl.addMouseListener(this);
 		examenLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		examenLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		examenLbl.setBounds(0, 0, 150, 31);
@@ -241,6 +241,15 @@ public class Menu extends JFrame implements MouseListener{
 		else if(e.getComponent()==seanceLbl) {
 			GestionSeances gestionSeance = new GestionSeances();
 			switchPanels(gestionSeance);
+		}
+		//Examen Menu Item
+		else if(examenLbl==e.getComponent()) {
+			
+		}
+		//Vehicule Menu Item
+		else if(voitureLbl==e.getComponent()) {
+			GestionVehicules gestionVehicule = new GestionVehicules();
+			switchPanels(gestionVehicule);
 		}
 	}
 

@@ -57,6 +57,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 	private JLabel photoRechercheLbl;
 	private JLabel supprimerLbl;
 	private JLabel modifierLbl;
+	private JLabel ajouterLbl;
 	
 	
 	
@@ -189,14 +190,8 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		listPersonnelsLbl.setBounds(23, 183, 125, 31);
 		contentPnl.add(listPersonnelsLbl);
 		
-		JLabel ajouterLbl = new JLabel("");
-		ajouterLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				AjouterPersonnels ajouterPersonnel = new AjouterPersonnels(GestionPersonnels.this);
-				ajouterPersonnel.setVisible(true);
-			}
-		});
+		ajouterLbl = new JLabel("");
+		ajouterLbl.addMouseListener(this);
 		iconAjouter =  new ImageIcon(this.getClass().getResource("/ajouter.png")).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ajouterLbl.setIcon(new ImageIcon(iconAjouter));
 		ajouterLbl.setBounds(587, 174, 51, 40);
@@ -204,7 +199,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		
 		modifierLbl = new JLabel("");
 		modifierLbl.addMouseListener(this);
-		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage();
+		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		modifierLbl.setIcon(new ImageIcon(iconModifier));
 		modifierLbl.setBounds(23, 429, 51, 40);
 		contentPnl.add(modifierLbl);
@@ -284,6 +279,10 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		if(modifierLbl==e.getComponent()) {
 			ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
 			modifierPersonnels.setVisible(true);
+		}
+		if(e.getComponent()==ajouterLbl) {
+			AjouterPersonnels ajouterPersonnel = new AjouterPersonnels(GestionPersonnels.this);
+			ajouterPersonnel.setVisible(true);
 		}
 	}
 

@@ -30,12 +30,19 @@ public class SeanceController {
 		connexion = Database.getInstance().getConexion();
 		int checkResult = 0;
 		try {			
-			
-			prepState = connexion.prepareStatement("insert into seances (date,typeSeance,id_Vehicules,id_Personnels) values (?,?,?,?)");
-			prepState.setDate(1,seance.getDate());
-			prepState.setString(2,seance.getTypeSeance());
-			prepState.setInt(3, seance.getId_Vehicules());
-			prepState.setInt(4, seance.getId_Personnels());
+			if(seance.getId_Personnels()>0 && seance.getId_Vehicules()>0){
+
+				prepState = connexion.prepareStatement("insert into seances (date,typeSeance,id_Vehicules,id_Personnels) values (?,?,?,?)");
+				prepState.setDate(1,seance.getDate());
+				prepState.setString(2,seance.getTypeSeance());
+				prepState.setInt(3, seance.getId_Vehicules());
+				prepState.setInt(4, seance.getId_Personnels());
+			}else if(seance.getId_Personnels()>0 && seance.getId_Vehicules()<0) {
+				prepState = connexion.prepareStatement("insert into seances (date,typeSeance,id_Personnels) values (?,?,?)");
+				prepState.setDate(1,seance.getDate());
+				prepState.setString(2,seance.getTypeSeance());
+				prepState.setInt(3, seance.getId_Personnels());
+			}
 			
 			checkResult = prepState.executeUpdate();
 			
