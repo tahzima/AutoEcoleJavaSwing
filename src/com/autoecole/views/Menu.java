@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
 import com.autoecole.views.candidats.GestionCandidats;
+import com.autoecole.views.examens.GestionExamens;
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
 import com.autoecole.views.vehicule.GestionVehicules;
@@ -244,7 +245,8 @@ public class Menu extends JFrame implements MouseListener{
 		}
 		//Examen Menu Item
 		else if(examenLbl==e.getComponent()) {
-			
+			GestionExamens gestionExamens = new GestionExamens();
+			switchPanels(gestionExamens);
 		}
 		//Vehicule Menu Item
 		else if(voitureLbl==e.getComponent()) {
