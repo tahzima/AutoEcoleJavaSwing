@@ -7,7 +7,11 @@ import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
 import com.autoecole.views.candidats.GestionCandidats;
+import com.autoecole.views.examens.GestionExamens;
 import com.autoecole.views.personnels.GestionPersonnels;
+import com.autoecole.views.seances.GestionSeances;
+import com.autoecole.views.vehicule.GestionVehicules;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 
@@ -22,6 +26,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLayeredPane;
+import java.awt.event.MouseAdapter;
 
 public class Menu extends JFrame implements MouseListener{
 	/**
@@ -47,15 +52,15 @@ public class Menu extends JFrame implements MouseListener{
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
-	private JLayeredPane layeredPane;
 	/**
 	 * Create the frame.
 	 */
 	
 	/*VARIABLES*/
-	private Image image;
 	public final static int WIDTH_SCREEN = 1000;
 	public final static int HEIGHT_SCREEN = 800;
+	private JPanel seancePnl;
+	private JLabel seanceLbl;
 	
 	public Menu(Users user) {
 		
@@ -147,6 +152,7 @@ public class Menu extends JFrame implements MouseListener{
 		menuPanel.add(examenPnl);
 		
 		examenLbl = new JLabel("Examen");
+		examenLbl.addMouseListener(this);
 		examenLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		examenLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		examenLbl.setBounds(0, 0, 150, 31);
@@ -177,6 +183,19 @@ public class Menu extends JFrame implements MouseListener{
 		deconnecterLbl.setBounds(0, 0, 150, 31);
 		deconnecterLbl.addMouseListener(this);
 		deconnecterPnl.add(deconnecterLbl);
+		
+		seancePnl = new JPanel();
+		seancePnl.setLayout(null);
+		seancePnl.setBackground(new Color(34, 166, 179));
+		seancePnl.setBounds(0, 347, 150, 31);
+		menuPanel.add(seancePnl);
+		
+		seanceLbl = new JLabel("Seance");
+		seanceLbl.addMouseListener(this);
+		seanceLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		seanceLbl.setFont(new Font("Oswald", Font.BOLD, 18));
+		seanceLbl.setBounds(0, 0, 150, 31);
+		seancePnl.add(seanceLbl);
 		
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
@@ -216,6 +235,21 @@ public class Menu extends JFrame implements MouseListener{
 			Authentification authentification = new Authentification();
 			authentification.setVisible(true);
 			dispose();
+		}
+		//Seance Menu Item
+		else if(e.getComponent()==seanceLbl) {
+			GestionSeances gestionSeance = new GestionSeances();
+			switchPanels(gestionSeance);
+		}
+		//Examen Menu Item
+		else if(examenLbl==e.getComponent()) {
+			GestionExamens gestionExamens = new GestionExamens();
+			switchPanels(gestionExamens);
+		}
+		//Vehicule Menu Item
+		else if(voitureLbl==e.getComponent()) {
+			GestionVehicules gestionVehicule = new GestionVehicules();
+			switchPanels(gestionVehicule);
 		}
 	}
 

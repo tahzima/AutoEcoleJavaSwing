@@ -197,7 +197,7 @@ public class GestionVehicules extends JPanel implements MouseListener{
 		
 		modifierImageLbl = new JLabel("");
 		modifierImageLbl.addMouseListener(this);
-		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage();
+		iconModifier =  new ImageIcon(this.getClass().getResource("/modifier.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);;
 		modifierImageLbl.setIcon(new ImageIcon(iconModifier));
 		modifierImageLbl.setBounds(23, 429, 51, 40);
 		panel.add(modifierImageLbl);
