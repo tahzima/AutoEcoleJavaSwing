@@ -37,7 +37,6 @@ public class Menu extends JFrame implements MouseListener{
 	private JPanel personnelPnl;
 	private JPanel examenPnl;
 	private JPanel voiturePnl;
-	private JLayeredPane layeredPane;
 	private JLabel autoecoleLbl;
 	private JLabel maestroLbl;
 	private JLabel userLbl;
@@ -48,7 +47,6 @@ public class Menu extends JFrame implements MouseListener{
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
-	private Image image;
 	private JLayeredPane layeredPane;
 	/**
 	 * Create the frame.
