@@ -10,6 +10,7 @@ import com.autoecole.views.candidats.GestionCandidats;
 import com.autoecole.views.examens.GestionExamens;
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
+import com.autoecole.views.users.GestionUsers;
 import com.autoecole.views.vehicule.GestionVehicules;
 
 import java.awt.CardLayout;
@@ -119,6 +120,7 @@ public class Menu extends JFrame implements MouseListener{
 		userLogoLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		userLogoLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		userLogoLbl.setBounds(0, 0, 150, 59);
+		userLogoLbl.addMouseListener(this);
 		userPnl.add(userLogoLbl);
 		
 		candidatPnl = new JPanel();
@@ -252,6 +254,10 @@ public class Menu extends JFrame implements MouseListener{
 		else if(voitureLbl==e.getComponent()) {
 			GestionVehicules gestionVehicule = new GestionVehicules();
 			switchPanels(gestionVehicule);
+		}
+		else if(userLogoLbl==e.getComponent()) {
+			GestionUsers gestionUsers = new GestionUsers();
+			switchPanels(gestionUsers);
 		}
 	}
 
