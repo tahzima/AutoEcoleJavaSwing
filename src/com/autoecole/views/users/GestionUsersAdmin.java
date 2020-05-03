@@ -38,7 +38,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseListener;
 
-public class GestionUsers extends JPanel implements DocumentListener,MouseListener {
+public class GestionUsersAdmin extends JPanel implements DocumentListener,MouseListener {
 	
 	/*COMPONENTS*/
 	private JLabel prenomLbl;
@@ -106,7 +106,7 @@ public class GestionUsers extends JPanel implements DocumentListener,MouseListen
 	/**
 	 * Create the panel.
 	 */
-	public GestionUsers() {
+	public GestionUsersAdmin() {
 		
 		setBackground(Color.decode("#34495e"));
 		setBounds(0, 0, 661, 488);
@@ -279,7 +279,7 @@ public class GestionUsers extends JPanel implements DocumentListener,MouseListen
 	public void mouseClicked(MouseEvent e) {
 		//Ajouter clicked
 		if(e.getComponent() == ajouterLbl) {
-			AjouterUsers ajouterUsers = new AjouterUsers(GestionUsers.this);
+			AjouterUsers ajouterUsers = new AjouterUsers(GestionUsersAdmin.this);
 			ajouterUsers.setVisible(true);
 		}
 		//Modifier clicked
@@ -292,7 +292,7 @@ public class GestionUsers extends JPanel implements DocumentListener,MouseListen
 				user = new Users();
 				user = listUsers.get(rowIndex);
 				
-				ModifierUsers modifierUsers = new ModifierUsers(user,GestionUsers.this);
+				ModifierUsers modifierUsers = new ModifierUsers(user,GestionUsersAdmin.this);
 				modifierUsers.setVisible(true);	
 			}
 		}
@@ -302,6 +302,8 @@ public class GestionUsers extends JPanel implements DocumentListener,MouseListen
 			
 			if(rowIndex == -1)
 				JOptionPane.showMessageDialog(null,"Vous devez selectionner un utilisateur!");
+			else if(((String)rows[rowIndex][0]).equals("admin"))
+				JOptionPane.showMessageDialog(null, "Impossible de supprimer l'administrateur!", "Erreur", JOptionPane.ERROR_MESSAGE);
 			else
 			{
 				int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet utilisateur?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

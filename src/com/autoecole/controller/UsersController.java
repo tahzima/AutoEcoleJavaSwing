@@ -1,18 +1,10 @@
 package com.autoecole.controller;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import com.autoecole.beans.Candidats;
-import com.autoecole.beans.Examens;
-import com.autoecole.beans.SearchCandidat;
 import com.autoecole.beans.SearchUser;
 import com.autoecole.beans.Users;
 import com.autoecole.service.Database;
@@ -192,7 +184,7 @@ public class UsersController {
 		}
 	
 		
-		public int checkUserExist(int idPersonnel) {
+		public int checkUserExistByPersonnelId(int idPersonnel) {
 			
 			connexion = Database.getInstance().getConexion();
 			int count = 0;
@@ -211,5 +203,23 @@ public class UsersController {
 			return count;	
 		}
 		
+		public int checkUserExistByLogin(String login) {
+			
+			connexion = Database.getInstance().getConexion();
+			int count = 0;
+			try {
+				state = connexion != null ? connexion.createStatement() : null ;
+				result = state.executeQuery("select count(*) from users where login='"+login+"'");
+				while (result.next()) {				
+					count = result.getInt(1);	
+				}
+				state.close();
+				result.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			return count;	
+		}
 		
 }

@@ -22,7 +22,6 @@ import com.autoecole.controller.PersonnelsController;
 import com.autoecole.controller.UsersController;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 
@@ -289,10 +288,13 @@ public class AjouterUsers extends JFrame implements MouseListener,DocumentListen
 				JOptionPane.showMessageDialog(null, "Tous les champs sont obligatoires!");
 			else {
 				usersCtrl = new UsersController();
-				int userAlreadyExist = usersCtrl.checkUserExist(idPersonnel);
+				int personnelAccountAlreadyExist = usersCtrl.checkUserExistByPersonnelId(idPersonnel);
+				int userLoginAlreadyExist = usersCtrl.checkUserExistByLogin(login);
 				
-				if(userAlreadyExist!=0)
+				if(personnelAccountAlreadyExist != 0)
 					JOptionPane.showMessageDialog(null, "Cet employee possede deja un compte!");
+				else if(userLoginAlreadyExist != 0)
+					JOptionPane.showMessageDialog(null, "Ce login existe deja");
 				else {
 					if(!password.equals(confirmPassword))
 						JOptionPane.showMessageDialog(null, "Les deux mots de passe ne sont pas identiques");
@@ -309,9 +311,9 @@ public class AjouterUsers extends JFrame implements MouseListener,DocumentListen
 						if(check!=1)
 							JOptionPane.showMessageDialog(null, "Une erreur s'est produite!");
 						else {
-							if(gestionUsers instanceof GestionUsers) {
-								((GestionUsers) gestionUsers).setListUsers(usersCtrl.getAll());
-								((GestionUsers)gestionUsers).refresh(((GestionUsers) gestionUsers).getListUsers());
+							if(gestionUsers instanceof GestionUsersAdmin) {
+								((GestionUsersAdmin) gestionUsers).setListUsers(usersCtrl.getAll());
+								((GestionUsersAdmin)gestionUsers).refresh(((GestionUsersAdmin) gestionUsers).getListUsers());
 							}
 							
 							dispose();

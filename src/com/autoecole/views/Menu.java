@@ -6,11 +6,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
+import com.autoecole.controller.UsersController;
 import com.autoecole.views.candidats.GestionCandidats;
 import com.autoecole.views.examens.GestionExamens;
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
-import com.autoecole.views.users.GestionUsers;
+import com.autoecole.views.users.GestionUsersAdmin;
+import com.autoecole.views.users.GestionUsersStandard;
 import com.autoecole.views.vehicule.GestionVehicules;
 
 import java.awt.CardLayout;
@@ -29,7 +31,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLayeredPane;
 import java.awt.event.MouseAdapter;
 
-public class Menu extends JFrame implements MouseListener{
+public class Menu extends JFrame implements MouseListener{	
 	/**
 	 * 
 	 */
@@ -64,8 +66,9 @@ public class Menu extends JFrame implements MouseListener{
 	public final static int HEIGHT_SCREEN = 800;
 	private JPanel seancePnl;
 	private JLabel seanceLbl;
+	private Users globalUser;
 	
-	public Menu(Users user) {
+	public Menu(Users localUser) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -108,7 +111,7 @@ public class Menu extends JFrame implements MouseListener{
 		userPnl.setLayout(null);
 		menuPanel.add(userPnl);
 		
-		userLbl = new JLabel(""+user.getLogin());
+		userLbl = new JLabel(""+localUser.getLogin());
 		userLbl.setBounds(0, 51, 150, 37);
 		userLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		userLbl.setFont(new Font("Oswald", Font.BOLD, 18));
@@ -206,6 +209,11 @@ public class Menu extends JFrame implements MouseListener{
 		bigPanel.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		deconnecterLbl.addMouseListener(this);
+		
+		/*Local To Global*/
+		globalUser = new Users();
+		globalUser = localUser;
+		
 	}
 	
 	
@@ -255,9 +263,19 @@ public class Menu extends JFrame implements MouseListener{
 			GestionVehicules gestionVehicule = new GestionVehicules();
 			switchPanels(gestionVehicule);
 		}
+		//Users Menu Item
 		else if(userLogoLbl==e.getComponent()) {
-			GestionUsers gestionUsers = new GestionUsers();
-			switchPanels(gestionUsers);
+			UsersController usersCtrl = new UsersController();
+			globalUser = usersCtrl.findById(globalUser.getId());
+			
+			if(globalUser.getLogin().equals("admin") && globalUser.getPassword().equals("azerty")) {
+				GestionUsersAdmin gestionUsers = new GestionUsersAdmin();
+				switchPanels(gestionUsers);
+			}
+			else {
+				GestionUsersStandard gestionUsersStandard = new GestionUsersStandard(globalUser);
+				switchPanels(gestionUsersStandard);
+			}
 		}
 	}
 

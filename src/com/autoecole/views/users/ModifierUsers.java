@@ -128,7 +128,7 @@ public class ModifierUsers extends JFrame implements MouseListener,DocumentListe
 		loginTxt.setColumns(10);
 		contentPnl.add(loginTxt);
 		
-		newPasswordTxt = new JPasswordField();
+		newPasswordTxt = new JPasswordField(userParam.getPassword());
 		newPasswordTxt.setBounds(169, 216, 227, 20);
 		newPasswordTxt.setColumns(10);
 		contentPnl.add(newPasswordTxt);
@@ -140,7 +140,7 @@ public class ModifierUsers extends JFrame implements MouseListener,DocumentListe
 		confirmerNewPasswordpLbl.setBounds(11, 266, 136, 20);
 		contentPnl.add(confirmerNewPasswordpLbl);
 		
-		confirmNewPasswordTxt = new JPasswordField();
+		confirmNewPasswordTxt = new JPasswordField(userParam.getPassword());
 		confirmNewPasswordTxt.setBounds(169, 268, 227, 20);
 		confirmNewPasswordTxt.setColumns(10);
 		confirmNewPasswordTxt.setEditable(false);
@@ -172,28 +172,34 @@ public class ModifierUsers extends JFrame implements MouseListener,DocumentListe
 			if(login.isEmpty() && newPassword.isEmpty() && confirmNewPassword.isEmpty())
 				JOptionPane.showMessageDialog(null,"Vous devez saisir au moins un champ");  
 			else{
-				if(!login.isEmpty()) {
-					if(!userParam.getLogin().equals(login))
-						userParam.setLogin(login);
-				}
-				
-				if(!newPassword.isEmpty()) {
-					if(!newPassword.equals(confirmNewPassword))
-						JOptionPane.showMessageDialog(null, "Les deux mots de passe ne sont pas identiques!");
-					else {
-						userParam.setPassword(newPassword);
-					}
-				}
-				
 				JPasswordField oldPasswordField = new JPasswordField();
-				int action = JOptionPane.showConfirmDialog(null, oldPasswordField, "Veuillez entrer votre ancien mot de passe :", JOptionPane.OK_CANCEL_OPTION);
+				int action = 0;
+				
+				if(gestionUsers instanceof GestionUsersStandard)
+					action = JOptionPane.showConfirmDialog(null, oldPasswordField, "Veuillez entrer votre ancien mot de passe :", JOptionPane.OK_CANCEL_OPTION);
+				else if(gestionUsers instanceof GestionUsersAdmin)
+					oldPasswordField.setText(userParam.getPassword());
 				
 				if(action == JOptionPane.OK_OPTION) {
 					String oldPassword = String.valueOf(oldPasswordField.getPassword());
-					
+
 					if(!userParam.getPassword().equals(oldPassword))
 						JOptionPane.showMessageDialog(null, "Mot de passe incorrect!");
 					else {
+						
+						if(!login.isEmpty()) {
+							if(!userParam.getLogin().equals(login))
+								userParam.setLogin(login);
+						}
+						
+						if(!newPassword.isEmpty()) {
+							if(!newPassword.equals(confirmNewPassword))
+								JOptionPane.showMessageDialog(null, "Les deux mots de passe ne sont pas identiques!");
+							else {
+								userParam.setPassword(newPassword);
+							}
+						}
+						
 						usersCtrl = new UsersController();
 						int check = usersCtrl.edit(userParam);
 						
@@ -201,9 +207,9 @@ public class ModifierUsers extends JFrame implements MouseListener,DocumentListe
 							JOptionPane.showMessageDialog(null, "Une erreur s'est produite!");
 						else {
 							
-							if(gestionUsers instanceof GestionUsers) {
-								((GestionUsers) gestionUsers).setListUsers(usersCtrl.getAll());
-								((GestionUsers)gestionUsers).refresh(((GestionUsers) gestionUsers).getListUsers());
+							if(gestionUsers instanceof GestionUsersAdmin) {
+								((GestionUsersAdmin) gestionUsers).setListUsers(usersCtrl.getAll());
+								((GestionUsersAdmin)gestionUsers).refresh(((GestionUsersAdmin) gestionUsers).getListUsers());
 							}
 							else if(gestionUsers instanceof GestionUsersStandard)
 								((GestionUsersStandard)gestionUsers).setLogin(userParam.getLogin());
