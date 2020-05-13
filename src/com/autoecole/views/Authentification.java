@@ -89,12 +89,12 @@ public class Authentification extends JFrame implements MouseListener{
 		lblPassword.setBounds(61, 217, 157, 28);
 		panel.add(lblPassword);
 		
-		textField = new RoundJTextField("user");
+		textField = new RoundJTextField("");
 		textField.setBounds(61, 125, 275, 28);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		passwordField = new RoundJPasswordField("123456");
+		passwordField = new RoundJPasswordField("");
 		passwordField.setBounds(61, 256, 275, 28);
 		panel.add(passwordField);
 		

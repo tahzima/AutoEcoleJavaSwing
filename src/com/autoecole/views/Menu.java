@@ -6,11 +6,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.autoecole.beans.Users;
+import com.autoecole.controller.UsersController;
 import com.autoecole.views.candidats.GestionCandidats;
 import com.autoecole.views.examens.GestionExamens;
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
 import com.autoecole.views.statistiques.statistique;
+import com.autoecole.views.users.GestionUsersAdmin;
+import com.autoecole.views.users.GestionUsersStandard;
 import com.autoecole.views.vehicule.GestionVehicules;
 
 import java.awt.CardLayout;
@@ -29,7 +32,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLayeredPane;
 import java.awt.event.MouseAdapter;
 
-public class Menu extends JFrame implements MouseListener{
+public class Menu extends JFrame implements MouseListener{	
 	/**
 	 * 
 	 */
@@ -65,9 +68,10 @@ public class Menu extends JFrame implements MouseListener{
 	private JPanel seancePnl;
 	private JLabel seanceLbl;
 	private JPanel statistiquePnl;
+	private Users globalUser;
 	private JLabel statistiqueLbl;
 	
-	public Menu(Users user) {
+	public Menu(Users localUser) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -110,7 +114,7 @@ public class Menu extends JFrame implements MouseListener{
 		userPnl.setLayout(null);
 		menuPanel.add(userPnl);
 		
-		userLbl = new JLabel(""+user.getLogin());
+		userLbl = new JLabel(""+localUser.getLogin());
 		userLbl.setBounds(0, 51, 150, 37);
 		userLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		userLbl.setFont(new Font("Oswald", Font.BOLD, 18));
@@ -122,6 +126,7 @@ public class Menu extends JFrame implements MouseListener{
 		userLogoLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		userLogoLbl.setFont(new Font("Oswald", Font.BOLD, 18));
 		userLogoLbl.setBounds(0, 0, 150, 59);
+		userLogoLbl.addMouseListener(this);
 		userPnl.add(userLogoLbl);
 		
 		candidatPnl = new JPanel();
@@ -220,6 +225,11 @@ public class Menu extends JFrame implements MouseListener{
 		bigPanel.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		deconnecterLbl.addMouseListener(this);
+		
+		/*Local To Global*/
+		globalUser = new Users();
+		globalUser = localUser;
+		
 	}
 	
 	
@@ -273,6 +283,20 @@ public class Menu extends JFrame implements MouseListener{
 		else if(statistiqueLbl==e.getComponent()) {
 			statistique statistiques = new statistique();
 			switchPanels(statistiques);
+		}
+		//Users Menu Item
+		else if(userLogoLbl==e.getComponent()) {
+			UsersController usersCtrl = new UsersController();
+			globalUser = usersCtrl.findById(globalUser.getId());
+			
+			if(globalUser.getLogin().equals("admin") && globalUser.getPassword().equals("azerty")) {
+				GestionUsersAdmin gestionUsers = new GestionUsersAdmin();
+				switchPanels(gestionUsers);
+			}
+			else {
+				GestionUsersStandard gestionUsersStandard = new GestionUsersStandard(globalUser);
+				switchPanels(gestionUsersStandard);
+			}
 		}
 	}
 
