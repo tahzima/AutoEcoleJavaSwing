@@ -35,14 +35,16 @@ public class GestionExamens extends JPanel implements MouseListener {
 	private JLabel actualiserLbl;
 	private JLabel supprimerLbl;
 	private JLabel gestionExamensLbl;
-	private JLabel dateLbl;
+	private JLabel duDateLbl;
+	private JLabel auDateLbl;
 	private JLabel rehercheLbl;
 	private JLabel resultatsLbl;
 	private JPanel separateur1Pnl;
 	private JPanel separateur2Pnl;
 	private JTable examensTable;
 	private JScrollPane scroll;
-	private JDateChooser examenDateChooser;
+	private JDateChooser duDateChooser;
+	private JDateChooser auDateChooser;
 	
 	/* VARIABLES */
 	private Image iconRecherche;
@@ -198,11 +200,11 @@ public class GestionExamens extends JPanel implements MouseListener {
 		gestionExamensLbl.setBounds(255, 11, 161, 48);
 		add(gestionExamensLbl);
 
-		dateLbl = new JLabel("Date :");
-		dateLbl.setForeground(new Color(143, 188, 143));
-		dateLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		dateLbl.setBounds(38, 122, 36, 20);
-		add(dateLbl);
+		duDateLbl = new JLabel("Du :");
+		duDateLbl.setForeground(new Color(143, 188, 143));
+		duDateLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		duDateLbl.setBounds(38, 122, 36, 20);
+		add(duDateLbl);
 
 		rehercheLbl = new JLabel("Recherche :");
 		rehercheLbl.setForeground(new Color(143, 188, 143));
@@ -251,9 +253,21 @@ public class GestionExamens extends JPanel implements MouseListener {
 		actualiserLbl.setBounds(591, 429, 36, 40);
 		add(actualiserLbl);
 
-		examenDateChooser = new JDateChooser();
-		examenDateChooser.setBounds(84, 122, 140, 20);
-		add(examenDateChooser);
+		duDateChooser = new JDateChooser();
+		duDateChooser.setBounds(84, 122, 140, 20);
+		add(duDateChooser);
+		
+		auDateLbl = new JLabel("au :");
+		auDateLbl.setForeground(new Color(143, 188, 143));
+		auDateLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		auDateLbl.setBounds(255, 122, 36, 20);
+		add(auDateLbl);
+		
+		auDateChooser = new JDateChooser();
+		auDateChooser.setBounds(301, 122, 140, 20);
+		add(auDateChooser);
+		
+		
 		
 		resultatsLbl = new JLabel("R\u00E9sultats");
 		resultatsLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -268,6 +282,7 @@ public class GestionExamens extends JPanel implements MouseListener {
 		supprimerLbl.addMouseListener(this);
 		actualiserLbl.addMouseListener(this);
 		resultatsLbl.addMouseListener(this);
+		
 		
 	}
 
@@ -318,12 +333,13 @@ public class GestionExamens extends JPanel implements MouseListener {
 		}
 		// Recherche clicked
 		else if (e.getComponent() == rechercheLbl) {
-			if(examenDateChooser.getDate() == null)
+			if(duDateChooser.getDate() == null || auDateChooser.getDate() == null)
 					JOptionPane.showMessageDialog(null, "Vous devez selectionner une date!");
 			else {
 				listExamens = new ArrayList<Examens>();
-				Date date = new Date(examenDateChooser.getDate().getTime());
-				listExamens = examenCtrl.search(date);
+				Date duDate = new Date(duDateChooser.getDate().getTime());
+				Date auDate = new Date(auDateChooser.getDate().getTime());
+				listExamens = examenCtrl.search(duDate,auDate);
 				refresh(listExamens);
 			}
 			
@@ -333,6 +349,9 @@ public class GestionExamens extends JPanel implements MouseListener {
 			examenCtrl = new ExamenController();
 			listExamens = examenCtrl.getAll();
 			refresh(listExamens);
+			
+			duDateChooser.setDate(null);
+			auDateChooser.setDate(null);
 		}
 		//Resultats clicked
 		else if(e.getComponent() == resultatsLbl) {

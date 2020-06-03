@@ -235,7 +235,8 @@ public class AjouterExamens extends JFrame implements MouseListener{
 		
 		/*ACTION LISTENERS*/
 		ajouterImageLbl.addMouseListener(this);
-		annulerImagreLbl.addMouseListener(this);		
+		annulerImagreLbl.addMouseListener(this);
+		rechercheLbl.addMouseListener(this);
 		
 		/*Local To Global*/
 		gestionExamen = gestionExam;

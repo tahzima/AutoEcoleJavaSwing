@@ -82,14 +82,15 @@ public class ExamenController {
 	}
 
 	// Recherche Examen
-	public ArrayList<Examens> search(Date dateExamen) {
+	public ArrayList<Examens> search(Date duDateExamen, Date auDateExamen) {
 
 		ArrayList<Examens> list = new ArrayList<Examens>();
 		connexion = Database.getInstance().getConexion();
 		Examens examen = null;
 		try {
-			prepState = connexion.prepareStatement("select * from examensview where dateExamen=?");
-			prepState.setDate(1, dateExamen);
+			prepState = connexion.prepareStatement("select * from examensview where dateExamen between ? and ?");
+			prepState.setDate(1, duDateExamen);
+			prepState.setDate(2, auDateExamen);
 			result = prepState.executeQuery();
 			while (result.next()) {
 				examen = new Examens();
