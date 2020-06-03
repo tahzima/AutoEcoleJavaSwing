@@ -50,7 +50,7 @@ public class AjouterPersonnels extends JFrame implements MouseListener {
 	 */
 	public AjouterPersonnels(final GestionPersonnels gestionPersonnel) {
 		this.gestionPersonnel=gestionPersonnel;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 664, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

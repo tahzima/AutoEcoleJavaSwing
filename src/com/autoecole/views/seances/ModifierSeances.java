@@ -54,7 +54,7 @@ public class ModifierSeances extends JFrame implements MouseListener{
 	public ModifierSeances(int idSeance,GestionSeances gestionSeance) {
 		this.idSeance=idSeance;
 		this.gestionSeance=gestionSeance;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 664, 370);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -248,7 +248,6 @@ public class ModifierSeances extends JFrame implements MouseListener{
 					seance.setTypeSeance(comboBox.getSelectedItem().toString());
 					seance.setId(idSeance);
 					int check=seanceController.edit(seance);
-					JOptionPane.showMessageDialog(null,check);
 					if(check!=0) {
 						JOptionPane.showMessageDialog(null,"Seance Bien Modifier");
 						listSeance = seanceController.getAll();

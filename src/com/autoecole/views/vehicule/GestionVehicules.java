@@ -40,6 +40,7 @@ public class GestionVehicules extends JPanel implements MouseListener{
 	private Image iconAjouter;
 	private Image iconModifier;
 	private Image iconSupprimer;
+	private Image iconActualiser;
 	private TableModel tablemodelVehicule;
 	private String [] colonnesVehicule={"type","marque","modele","nombre de place","type de carburant","matricule","puissance fiscale","assurance","date limite d'assurance","Km vidange"};
 	private Object [][]dataVehicule;
@@ -51,7 +52,8 @@ public class GestionVehicules extends JPanel implements MouseListener{
 	private JLabel rechercheImageLbl;
 	private JLabel modifierImageLbl;
 	private JLabel supprimerImageLbl;
-	private JLabel ajouterImageLbl;;
+	private JLabel ajouterImageLbl;
+	private JLabel actualiserLbl;
 	private int rowIndex;
 	
 	
@@ -89,7 +91,7 @@ public class GestionVehicules extends JPanel implements MouseListener{
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(52, 73, 94));
-		panel.setBounds(0, 0, 648, 480);
+		panel.setBounds(0, 0, 661, 488);
 		add(panel);
 		
 		JPanel separateurPnl1 = new JPanel();
@@ -205,14 +207,13 @@ public class GestionVehicules extends JPanel implements MouseListener{
 		supprimerImageLbl = new JLabel("");
 		iconSupprimer =  new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
 		supprimerImageLbl.addMouseListener(this);
-		
 		supprimerImageLbl.setIcon(new ImageIcon(iconSupprimer));
 		supprimerImageLbl.setBounds(84, 429, 51, 40);
 		panel.add(supprimerImageLbl);
 		
 		table = new JTable();
 		scrollPan.setViewportView(table);
-
+		
 		VehiculeController vehiculeController = new VehiculeController();
 		listVehicule=vehiculeController.getAll();
 		refresh(listVehicule);
@@ -242,18 +243,23 @@ public class GestionVehicules extends JPanel implements MouseListener{
 				JOptionPane.showMessageDialog(null,"Vous devez selectionner un vehicule!");
 			else
 			{
-				id = listVehicule.get(rowIndex).getId();
-				VehiculeController vehiculeController = new VehiculeController();
-				check = vehiculeController.delete(id);
-				if(check==true) {
-					vehiculeController = new VehiculeController();
-					listVehicule.clear();
-					listVehicule = vehiculeController.getAll();
-					refresh(listVehicule);
-					JOptionPane.showMessageDialog(null,"Vehicule supprimier!"); 
+
+				int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cette vehicule?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION){
+					id = listVehicule.get(rowIndex).getId();
+					VehiculeController vehiculeController = new VehiculeController();
+					check = vehiculeController.delete(id);
+					if(check==true) {
+						vehiculeController = new VehiculeController();
+						listVehicule.clear();
+						listVehicule = vehiculeController.getAll();
+						refresh(listVehicule);
+						JOptionPane.showMessageDialog(null,"Vehicule supprimier!"); 
+					}
+					else
+						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
 				}
-				else
-					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+				
 			}
 		}
 		if(modifierImageLbl==e.getComponent()) {

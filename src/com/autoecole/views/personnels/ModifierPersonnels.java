@@ -54,7 +54,7 @@ public class ModifierPersonnels extends JFrame implements MouseListener{
 	public ModifierPersonnels(final int idPersonnel, final GestionPersonnels gestionPersonnel) {
 		this.idPersonnel=idPersonnel;
 		this.gestionPersonnel=gestionPersonnel;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 666, 520);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

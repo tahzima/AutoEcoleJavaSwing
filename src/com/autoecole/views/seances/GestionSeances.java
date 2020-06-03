@@ -41,6 +41,8 @@ public class GestionSeances extends JPanel implements MouseListener {
 	private JLabel imageAjouterLbl;
 	private JLabel imageModifierLbl;
 	private JLabel imageSupprimerLbl;
+	private JLabel imageActualiserLbl;
+	private Image iconActualiser;
 	private Image iconRecherche;
 	private Image iconModifier;
 	private Image iconSupprimer;
@@ -54,6 +56,7 @@ public class GestionSeances extends JPanel implements MouseListener {
 	private int idSeance;
 	private int rowIndex;
 	private JDateChooser dateChooser;
+	private JDateChooser dateChooser_1;
 	
 	/**
 	 * Create the panel.
@@ -116,7 +119,7 @@ public class GestionSeances extends JPanel implements MouseListener {
 		JLabel typeSeancesLbl = new JLabel("type de Seance :");
 		typeSeancesLbl.setForeground(new Color(143, 188, 143));
 		typeSeancesLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		typeSeancesLbl.setBounds(38, 122, 125, 20);
+		typeSeancesLbl.setBounds(10, 122, 125, 20);
 		panel.add(typeSeancesLbl);
 		
 		JLabel rechercheLbl = new JLabel("Recherche :");
@@ -128,13 +131,13 @@ public class GestionSeances extends JPanel implements MouseListener {
 		
 		typeSeancesTxt = new JTextField();
 		typeSeancesTxt.setColumns(10);
-		typeSeancesTxt.setBounds(171, 124, 86, 20);
+		typeSeancesTxt.setBounds(108, 124, 86, 20);
 		panel.add(typeSeancesTxt);
 		
-		JLabel dateLbl = new JLabel("Date de Seance :");
+		JLabel dateLbl = new JLabel("Date de Debut :");
 		dateLbl.setForeground(new Color(143, 188, 143));
 		dateLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
-		dateLbl.setBounds(319, 120, 125, 20);
+		dateLbl.setBounds(216, 122, 125, 20);
 		panel.add(dateLbl);
 		
 		imageRechercheLbl = new JLabel("");
@@ -176,7 +179,7 @@ public class GestionSeances extends JPanel implements MouseListener {
 		panel.add(scrollPane);
 		
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(454, 120, 106, 22);
+		dateChooser.setBounds(303, 122, 106, 22);
 		panel.add(dateChooser);
 		
 		SeanceController SeanceController = new SeanceController();
@@ -202,6 +205,23 @@ public class GestionSeances extends JPanel implements MouseListener {
 		table= new JTable(tablemodelSeance);
 		scrollPane.setViewportView(table);
 		
+		imageActualiserLbl = new JLabel();
+		imageActualiserLbl.addMouseListener(this);
+		iconActualiser =  new ImageIcon(this.getClass().getResource("/actualiser.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		imageActualiserLbl.setIcon(new ImageIcon(iconActualiser));
+		imageActualiserLbl.setBounds(587, 429, 51, 40);
+		panel.add(imageActualiserLbl);
+		
+		JLabel dateDeFinLbl = new JLabel("Date de fin :");
+		dateDeFinLbl.setForeground(new Color(143, 188, 143));
+		dateDeFinLbl.setFont(new Font("Oswald", Font.PLAIN, 13));
+		dateDeFinLbl.setBounds(425, 122, 125, 20);
+		panel.add(dateDeFinLbl);
+		
+		dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBounds(493, 120, 106, 22);
+		panel.add(dateChooser_1);
+		
 	}
 
 	@Override
@@ -212,9 +232,11 @@ public class GestionSeances extends JPanel implements MouseListener {
 			if(!typeSeancesTxt.getText().isEmpty() && dateChooser.getDate()!=null) {
 				SearchSeance searchSeance= new SearchSeance();
 				SeanceController seanceController = new SeanceController();
-				Date dateS=new Date(dateChooser.getDate().getTime());
+				Date dateDebut=new Date(dateChooser.getDate().getTime());
+				Date dateFin=new Date(dateChooser_1.getDate().getTime());
 				searchSeance.setTypeSeance(typeSeancesTxt.getText());
-				searchSeance.setDateSeance(dateS);
+				searchSeance.setDateDebut(dateDebut);
+				searchSeance.setDateFin(dateFin);
 				listSeance=seanceController.search(searchSeance);
 				refresh(listSeance);
 			}else {
@@ -229,19 +251,23 @@ public class GestionSeances extends JPanel implements MouseListener {
 				JOptionPane.showMessageDialog(null,"Vous devez selectionner une Seance!");
 			else
 			{
-				id = (int)dataSeance[rowIndex][4];
-				SeanceController seanceController = new SeanceController();
-				check = seanceController.delete(id);
-				
-				if(check>0) {
-					seanceController = new SeanceController();
-					listSeance.clear();
-					listSeance = seanceController.getAll();
-					refresh(listSeance);
-					JOptionPane.showMessageDialog(null,"Seance supprimer!"); 
+				int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cette seance?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION){
+					id = (int)dataSeance[rowIndex][4];
+					SeanceController seanceController = new SeanceController();
+					check = seanceController.delete(id);
+					
+					if(check>0) {
+						seanceController = new SeanceController();
+						listSeance.clear();
+						listSeance = seanceController.getAll();
+						refresh(listSeance);
+						JOptionPane.showMessageDialog(null,"Seance supprimer!"); 
+					}
+					else
+						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
 				}
-				else
-					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+				  
 			}
 		}
 		if(e.getComponent()==imageAjouterLbl) {
@@ -256,6 +282,12 @@ public class GestionSeances extends JPanel implements MouseListener {
 			}
 			else
 				JOptionPane.showMessageDialog(null,"Vous devez selectionnez une Seance!");
+		}
+		if(e.getComponent()==imageActualiserLbl) {
+			SeanceController seanceController = new SeanceController();
+			listSeance.clear();
+			listSeance = seanceController.getAll();
+			refresh(listSeance);
 		}
 	}
 

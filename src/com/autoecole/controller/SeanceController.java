@@ -145,9 +145,11 @@ public class SeanceController {
 				where += "and typeSeance like '"+params.getTypeSeance()+"'";
 			}
 			
-			if(params.getDateSeance().toString()!="")
+			if(params.getDateDebut().toString()!="" && params.getDateFin().toString()!="")
 			{
-				where += " and date like '%"+params.getDateSeance()+"%'";
+				if(params.getDateDebut().compareTo(params.getDateFin()) < 0) {
+					where += " and date between '"+params.getDateDebut()+"' and '"+params.getDateFin()+"'";
+				}
 			}
 			
 			sql = "select * from Seances where 1=1  "+where;
