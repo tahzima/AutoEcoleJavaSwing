@@ -4,7 +4,9 @@
 	<classpathentry kind="src" path="img"/>
 	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-8.0.17.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/protobuf-java-3.6.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Lenovo/Desktop/jcalendar-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="E:/Workspace/Java/AutoEcoleJavaSwing/lib/jcommon-1.0.23.jar"/>
+	<classpathentry exported="true" kind="lib" path="E:/Workspace/Java/AutoEcoleJavaSwing/lib/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

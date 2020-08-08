@@ -99,6 +99,7 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 		
 		contentPnl = new JPanel();
 		contentPnl.setBackground(Color.decode("#34495e"));
+		contentPnl.setBounds(0, 0, 661, 481);
 		contentPnl.setBounds(0, 0, Menu.WIDTH_SCREEN-160, Menu.HEIGHT_SCREEN);
 		add(contentPnl);
 		contentPnl.setLayout(null);
@@ -262,21 +263,25 @@ public class GestionPersonnels extends JPanel implements MouseListener{
 				JOptionPane.showMessageDialog(null,"Vous devez selectionner un Personnel!");
 			else
 			{
-				id = (int)dataPersonnel[rowIndex][9];
-				PersonnelsController gestionPersonnelController = new PersonnelsController();
-				check = gestionPersonnelController.delete(id);
-				
-				if(check) {
-					gestionPersonnelController = new PersonnelsController();
-					listPersonnel = gestionPersonnelController.getAll();
-					refresh(listPersonnel);
-					JOptionPane.showMessageDialog(null,"Personnel supprimer!"); 
-				}
-				else
-					JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");  
+				int confirm = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce personnel?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION){
+					id = (int)dataPersonnel[rowIndex][9];
+					PersonnelsController gestionPersonnelController = new PersonnelsController();
+					check = gestionPersonnelController.delete(id);
+					
+					if(check) {
+						gestionPersonnelController = new PersonnelsController();
+						listPersonnel = gestionPersonnelController.getAll();
+						refresh(listPersonnel);
+						JOptionPane.showMessageDialog(null,"Personnel supprimer!"); 
+					}
+					else
+						JOptionPane.showMessageDialog(null,"Une erreur s'est produite!");
+				}  
 			}
 		}
 		if(modifierLbl==e.getComponent()) {
+			idPersonnel=listPersonnel.get(table.getSelectedRow()).getId();
 			ModifierPersonnels modifierPersonnels = new ModifierPersonnels(idPersonnel,GestionPersonnels.this);
 			modifierPersonnels.setVisible(true);
 		}

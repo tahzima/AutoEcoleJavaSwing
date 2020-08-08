@@ -221,8 +221,8 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 		supprimerLbl.setBounds(84, 429, 51, 40);
 		add(supprimerLbl);
 		
-		iconActualiser =  new ImageIcon(this.getClass().getResource("/actualiser.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		actualiserLbl = new JLabel();
+		iconActualiser =  new ImageIcon(this.getClass().getResource("/actualiser.png")).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		actualiserLbl.setIcon(new ImageIcon(iconActualiser));
 		actualiserLbl.setBounds(591, 429, 36, 40);
 		add(actualiserLbl);
@@ -324,6 +324,10 @@ public class GestionCandidats extends JPanel implements DocumentListener,MouseLi
 					
 				}
 			}
+		}else if(e.getComponent()==actualiserLbl) {
+			candidatCtrl = new CandidatController();
+			listTempCandidats = candidatCtrl.getAll();
+			refresh(listTempCandidats);
 		}
 		//Recherche clicked
 		else if(e.getComponent() == rechercheLbl) {

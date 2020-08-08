@@ -11,6 +11,7 @@ import com.autoecole.views.candidats.GestionCandidats;
 import com.autoecole.views.examens.GestionExamens;
 import com.autoecole.views.personnels.GestionPersonnels;
 import com.autoecole.views.seances.GestionSeances;
+import com.autoecole.views.statistiques.statistique;
 import com.autoecole.views.users.GestionUsersAdmin;
 import com.autoecole.views.users.GestionUsersStandard;
 import com.autoecole.views.vehicule.GestionVehicules;
@@ -55,6 +56,8 @@ public class Menu extends JFrame implements MouseListener{
 	private JLabel voitureLbl;
 	private JPanel deconnecterPnl;
 	private JLabel deconnecterLbl;
+	private Image image;
+	private JLayeredPane layeredPane;
 	/**
 	 * Create the frame.
 	 */
@@ -64,7 +67,9 @@ public class Menu extends JFrame implements MouseListener{
 	public final static int HEIGHT_SCREEN = 800;
 	private JPanel seancePnl;
 	private JLabel seanceLbl;
+	private JPanel statistiquePnl;
 	private Users globalUser;
+	private JLabel statistiqueLbl;
 	
 	public Menu(Users localUser) {
 		
@@ -202,6 +207,19 @@ public class Menu extends JFrame implements MouseListener{
 		seanceLbl.setBounds(0, 0, 150, 31);
 		seancePnl.add(seanceLbl);
 		
+		statistiquePnl = new JPanel();
+		statistiquePnl.setLayout(null);
+		statistiquePnl.setBackground(new Color(34, 166, 179));
+		statistiquePnl.setBounds(0, 389, 150, 31);
+		menuPanel.add(statistiquePnl);
+		
+		statistiqueLbl = new JLabel("Statistiques");
+		statistiqueLbl.addMouseListener(this);
+		statistiqueLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		statistiqueLbl.setFont(new Font("Oswald", Font.BOLD, 18));
+		statistiqueLbl.setBounds(0, 0, 150, 31);
+		statistiquePnl.add(statistiqueLbl);
+		
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(152, 0, 648, 480);
 		bigPanel.add(layeredPane);
@@ -260,6 +278,11 @@ public class Menu extends JFrame implements MouseListener{
 		else if(voitureLbl==e.getComponent()) {
 			GestionVehicules gestionVehicule = new GestionVehicules();
 			switchPanels(gestionVehicule);
+		}
+		//Statistiques Menu Item
+		else if(statistiqueLbl==e.getComponent()) {
+			statistique statistiques = new statistique();
+			switchPanels(statistiques);
 		}
 		//Users Menu Item
 		else if(userLogoLbl==e.getComponent()) {
